@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import domain.Participant;
+import domain.User;
+
 public class DBHandler {
 	
 	private Statement statement;
@@ -70,5 +73,67 @@ public class DBHandler {
     public Connection getConnection() {
         return connection;
     }
+    
+    
+    public static boolean addUser(User user) {
+
+    	String test = "INSERT INTO TblUsers (fldCPR,"            +
+    									    "fldPassword,"       +
+    			                            "fldFName, "         +
+    			                            "fldLName, "         +
+    			                            "fldEmail,"          +
+    			                            "fldPhoneNumber,"    +
+    			                            "fldAccessLevel ) "  +
+    			                            
+    			      "VALUES('" + user.getCPR() + "',"          +
+    			      		 "'" + user.getPassword() + "',"	 +
+    			      	     "'" + user.getFName() + "',"        +
+    			      	     "'" + user.getLName() + "',"        +
+    			      	     "'" + user.getEmail() + "',"        +
+    			      	     "'" + user.getPhoneNumber() + "',"  +
+    			      	     	   user.getAccessLevel() + ")";
+
+    	try {
+    		DBHandler con = DBHandler.getInstance();
+    		con.getStatement().execute(test);
+    		return true;
+
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+    
+    
+    public static boolean addParticipant(Participant participants) {
+
+    	String test = "INSERT INTO TblParticipants (fldFName, "         +
+    									           "fldLName, "         +
+    									           "fldAgeRange,"       +
+    									           "fldEmail,"          +
+    									           "fldScoreID,"        +
+    									           "fldColour,"         +
+    									           "fldLaneNr ) "       +
+    									           
+    			      "VALUES('" + participants.getFName() + "',"       +
+    			      		 "'" + participants.getLName() + "',"	    +
+    			      	     "'" + participants.getAgeRange() + "',"    +
+    			      	     "'" + participants.getEmail() + "',"       +
+    			      	     "'" + participants.getScoreID() + "',"     +
+    			      	     "'" + participants.getColour() + "',"      +
+    			      	           participants.getLaneNr() + ")";
+
+    	try {
+    		DBHandler con = DBHandler.getInstance();
+    		con.getStatement().execute(test);
+    		return true;
+
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+    
+    
 }
 
