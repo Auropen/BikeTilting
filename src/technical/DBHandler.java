@@ -75,27 +75,18 @@ public class DBHandler {
     }
     
     
-    public static boolean addUser(User user) {
+    public boolean addUser(User user) {
 
-    	String test = "INSERT INTO TblUsers (fldCPR,"            +
-    									    "fldPassword,"       +
-    			                            "fldFName, "         +
-    			                            "fldLName, "         +
-    			                            "fldEmail,"          +
-    			                            "fldPhoneNumber,"    +
-    			                            "fldAccessLevel ) "  +
-    			                            
-    			      "VALUES('" + user.getCPR() + "',"          +
-    			      		 "'" + user.getPassword() + "',"	 +
-    			      	     "'" + user.getFName() + "',"        +
-    			      	     "'" + user.getLName() + "',"        +
-    			      	     "'" + user.getEmail() + "',"        +
-    			      	     "'" + user.getPhoneNumber() + "',"  +
-    			      	     	   user.getAccessLevel() + ")";
-
+    	String addingUser = createSQLQuery("TblUsers", "fldCPR"        , user.getCPR(), 
+    											       "fldPassword"   , user.getPassword() ,
+    											       "fldFName"      , user.getFName() ,
+    											       "fldLName"      , user.getLName() , 
+    											       "fldEmail"      , user.getEmail(), 
+    											       "fldPhoneNumber", user.getPhoneNumber(), 
+    											       "fldAccessLevel", user.getAccessLevel());
     	try {
     		DBHandler con = DBHandler.getInstance();
-    		con.getStatement().execute(test);
+    		con.getStatement().execute(addingUser);
     		return true;
 
     	} catch (SQLException e) {
@@ -105,27 +96,19 @@ public class DBHandler {
     }
     
     
-    public static boolean addParticipant(Participant participants) {
+    public boolean addParticipant(Participant participants) {
 
-    	String test = "INSERT INTO TblParticipants (fldFName, "         +
-    									           "fldLName, "         +
-    									           "fldAgeRange,"       +
-    									           "fldEmail,"          +
-    									           "fldScoreID,"        +
-    									           "fldColour,"         +
-    									           "fldLaneNr ) "       +
-    									           
-    			      "VALUES('" + participants.getFName() + "',"       +
-    			      		 "'" + participants.getLName() + "',"	    +
-    			      	     "'" + participants.getAgeRange() + "',"    +
-    			      	     "'" + participants.getEmail() + "',"       +
-    			      	     "'" + participants.getScoreID() + "',"     +
-    			      	     "'" + participants.getColour() + "',"      +
-    			      	           participants.getLaneNr() + ")";
+    	String addingParticipant = createSQLQuery("TblUsers", "fldFName"   , participants.getFName(), 
+ 															  "fldLName"   , participants.getLName(),
+															  "fldAgeRange", participants.getAgeRange(),
+															  "fldEmail"   , participants.getEmail(), 
+															  "fldScoreID" , participants.getScoreID(), 
+															  "fldColour"  , participants.getColour(), 
+															  "fldLaneNr"  , participants.getLaneNr());
 
     	try {
     		DBHandler con = DBHandler.getInstance();
-    		con.getStatement().execute(test);
+    		con.getStatement().execute(addingParticipant);
     		return true;
 
     	} catch (SQLException e) {
@@ -134,6 +117,23 @@ public class DBHandler {
     	}
     }
     
+	public String createSQLQuery(String table, Object... data) {
+		String sql = "INSERT INTO " + table + "(";
+		
+		for (int i = 0; i < data.length; i += 2) 
+			sql += data[i] + ",";
+		
+		sql = sql.substring(0, sql.length()-1) + ") VALUES (";
+		
+		for (int i = 1; i < data.length; i += 2) 
+			sql += ((isNumber(data[i])) ? data[i] : "'"+data[i]+"'") + ",";
+		
+		return sql.substring(0, sql.length()-1) + ")";
+	}
+	
+	private boolean isNumber(Object o) {
+		return o instanceof Byte || o instanceof Short || o instanceof Integer || o instanceof Long || o instanceof Double || o instanceof Float;
+	}
     
 }
 
