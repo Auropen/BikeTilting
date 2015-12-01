@@ -1,5 +1,6 @@
 package application;
 
-public class Controller {
+import java.util.Map;
 
+public class Controller {
 }
