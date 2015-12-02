@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import domain.Lane;
 import domain.Participant;
 import domain.Score;
 import domain.User;
@@ -41,7 +42,13 @@ public class DBHandler {
 			String user = p.getProperty("user");
 			String password = p.getProperty("password");
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+";user="+p.getProperty("user")+";password="+p.getProperty(password)+";databaseName="+p.getProperty("databaseName")+"";
+			
+			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"
+													  +p.getProperty("port")+";user="
+													  +p.getProperty("user")+";password="
+													  +p.getProperty(password)+";databaseName="
+													  +p.getProperty("databaseName")+"";
+			
 			connection = DriverManager.getConnection(connectionUrl, user, password);
 			statement = connection.createStatement();
 
@@ -103,12 +110,13 @@ public class DBHandler {
 
 	public boolean addParticipant(Participant participants) {
 
-		String addingParticipant = createSQLQuery("TblUsers", "fldFName"   , participants.getFName(), 
-														   	  "fldLName"   , participants.getLName(),
-															  "fldAgeRange", participants.getAgeRange(),
-															  "fldEmail"   , participants.getEmail(), 
-															  "fldScoreID" , participants.getScore(), 
-															  "fldColour"  , participants.getColor());
+		String addingParticipant = createSQLQuery("TblUsers", "fldFName"       , participants.getFName(), 
+														   	  "fldLName"       , participants.getLName(),
+															  "fldAgeRange"    , participants.getAgeRange(),
+															  "fldEmail"       , participants.getEmail(), 
+															  "fldScoreID"     , participants.getScore(), 
+															  "fldShirtColour" , participants.getShirtColor(),
+															  "fldShirtNumber" , participants.getShirtNumber());
 
 		try {
 			DBHandler con = DBHandler.getInstance();
@@ -162,9 +170,7 @@ public class DBHandler {
 			   users.add(u);
 				
 			}
-			
-			
-			
+		
 			return users;
 
 		} catch (SQLException e) {
@@ -200,13 +206,59 @@ public class DBHandler {
 									            rs.getString("fldAgeRange"),
 									            rs.getString("fldEmail"), 
 									            score,
-									            Color.getColor(rs.getString("fldColour")));	
+									            Color.getColor(rs.getString("fldShirtColour")),
+									            rs.getInt("fldShirtNumber"));	
 				
 				participants.add(p);
 				
 			}
 			
 			return participants;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	public List<Lane> getAllLanes() {
+
+		String getAllUsers = selectAllSQLQuery("TblUsers");	
+		
+		List<Lane> lanes = new ArrayList<>();
+
+		try {
+
+			DBHandler con = DBHandler.getInstance();
+			ResultSet rs = con.getStatement().executeQuery(getAllUsers);
+			
+			while(rs.next()){
+
+				
+				Lane l = new Lane( rs.getInt("fldLaneNr"));
+				
+				int laneID = rs.getInt("fldLaneID");
+				String laneSql = "SELECT * FROM TblParticipants WHERE fldLaneID = " + laneID + ";";
+				ResultSet rsLane = con.getStatement().executeQuery(laneSql);
+				
+				
+				while(rsLane.next()){
+					//Get a specific Participant p
+					
+					
+					
+					//l.addParticipant(p)
+				}
+				
+				
+				lanes.add(l);
+				
+			}
+			
+			
+			
+			return lanes;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
