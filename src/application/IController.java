@@ -10,5 +10,6 @@ public interface IController {
 	public List<User> getUsersFromDB();
 	public List<Participant> getParticipantsFromDB();
 	public List<Lane> getLanesFromDB();
-	public void addParticipantToDB(String email, String fName, String lName, String ageGroup);
+	public void addParticipantToDB(Participant p);
+	public Participant getParticipant(int participantID);
 }

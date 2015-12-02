@@ -2,17 +2,20 @@ package domain;
 
 import java.awt.Color;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
+
 public class Participant {
-	
+	private int id;
 	private String fName;
 	private String lName;
 	private String email;
 	private String ageRange;
 	private Score score;
 	private Color shirtColor;
-	private int shirtNumber;
+	private Integer shirtNumber;
 
-	public Participant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, int shirtNumber) {
+	public Participant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
 		this.setFName(fName);
 		this.setLName(lName);
 		this.setEmail(email);
@@ -70,11 +73,19 @@ public class Participant {
 		this.shirtColor = shirtColor;
 	}
 
-	public int getShirtNumber() {
+	public Integer getShirtNumber() {
 		return shirtNumber;
 	}
 
-	public void setShirtNumber(int shirtNumber) {
+	public void setShirtNumber(Integer shirtNumber) {
 		this.shirtNumber = shirtNumber;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
