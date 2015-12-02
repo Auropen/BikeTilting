@@ -15,7 +15,8 @@ public class Participant {
 	private Color shirtColor;
 	private Integer shirtNumber;
 
-	public Participant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+	public Participant(int id, String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+                this.setId(id);
 		this.setFName(fName);
 		this.setLName(lName);
 		this.setEmail(email);

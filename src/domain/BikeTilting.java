@@ -5,6 +5,7 @@
  */
 package domain;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class BikeTilting {
         return true;
     }
 
-    public boolean createParticipant(String fName, String lName, String ageRange, String email, String scoreID, String colour, int laneNr) {
-        getParticipants().add(new Participant(fName, lName, ageRange, email, scoreID, colour, laneNr));
+    public boolean createParticipant(int id, String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+        getParticipants().add(new Participant(id, fName, lName, ageRange, email, score, shirtColor, shirtNumber));
         return true;
     }
 
