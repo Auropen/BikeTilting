@@ -1,0 +1,17 @@
+@CHARSET "ISO-8859-1";
+
+body {
+    background-color: #b0b0b0;
+}
+
+.centerPage {
+	background-color: #ffffff;
+    margin: auto;
+    width: 30%;
+    border:3px solid #73AD21;
+    padding: 10px;
+}
+
+.formFullLength {
+	width: 100%;
+}
