@@ -24,7 +24,7 @@ public class DBHandler {
 
 		Properties p = new Properties();
 		try {
-			p.load(new FileInputStream("service.properties"));
+			p.load(new FileInputStream("technicalProperties.properties"));
 		} catch (IOException e) {
 			System.out.println("IO exception to service property file");
 		}
@@ -39,7 +39,7 @@ public class DBHandler {
 			String user = p.getProperty("user");
 			String password = p.getProperty("password");
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String connectionUrl = p.getProperty("connectionUrl","jdbc:sqlserver://localhost:1434;user=sa;password=1234;databaseName=SecondhandCarsDB");
+			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+";user="+p.getProperty("user")+";password="+p.getProperty(password)+";databaseName="+p.getProperty("databaseName")+"";
 			connection = DriverManager.getConnection(connectionUrl, user, password);
 			statement = connection.createStatement();
 
@@ -105,9 +105,8 @@ public class DBHandler {
 														   	  "fldLName"   , participants.getLName(),
 															  "fldAgeRange", participants.getAgeRange(),
 															  "fldEmail"   , participants.getEmail(), 
-															  "fldScoreID" , participants.getScoreID(), 
-															  "fldColour"  , participants.getColour(), 
-															  "fldLaneNr"  , participants.getLaneNr());
+															  "fldScoreID" , participants.getScore(), 
+															  "fldColour"  , participants.getColor());
 
 		try {
 			DBHandler con = DBHandler.getInstance();
