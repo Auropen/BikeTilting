@@ -2,9 +2,6 @@ package domain;
 
 import java.awt.Color;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 public class Participant {
 	private int id;
 	private String fName;

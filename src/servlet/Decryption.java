@@ -1,9 +1,9 @@
-package domain;
+package servlet;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class CryptWithMD5 {
+public class Decryption {
 	private static MessageDigest md;
 
 	public static String cryptWithMD5(String pass){
