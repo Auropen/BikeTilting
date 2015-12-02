@@ -1,33 +1,23 @@
 package domain;
 
+import java.awt.Color;
+
 public class Participant {
 	
-	private String colour;
 	private String fName;
 	private String lName;
 	private String email;
 	private String ageRange;
-	private String scoreID;
-	private int laneNr;
+	private Score score;
+	private Color color;
 
-	public Participant(String fName, String lName, String ageRange, String email, String scoreID, String colour, int laneNr) {
-		
+	public Participant(String fName, String lName, String ageRange, String email, Score score, Color color) {
 		this.setFName(fName);
 		this.setLName(lName);
 		this.setEmail(email);
 		this.setAgeRange(ageRange);
-		this.setScoreID(scoreID);
-		this.setColour(colour);
-		this.setLaneNr(laneNr);
-		
-	}
-
-	public String getColour() {
-		return colour;
-	}
-
-	public void setColour(String colour) {
-		this.colour = colour;
+		this.setScore(score);
+		this.setColor(color);
 	}
 
 	public String getFName() {
@@ -62,22 +52,19 @@ public class Participant {
 		this.ageRange = ageRange;
 	}
 
-	public String getScoreID() {
-		return scoreID;
+	public Score getScore() {
+		return score;
 	}
 
-	public void setScoreID(String scoreID) {
-		this.scoreID = scoreID;
+	public void setScore(Score score) {
+		this.score = score;
 	}
 
-	public int getLaneNr() {
-		return laneNr;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setLaneNr(int laneNr) {
-		this.laneNr = laneNr;
+	public void setColor(Color color) {
+		this.color = color;
 	}
-	
-	
-	
 }

@@ -17,13 +17,15 @@ import application.IController;
 @WebServlet("/ServletTest")
 public class ServletTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private IController iCtr;
+	
+	
 	public ServletTest() {
-		IController iCtr = Controller.getInstance();
+		iCtr = Controller.getInstance();
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		iCtr.addUserToDB(request.getParameter("Email"),request.getParameter("FirstName"),request.getParameter("LastName"),request.getParameter("AgeGroup"));
+		iCtr.addParticipantToDB(request.getParameter("Email"),request.getParameter("FirstName"),request.getParameter("LastName"),request.getParameter("AgeGroup"));
 		response.getWriter().append("Servlet was loadet, with " + request.getParameterMap().size() + " parameters.");
 	}
 	
