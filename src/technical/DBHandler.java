@@ -1,5 +1,6 @@
 package technical;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import domain.Participant;
+import domain.Score;
 import domain.User;
 
 public class DBHandler {
@@ -137,7 +139,7 @@ public class DBHandler {
 		return o instanceof Byte || o instanceof Short || o instanceof Integer || o instanceof Long || o instanceof Double || o instanceof Float;
 	}
 
-	public List<User> getAllUsers(User user) {
+	public List<User> getAllUsers() {
 
 		String getAllUsers = selectAllSQLQuery("TblUsers");	
 		
@@ -172,26 +174,33 @@ public class DBHandler {
 
 	}
 	
-	public List<Participant> getAllParticipants(Participant participant) {
+	public List<Participant> getAllParticipants() {
 
 		String getAllUsers = selectAllSQLQuery("TblParticipants");	
 		
 		List<Participant> participants = new ArrayList<>();
-
+		
+		
+		
 		try {
 
 			DBHandler con = DBHandler.getInstance();
 			ResultSet rs = con.getStatement().executeQuery(getAllUsers);
 			
 			while(rs.next()){
+				int scoreID = rs.getInt("fldScoreID");
+				String scoreSql = "SELECT * FROM TblScore WHERE fldScoreID = " + scoreID + ";";
+				ResultSet rsScore = con.getStatement().executeQuery(scoreSql);
+				rsScore.next();
+				
+				Score score = new Score(scoreID, rsScore.getInt("fldScore"), rsScore.getString("fldHitScore"));
 				
 				Participant p = new Participant(rs.getString("fldFName"), 
 									            rs.getString("fldLName"),
 									            rs.getString("fldAgeRange"),
 									            rs.getString("fldEmail"), 
-									            rs.getString("fldScoreID"),
-									            rs.getString("fldColour"),
-									            rs.getInt("fldLaneNr"));	
+									            score,
+									            Color.getColor(rs.getString("fldColour")));	
 				
 				participants.add(p);
 				
