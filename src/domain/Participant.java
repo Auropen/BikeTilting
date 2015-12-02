@@ -9,15 +9,17 @@ public class Participant {
 	private String email;
 	private String ageRange;
 	private Score score;
-	private Color color;
+	private Color shirtColor;
+	private int shirtNumber;
 
-	public Participant(String fName, String lName, String ageRange, String email, Score score, Color color) {
+	public Participant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, int shirtNumber) {
 		this.setFName(fName);
 		this.setLName(lName);
 		this.setEmail(email);
 		this.setAgeRange(ageRange);
 		this.setScore(score);
-		this.setColor(color);
+		this.setShirtColor(shirtColor);
+		this.setShirtNumber(shirtNumber);
 	}
 
 	public String getFName() {
@@ -60,11 +62,19 @@ public class Participant {
 		this.score = score;
 	}
 
-	public Color getColor() {
-		return color;
+	public Color getShirtColor() {
+		return shirtColor;
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
+	public void setShirtColor(Color shirtColor) {
+		this.shirtColor = shirtColor;
+	}
+
+	public int getShirtNumber() {
+		return shirtNumber;
+	}
+
+	public void setShirtNumber(int shirtNumber) {
+		this.shirtNumber = shirtNumber;
 	}
 }

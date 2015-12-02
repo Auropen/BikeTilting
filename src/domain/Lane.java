@@ -8,11 +8,19 @@ public class Lane {
     private List<Participant> participants;
 
     public Lane(int laneNr) {
-        this.laneNr = laneNr;
+        this.setLaneNr(laneNr);
         this.participants = new ArrayList<Participant>();
     }
     
-    private void addParticipant(Participant p) {
+    public void addParticipant(Participant p) {
         participants.add(p);
     }
+
+	public int getLaneNr() {
+		return laneNr;
+	}
+
+	public void setLaneNr(int laneNr) {
+		this.laneNr = laneNr;
+	}
 }
