@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package domain;
 
-/**
- *
- * @author Kornel
- */
+import java.util.List;
+
 public class Lane {
+    private int laneNr;
+    private List<Participant> participants;
+            
     
+    private void addParticipant(Participant p) {
+        participants.add(p);
+    }
 }
