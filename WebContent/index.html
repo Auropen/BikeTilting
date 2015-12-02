@@ -15,17 +15,20 @@ and open the template in the editor.
         <div>This index motherfucking works!</div>
         <div class="centerPage">
         	<form action="ServletTest" method="POST">
-        		E-mail: <font color="red">*</font><br/><input type="email" name="Email" placeholder="f.eks en@mail.dk" style="formFullLength" required/><br/>
+        		E-mail: <font color="red">*</font><br/><input type="email" name="Email" placeholder="f.eks en@mail.dk" class="formAlmostFullLength" required/><br/>
         		<input type="checkbox" name="confirm" required translate="yes"/>Jeg bekræfter, at jeg er ejer af overstående e-mail eller har tilladelse til at bruge den.<br/>
         		(<a href="www.google.com">Fortrolighedspolitik</a>)<br/>
-        		Fornavn: <font color="red">*</font><br/><input type="text" name="FirstName" placeholder="f.eks Jens" style="formFullLength" required/><br/>
-        		Efternavn: <font color="red">*</font><br/><input type="text" name="LastName" placeholder="f.eks Jensen" style="formFullLength" required/><br/>
+        		Fornavn: <font color="red">*</font><br/><input type="text" name="FirstName" placeholder="f.eks Jens" class="formAlmostFullLength" required/><br/>
+        		Efternavn: <font color="red">*</font><br/><input type="text" name="LastName" placeholder="f.eks Jensen" class="formAlmostFullLength" required/><br/>
         		Barnets alder: <font color="red">*</font><br/>
-        		<select name="AgeGroup" style="formFullLength">
-        			<option value="ZeroToSix" selected>0-6 år</option>
+        		
+        		<select name="AgeGroup" class="formFullLength">
+        			<option value="none" selected disabled>Vælg Alder</option>
+        			<option value="ZeroToSix">0-6 år</option>
         			<option value="SevenToNine">7-9 år</option>
         			<option value="TenToFourteen">10-14 år</option>
         		</select><br/>
+        		
         		<input type="submit" name="Create Participant">
         	</form>
         </div>

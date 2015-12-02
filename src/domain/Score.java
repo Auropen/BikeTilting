@@ -11,6 +11,19 @@ public class Score {
 		this.setHitScore(hitScore);
 	}
 
+	public Score(int scoreID) {
+		this(scoreID, 0, "");
+	}
+
+	public void addHit() {
+		score++;
+		hitScore += "1";
+	}
+
+	public void addMiss() {
+		hitScore += "0";
+	}
+	
 	public int getScoreID() {
 		return scoreID;
 	}

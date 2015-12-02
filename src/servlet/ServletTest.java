@@ -26,7 +26,7 @@ public class ServletTest extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		iCtr.addParticipantToDB(request.getParameter("Email"),request.getParameter("FirstName"),request.getParameter("LastName"),request.getParameter("AgeGroup"));
-		response.getWriter().append("Servlet was loadet, with " + request.getParameterMap().size() + " parameters.");
+		response.getWriter().append("Servlet was loadet, with " + request.getParameterMap().size() + " parameters.\n "+ request.getParameter("AgeGroup"));
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
