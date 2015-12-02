@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import application.Controller;
+import application.IController;
 import domain.Lane;
 import domain.Participant;
 import domain.Score;
@@ -22,6 +24,7 @@ public class DBHandler {
 	private Statement statement;
 	private Connection connection;
 	private static DBHandler instance;
+	IController iCtr;
 
 	public static Properties getProperties() {
 
@@ -36,6 +39,9 @@ public class DBHandler {
 	}
 	@SuppressWarnings("unused")
 	private DBHandler (){
+		
+		iCtr = Controller.getInstance();
+		
 		try
 		{
 			Properties p = getProperties();
@@ -245,7 +251,6 @@ public class DBHandler {
 				
 				while(rsLane.next()){
 					//Get a specific Participant p
-					
 					
 					
 					//l.addParticipant(p)
