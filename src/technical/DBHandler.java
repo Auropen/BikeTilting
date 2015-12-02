@@ -245,15 +245,14 @@ public class DBHandler {
 				Lane l = new Lane( rs.getInt("fldLaneNr"));
 				
 				int laneID = rs.getInt("fldLaneID");
-				String laneSql = "SELECT * FROM TblParticipants WHERE fldLaneID = " + laneID + ";";
-				ResultSet rsLane = con.getStatement().executeQuery(laneSql);
+				String partSql = "SELECT * FROM TblParticipants WHERE fldLaneID = " + laneID + ";";
+				ResultSet rsPart = con.getStatement().executeQuery(partSql);
 				
 				
-				while(rsLane.next()){
-					//Get a specific Participant p
+				while(rsPart.next()){
 					
+					l.addParticipant(iCtr.getParticipant(rsPart.getInt("fldParticipantID")));
 					
-					//l.addParticipant(p)
 				}
 				
 				
