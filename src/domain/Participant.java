@@ -3,7 +3,7 @@ package domain;
 import java.awt.Color;
 
 public class Participant {
-	private int id;
+	private final int id;
 	private String fName;
 	private String lName;
 	private String email;
@@ -13,7 +13,7 @@ public class Participant {
 	private Integer shirtNumber;
 
 	public Participant(int id, String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
-                this.setId(id);
+		this.id = id;
 		this.setFName(fName);
 		this.setLName(lName);
 		this.setEmail(email);
@@ -81,9 +81,5 @@ public class Participant {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 }

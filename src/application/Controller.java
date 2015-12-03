@@ -1,10 +1,12 @@
 package application;
 
+import java.awt.Color;
 import java.util.List;
 
 import domain.BikeTilting;
 import domain.Lane;
 import domain.Participant;
+import domain.Score;
 import domain.User;
 import technical.DBHandler;
 
@@ -39,14 +41,20 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void addParticipantToDB(Participant p) {
-		
-	}
-
-	@Override
 	public Participant getParticipant(int participantID) {
 		for (Participant p : bikeTilting.getParticipants())
 			if (p.getId() == participantID) return p;
+		return null;
+	}
+
+	@Override
+	public void addParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+		//dbHandler.addParticipant(fName, lName, ageRange, email, score, shirtColor, shirtNumber);
+	}
+
+	@Override
+	public Participant getParticipantFromDB(int participantID) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
