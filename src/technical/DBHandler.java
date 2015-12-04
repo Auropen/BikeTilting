@@ -46,11 +46,10 @@ public class DBHandler {
 			String password = p.getProperty("password");
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			
-			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"
-													  +p.getProperty("port")+";user="
-													  +p.getProperty("user")+";password="
-													  +p.getProperty(password)+";databaseName="
-													  +p.getProperty("databaseName")+"";
+			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
+													";user="+p.getProperty("user")
+													+";password="+p.getProperty(password)
+													+";databaseName="+p.getProperty("databaseName")+"";
 			
 			connection = DriverManager.getConnection(connectionUrl, user, password);
 			statement = connection.createStatement();
