@@ -26,9 +26,8 @@ public class BikeTilting {
 	}
 
 	public static BikeTilting getInstance() {
-		if (instance == null) {
+		if (instance == null)
 			instance = new BikeTilting();
-		}
 		return instance;
 	}
 

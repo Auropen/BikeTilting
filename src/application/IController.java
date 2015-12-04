@@ -16,4 +16,6 @@ public interface IController {
 	public Participant getParticipantFromDB(int participantID);
 	public Participant getParticipant(int participantID);
 	public void addParticipant(Participant p);
+	public void addHit(Participant p);
+	public void addMiss(Participant p);
 }

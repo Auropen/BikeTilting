@@ -61,4 +61,14 @@ public class Controller implements IController {
 	public void addParticipant(Participant p) {
 		bikeTilting.getParticipants().add(p);
 	}
+
+	@Override
+	public void addHit(Participant p) {
+		bikeTilting.addScoreHit(p);
+	}
+
+	@Override
+	public void addMiss(Participant p) {
+		bikeTilting.addScoreMiss(p);
+	}
 }

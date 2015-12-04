@@ -71,7 +71,8 @@ public class DBHandler {
 
 
 	public static DBHandler getInstance (){
-		if (instance == null) instance = new DBHandler();
+		if (instance == null) 
+			instance = new DBHandler();
 		return instance;
 	}
 
