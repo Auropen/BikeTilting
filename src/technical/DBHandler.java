@@ -25,7 +25,6 @@ public class DBHandler {
 	private Statement statement;
 	private Connection connection;
 	private static DBHandler instance;
-	IController iCtr;
 
 	public static Properties getProperties() {
 
@@ -40,9 +39,6 @@ public class DBHandler {
 	}
 	@SuppressWarnings("unused")
 	private DBHandler (){
-		
-		iCtr = Controller.getInstance();
-		
 		try
 		{
 			Properties p = getProperties();
@@ -65,14 +61,15 @@ public class DBHandler {
 			e.printStackTrace();
 		}
 		catch (ClassNotFoundException cnfe) {
-			System.err.println("Class not found Exeption: JDBC driver are not installed correctly");
+			System.err.println("Class not found Exeption: JDBC drivers are not installed correctly");
 		}
 	}
 
 
 	public static DBHandler getInstance (){
-		if (instance == null) instance = new DBHandler();
-		return instance;
+		if (instance == null) 
+			instance = new DBHandler();
+			return instance;
 	}
 
 	public Statement getStatement() {
@@ -344,7 +341,7 @@ public class DBHandler {
 
 				while(rsPart.next()){
 					
-					l.addParticipant(iCtr.getParticipant(rsPart.getInt("fldParticipantID")));
+					l.addParticipant(Controller.getInstance().getParticipant(rsPart.getInt("fldParticipantID")));
 					
 				}
 
@@ -377,6 +374,4 @@ public class DBHandler {
 		 return r+","+g+","+b;
 	}
 	
-	
 }
-
