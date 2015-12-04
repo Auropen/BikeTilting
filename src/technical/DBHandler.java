@@ -148,6 +148,49 @@ public class DBHandler {
 			return null;
 		}
 	}
+	
+	
+	public Participant addParticipant(String fName, String lName, String ageRange, String email, Color shirtColor, Integer shirtNumber) {
+
+		try {	
+			
+			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?");
+			cs.setString(1,fName);
+			cs.setString(2,lName);
+			cs.setString(3,ageRange);
+			cs.setString(4,email);
+			
+			//Create Score
+		
+			CallableStatement csScore = connection.prepareCall("{call addScore(?,?,?)}");
+
+			
+			csScore.setString(1,"");
+			csScore.setInt(2,0);
+			csScore.registerOutParameter(3, java.sql.Types.INTEGER);
+			ResultSet rsScore = csScore.executeQuery();
+			int scoreID = csScore.getInt(3);
+			Score score = new Score(scoreID);
+			
+			cs.setInt(5, scoreID);
+			cs.setString(6,getColorString(shirtColor));
+			cs.setInt(7,shirtNumber);
+			cs.registerOutParameter(7, java.sql.Types.INTEGER);
+			
+			ResultSet rs = cs.executeQuery();
+			
+			int participantID = cs.getInt(9);
+			
+			
+			
+			return new Participant(participantID, fName, lName, ageRange, email, score, shirtColor, shirtNumber);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	public String createSQLQuery(String table, Object... data) {
 		String sql = "INSERT INTO " + table + "(";
