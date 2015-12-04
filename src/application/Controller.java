@@ -48,13 +48,17 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void addParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
-		//dbHandler.addParticipant(fName, lName, ageRange, email, score, shirtColor, shirtNumber);
+	public Participant addParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+		return dbHandler.addParticipant(fName, lName, ageRange, email, score, shirtColor, shirtNumber);
 	}
 
 	@Override
 	public Participant getParticipantFromDB(int participantID) {
-		// TODO Auto-generated method stub
-		return null;
+		return dbHandler.getParticipants(participantID);
+	}
+
+	@Override
+	public void addParticipant(Participant p) {
+		bikeTilting.getParticipants().add(p);
 	}
 }
