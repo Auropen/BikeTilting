@@ -139,3 +139,21 @@ CREATE PROCEDURE getParcipantsByLaneID(@laneID int)
 		SELECT * FROM TblParticipants WHERE fldLaneID = @laneID;
 		
 END
+GO
+
+CREATE PROCEDURE addScore(@hitScore VARCHAR(12), @score int)
+    AS 
+	BEGIN
+		INSERT INTO TblScore
+		(
+			fldHitScore,
+			fldScore
+		)
+		VALUES
+		(
+			@hitScore,
+			@score
+		)
+		
+END
+GO

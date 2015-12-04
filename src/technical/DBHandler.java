@@ -25,7 +25,6 @@ public class DBHandler {
 	private Statement statement;
 	private Connection connection;
 	private static DBHandler instance;
-	IController iCtr;
 
 	public static Properties getProperties() {
 
@@ -40,9 +39,6 @@ public class DBHandler {
 	}
 	@SuppressWarnings("unused")
 	private DBHandler (){
-		
-		iCtr = Controller.getInstance();
-		
 		try
 		{
 			Properties p = getProperties();
@@ -65,7 +61,7 @@ public class DBHandler {
 			e.printStackTrace();
 		}
 		catch (ClassNotFoundException cnfe) {
-			System.err.println("Class not found Exeption: JDBC driver are not installed correctly");
+			System.err.println("Class not found Exeption: JDBC drivers are not installed correctly");
 		}
 	}
 
@@ -149,6 +145,49 @@ public class DBHandler {
 			return null;
 		}
 	}
+	
+	
+	public Participant addParticipant(String fName, String lName, String ageRange, String email, Color shirtColor, Integer shirtNumber) {
+
+		try {	
+			
+			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?");
+			cs.setString(1,fName);
+			cs.setString(2,lName);
+			cs.setString(3,ageRange);
+			cs.setString(4,email);
+			
+			//Create Score
+		
+			CallableStatement csScore = connection.prepareCall("{call addScore(?,?,?)}");
+
+			
+			csScore.setString(1,"");
+			csScore.setInt(2,0);
+			csScore.registerOutParameter(3, java.sql.Types.INTEGER);
+			ResultSet rsScore = csScore.executeQuery();
+			int scoreID = csScore.getInt(3);
+			Score score = new Score(scoreID);
+			
+			cs.setInt(5, scoreID);
+			cs.setString(6,getColorString(shirtColor));
+			cs.setInt(7,shirtNumber);
+			cs.registerOutParameter(7, java.sql.Types.INTEGER);
+			
+			ResultSet rs = cs.executeQuery();
+			
+			int participantID = cs.getInt(9);
+			
+			
+			
+			return new Participant(participantID, fName, lName, ageRange, email, score, shirtColor, shirtNumber);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	public String createSQLQuery(String table, Object... data) {
 		String sql = "INSERT INTO " + table + "(";
@@ -302,7 +341,7 @@ public class DBHandler {
 
 				while(rsPart.next()){
 					
-					l.addParticipant(iCtr.getParticipant(rsPart.getInt("fldParticipantID")));
+					l.addParticipant(Controller.getInstance().getParticipant(rsPart.getInt("fldParticipantID")));
 					
 				}
 
@@ -335,6 +374,4 @@ public class DBHandler {
 		 return r+","+g+","+b;
 	}
 	
-	
 }
-
