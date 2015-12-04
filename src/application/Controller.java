@@ -54,7 +54,7 @@ public class Controller implements IController {
 
 	@Override
 	public Participant getParticipantFromDB(int participantID) {
-		return dbHandler.getParticipants(participantID);
+		return dbHandler.getParticipant(participantID);
 	}
 
 	@Override

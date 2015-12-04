@@ -14,7 +14,7 @@ import domain.Participant;
 /**
  * Servlet implementation class ServletPoint
  */
-@WebServlet("/PointRegister")
+@WebServlet("/ServletPoint")
 public class ServletPoint extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController iCtr;

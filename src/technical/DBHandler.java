@@ -1,6 +1,7 @@
 package technical;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.CallableStatement;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.Properties;
 
 import application.Controller;
-import application.IController;
 import domain.Lane;
 import domain.Participant;
 import domain.Score;
@@ -30,6 +30,9 @@ public class DBHandler {
 
 		Properties p = new Properties();
 		try {
+			File f = new File("technicalProperties.properties");
+			System.out.println("Check if you file is directory: " + f.isDirectory() ); //+ " with " + f.listFiles().length + " files"
+			System.out.println("Directory path" + f.getAbsolutePath());
 			p.load(new FileInputStream("technicalProperties.properties"));
 		} catch (IOException e) {
 			System.out.println("IO exception to service property file");
@@ -37,21 +40,19 @@ public class DBHandler {
 		return p;
 
 	}
-	@SuppressWarnings("unused")
+
 	private DBHandler (){
 		try
 		{
 			Properties p = getProperties();
-			String user = p.getProperty("user");
-			String password = p.getProperty("password");
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
 			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
 					";user="+p.getProperty("user")
-					+";password="+p.getProperty(password)
+					+";password="+p.getProperty("password")
 					+";databaseName="+p.getProperty("databaseName")+"";
 
-			connection = DriverManager.getConnection(connectionUrl, user, password);
+			connection = DriverManager.getConnection(connectionUrl);
 			statement = connection.createStatement();
 
 		}
@@ -65,7 +66,7 @@ public class DBHandler {
 	}
 
 
-	public static DBHandler getInstance (){
+	public static DBHandler getInstance(){
 		if (instance == null) 
 			instance = new DBHandler();
 		return instance;
@@ -97,7 +98,6 @@ public class DBHandler {
 
 		try {		
 			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?)}");
-			ResultSet rs = cs.executeQuery();
 
 			cs.setString(1,cpr);
 			cs.setString(2,fName);
@@ -122,7 +122,7 @@ public class DBHandler {
 		try {	
 
 			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?,?)}");
-			ResultSet rs = cs.executeQuery();
+
 
 			cs.setString(1,fName);
 			cs.setString(2,lName);
@@ -131,9 +131,9 @@ public class DBHandler {
 			cs.setInt(5,score.getScoreID());
 			cs.setString(6,getColorString(shirtColor));
 			cs.setInt(7,shirtNumber);
-
-			cs.registerOutParameter(9, java.sql.Types.INTEGER);
-			int participantID = cs.getInt(9);
+			cs.registerOutParameter(8, java.sql.Types.INTEGER);
+			cs.execute();
+			int participantID = cs.getInt(8);
 
 
 
@@ -164,7 +164,7 @@ public class DBHandler {
 			csScore.setString(1,"");
 			csScore.setInt(2,0);
 			csScore.registerOutParameter(3, java.sql.Types.INTEGER);
-			ResultSet rsScore = csScore.executeQuery();
+			csScore.execute();
 			int scoreID = csScore.getInt(3);
 			Score score = new Score(scoreID);
 
@@ -173,7 +173,7 @@ public class DBHandler {
 			cs.setInt(7,shirtNumber);
 			cs.registerOutParameter(7, java.sql.Types.INTEGER);
 
-			ResultSet rs = cs.executeQuery();
+			cs.execute();
 
 			int participantID = cs.getInt(9);
 
@@ -281,8 +281,7 @@ public class DBHandler {
 
 	}
 
-	public Participant getParticipants(int id) {
-
+	public Participant getParticipant(int id) {
 		try {
 
 			CallableStatement cs = connection.prepareCall("{call getParticipant(?)}");
@@ -300,7 +299,7 @@ public class DBHandler {
 
 				Score score = new Score(scoreID, rsScore.getInt("fldScore"), rsScore.getString("fldHitScore"));
 
-				Participant p = new Participant(rs.getInt("fldParticipentID"),
+				return new Participant(rs.getInt("fldParticipentID"),
 						rs.getString("fldFName"), 
 						rs.getString("fldLName"),
 						rs.getString("fldAgeRange"),
@@ -333,16 +332,13 @@ public class DBHandler {
 			while(rs.next()){
 
 				Lane l = new Lane( rs.getInt("fldLaneNr"));
-				CallableStatement csPart = connection.prepareCall("{call getParticipantsByLaneID}");
-				int laneID = rs.getInt("fldLaneID");
+				CallableStatement csPart = connection.prepareCall("{call getParticipantsByLaneID(?)}");
+				csPart.setInt(1, rs.getInt("fldLaneID"));
 
 				ResultSet rsPart = csPart.executeQuery();
 
-				while(rsPart.next()){
-
+				while(rsPart.next())
 					l.addParticipant(Controller.getInstance().getParticipant(rsPart.getInt("fldParticipantID")));
-
-				}
 
 				lanes.add(l);	
 

@@ -13,15 +13,15 @@ and open the template in the editor.
     </head>
     <body>
         <div>This index motherfucking works!</div>
-        <div>
-	        <form action="PointRegister" method="post">
+        <div class="centerPage">
+	        <form action="ServletPoint" method="post">
 	        	Hit:
 	        	<input type="submit" value="Hit" name="PointButton" id="1">
 	        	<input type="submit" value="Miss" name="PointButton" id="1">
 	        </form>
         </div>
         <div class="centerPage">
-        	<form action="Register" method="POST">
+        	<form action="ServletRegister" method="POST">
         		E-mail: <font color="red">*</font><br/><input type="email" name="Email" placeholder="f.eks en@mail.dk" class="formAlmostFullLength" required/><br/>
         		<input type="checkbox" name="confirm" required translate="yes"/>Jeg bekræfter, at jeg er ejer af overstående e-mail eller har tilladelse til at bruge den.<br/>
         		(<a href="www.google.com">Fortrolighedspolitik</a>)<br/>

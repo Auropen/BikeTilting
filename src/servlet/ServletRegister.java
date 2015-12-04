@@ -16,7 +16,7 @@ import domain.Participant;
 /**
  * Servlet implementation class ServletTest
  */
-@WebServlet("/Register")
+@WebServlet("/ServletRegister")
 public class ServletRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController iCtr;
