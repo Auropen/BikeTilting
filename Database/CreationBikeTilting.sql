@@ -70,7 +70,7 @@ CREATE PROCEDURE addUser(@cpr VARCHAR(12), @password VARCHAR(255), @fName VARCHA
 END
 
 GO
-CREATE PROCEDURE addParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageRange VARCHAR(6), @email VARCHAR(255), @scoreID INT, @shirtColour VARCHAR(12), @shirtNumber INT, @laneID int, @new_id INT OUTPUT)
+CREATE PROCEDURE addParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageRange VARCHAR(6), @email VARCHAR(255), @scoreID INT, @shirtColour VARCHAR(12), @shirtNumber INT, @laneID INT, @new_id INT OUTPUT)
     AS 
 	BEGIN
 		INSERT INTO TblParticipants

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,15 +26,20 @@ public class DBHandler {
 	private Statement statement;
 	private Connection connection;
 	private static DBHandler instance;
-
+	public static Properties pathProperties = null;
+	
+	
 	public static Properties getProperties() {
 
 		Properties p = new Properties();
 		try {
-			File f = new File("technicalProperties.properties");
-			System.out.println("Check if you file is directory: " + f.isDirectory() ); //+ " with " + f.listFiles().length + " files"
-			System.out.println("Directory path" + f.getAbsolutePath());
-			p.load(new FileInputStream("technicalProperties.properties"));
+			File f = new File("C:\\Users\\Kristian\\Documents\\Eclipse\\BikeTilting\\BikeTilting\\technicalProperties.properties"); 
+			if (f.isDirectory())
+				System.out.println("Check if you file is directory: " + f.isDirectory() + " with " + f.listFiles().length + " files");
+			else
+				System.out.println("Check if you file exists: " + f.exists());
+			System.out.println("Directory path: " + f.getAbsolutePath());
+			p.load(new FileInputStream(f));
 		} catch (IOException e) {
 			System.out.println("IO exception to service property file");
 		}
@@ -47,11 +53,13 @@ public class DBHandler {
 			Properties p = getProperties();
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
+			/*String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
 					";user="+p.getProperty("user")
 					+";password="+p.getProperty("password")
-					+";databaseName="+p.getProperty("databaseName")+"";
+					+";databaseName="+p.getProperty("databaseName")+"";*/
 
+			String connectionUrl = "jdbc:sqlserver://localhost:1433;user=Kristian;password=1234;databaseName=BikeTiltingDB";
+			
 			connection = DriverManager.getConnection(connectionUrl);
 			statement = connection.createStatement();
 
@@ -146,11 +154,11 @@ public class DBHandler {
 	}
 
 
-	public Participant addParticipant(String fName, String lName, String ageRange, String email, Color shirtColor, Integer shirtNumber) {
+	public Participant addParticipant(String fName, String lName, String ageRange, String email) {
 
 		try {	
 
-			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?");
+			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?,?)}");
 			cs.setString(1,fName);
 			cs.setString(2,lName);
 			cs.setString(3,ageRange);
@@ -169,17 +177,16 @@ public class DBHandler {
 			Score score = new Score(scoreID);
 
 			cs.setInt(5, scoreID);
-			cs.setString(6,getColorString(shirtColor));
-			cs.setInt(7,shirtNumber);
-			cs.registerOutParameter(7, java.sql.Types.INTEGER);
+			cs.setString(6,null);
+			cs.setInt(7,-1);
+			cs.setInt(8,1);
+			cs.registerOutParameter(9, java.sql.Types.INTEGER);
 
 			cs.execute();
 
 			int participantID = cs.getInt(9);
-
-
-
-			return new Participant(participantID, fName, lName, ageRange, email, score, shirtColor, shirtNumber);
+			
+			return new Participant(participantID, fName, lName, ageRange, email, score, null, null);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

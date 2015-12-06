@@ -26,7 +26,7 @@ public class ServletRegister extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Participant p = iCtr.addParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("AgeGroup"), request.getParameter("Email"), null, null, null);
+		Participant p = iCtr.addParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("AgeGroup"), request.getParameter("Email"));
 		iCtr.addParticipant(p);
 		response.getWriter().append("Servlet was loadet, with " + request.getParameterMap().size() + " parameters.\n "+ request.getParameter("AgeGroup"));
 	}

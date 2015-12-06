@@ -53,6 +53,11 @@ public class Controller implements IController {
 	}
 
 	@Override
+	public Participant addParticipantToDB(String fName, String lName, String ageRange, String email) {
+		return dbHandler.addParticipant(fName, lName, ageRange, email);
+	}
+
+	@Override
 	public Participant getParticipantFromDB(int participantID) {
 		return dbHandler.getParticipant(participantID);
 	}
