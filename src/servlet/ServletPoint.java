@@ -18,16 +18,16 @@ import domain.Participant;
  */
 @WebServlet("/ServletPoint")
 public class ServletPoint extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private IController iCtr;
-       
+
+    private static final long serialVersionUID = 1L;
+    private IController iCtr;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ServletPoint() {
         iCtr = Controller.getInstance();
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -57,5 +57,4 @@ public class ServletPoint extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

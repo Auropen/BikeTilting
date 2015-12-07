@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Test Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div class="viewPage">
+            <div class="bottomPadding">
+                <h1>Search</h1>
+                <form action="ServletPoint" method="post">
+                    <div class="searchSpace"> ID:</div>           <input type="text" name="ID"> 
+                    <div class="searchSpace"> Shirt number:</div> <input type="text" name="ShirtNumber"> <br/>
+                    <div class="searchSpace"> First Name:</div>   <input type="text" name="FirstName">
+                    <div class="searchSpace"> Shirt color:</div>  <input type="text" name="ShirtColor"> <br/>
+                    <div class="searchSpace"> Last name:</div>    <input type="text" name="LastName"> <br/>
+                    <input type="submit" value="Search">
+                </form>
+            </div>
+            <table border="1" style="width:100%">
+                <tr>
+                    <td>Number</td>
+                    <td>Name</td> 
+                    <td>Point</td>
+                    <td>Round points</td>
+                </tr>
+                <tr>
+                    <td>Loool</td>
+                    <td>Loool</td>
+                    <td>Loool</td>
+                    <td>Loool</td>
+                </tr>
+            </table>
+            <form action="ServletPoint" method="post">
+                Hit:
+                <input type="submit" value="Hit" name="PointButton" id="1">
+                <input type="submit" value="Miss" name="PointButton" id="1">
+            </form>
+        </div>
+    </body>
+</html>
