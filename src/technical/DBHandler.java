@@ -166,7 +166,7 @@ public class DBHandler {
 
 			//Create Score
 
-			CallableStatement csScore = connection.prepareCall("{call addScore(?,?,?)}");
+			CallableStatement csScore = connection.prepareCall("{call  createScore(?,?,?)}");
 
 
 			csScore.setString(1,"");
@@ -374,6 +374,33 @@ public class DBHandler {
 		int g = (int) (c.getGreen()*255);
 		int b = (int) (c.getBlue()*255);
 		return r+","+g+","+b;
+	}
+	
+	
+	/*
+	    Score Editor
+	 */
+	
+	public boolean updateScore(Score score){
+
+		try{
+
+			CallableStatement csUpdateScore = connection.prepareCall("{call updateScorePoints(?,?,?)}");
+			
+			
+			csUpdateScore.setInt(0,score.getScoreID());
+			csUpdateScore.setString(1,score.getHitScore());
+			csUpdateScore.setInt(2,score.getScore());
+			
+			csUpdateScore.execute();
+			
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 
 }

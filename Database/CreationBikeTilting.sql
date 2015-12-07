@@ -141,7 +141,7 @@ CREATE PROCEDURE getParcipantsByLaneID(@laneID int)
 END
 GO
 
-CREATE PROCEDURE addScore(@hitScore VARCHAR(12), @score int, @new_id int output)
+CREATE PROCEDURE createScore(@hitScore VARCHAR(12), @score int, @new_id int output)
     AS 
 	BEGIN
 		INSERT INTO TblScore
@@ -155,5 +155,13 @@ CREATE PROCEDURE addScore(@hitScore VARCHAR(12), @score int, @new_id int output)
 			@score
 		)
 		SET @new_id = SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
+    AS 
+	BEGIN
+		UPDATE TblScore SET fldHitScore = @hitScore, fldScore = @score WHERE fldScoreID= @id;
+
 END
 GO
