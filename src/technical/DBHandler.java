@@ -33,6 +33,9 @@ public class DBHandler {
 
 		Properties p = new Properties();
 		try {
+			File test = new File("technicalProperties.properties");
+			
+			System.out.println(test.getAbsolutePath());
 			File f = new File("C:\\Users\\Kristian\\Documents\\Eclipse\\BikeTilting\\BikeTilting\\technicalProperties.properties"); 
 			if (f.isDirectory())
 				System.out.println("Check if you file is directory: " + f.isDirectory() + " with " + f.listFiles().length + " files");

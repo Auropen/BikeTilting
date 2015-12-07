@@ -2,6 +2,6 @@
 <web-app>
 <context-param>
     <param-name>BikeTilting</param-name>
-    <param-value>/usr/share/myapp</param-value>
+    <param-value></param-value>
 </context-param>
 </web-app>

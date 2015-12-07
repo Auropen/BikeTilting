@@ -1,6 +1,8 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +32,12 @@ public class ServletPoint extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	File test = new File(getServletContext().getContextPath() + "/technicalProperties.properties");
+    	
+    	System.out.println("Is there a file there: " + test.exists());
+    	System.out.println("THE PATH: " + test.getAbsolutePath());
+		System.out.println(getServletContext().getContextPath());
+		
 		if (request.getParameter("PointButton").equals("Hit")) {
 			int pID = (int) request.getAttribute("id");
 			Participant p = iCtr.getParticipantFromDB(pID);
