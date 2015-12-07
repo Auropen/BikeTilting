@@ -33,7 +33,7 @@ public class DBHandler {
 
 		Properties p = new Properties();
 		try {
-			File f = new File("C:\\Users\\Kristian\\Documents\\Eclipse\\BikeTilting\\BikeTilting\\technicalProperties.properties"); 
+			File f = new File("C:\\Users\\Kornel\\Documents\\NetBean\\BikeTilting\\technicalProperties.properties"); 
 			if (f.isDirectory())
 				System.out.println("Check if you file is directory: " + f.isDirectory() + " with " + f.listFiles().length + " files");
 			else
