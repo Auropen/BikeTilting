@@ -48,13 +48,13 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public Participant addParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
-		return dbHandler.addParticipant(fName, lName, ageRange, email, score, shirtColor, shirtNumber);
+	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+		return dbHandler.createParticipant(fName, lName, ageRange, email, score, shirtColor, shirtNumber);
 	}
 
 	@Override
-	public Participant addParticipantToDB(String fName, String lName, String ageRange, String email) {
-		return dbHandler.addParticipant(fName, lName, ageRange, email);
+	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email) {
+		return dbHandler.createParticipant(fName, lName, ageRange, email);
 	}
 
 	@Override

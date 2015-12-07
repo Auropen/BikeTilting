@@ -157,7 +157,7 @@ public class DBHandler {
 	}
 
 
-	public Participant addParticipant(String fName, String lName, String ageRange, String email) {
+	public Participant createParticipant(String fName, String lName, String ageRange, String email) {
 
 		try {	
 
