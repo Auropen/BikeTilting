@@ -40,11 +40,11 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 CREATE TABLE TblVolunteer	(fldCPR VARCHAR(12) FOREIGN KEY REFERENCES TblUsers (fldCPR),
 							 fldIsActive BINARY(1) NOT NULL)
 
-
-
--- Stored Procedures
 GO
-CREATE PROCEDURE addUser(@cpr VARCHAR(12), @password VARCHAR(255), @fName VARCHAR(32), @lName VARCHAR(32), @email VARCHAR(255), @phoneNumber VARCHAR(16), @accessLevel INT)
+
+--- Stored Procedures
+
+CREATE PROCEDURE createUser(@cpr VARCHAR(12), @password VARCHAR(255), @fName VARCHAR(32), @lName VARCHAR(32), @email VARCHAR(255), @phoneNumber VARCHAR(16), @accessLevel INT)
     AS 
 	BEGIN
 		INSERT INTO TblUsers
@@ -70,7 +70,8 @@ CREATE PROCEDURE addUser(@cpr VARCHAR(12), @password VARCHAR(255), @fName VARCHA
 END
 
 GO
-CREATE PROCEDURE addParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageRange VARCHAR(6), @email VARCHAR(255), @scoreID INT, @shirtColour VARCHAR(12), @shirtNumber INT, @laneID INT, @new_id INT OUTPUT)
+
+CREATE PROCEDURE createParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageRange VARCHAR(6), @email VARCHAR(255), @scoreID INT, @shirtColour VARCHAR(12), @shirtNumber INT, @laneID INT, @new_id INT OUTPUT)
     AS 
 	BEGIN
 		INSERT INTO TblParticipants
@@ -99,28 +100,28 @@ CREATE PROCEDURE addParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageRang
 END
 GO
 
+CREATE PROCEDURE createScore(@hitScore VARCHAR(12), @score int, @new_id int output)
+    AS 
+	BEGIN
+		INSERT INTO TblScore
+		(
+			fldHitScore,
+			fldScore
+		)
+		VALUES
+		(
+			@hitScore,
+			@score
+		)
+		SET @new_id = SCOPE_IDENTITY()
+END
+GO
+
 --- Get procedures
 CREATE PROCEDURE getParticipant(@id int)
     AS 
 	BEGIN
 		SELECT * FROM TblParticipants WHERE fldParticipantID = @id
-		
-END
-GO
-
-
-CREATE PROCEDURE getUsers
-    AS 
-	BEGIN
-		SELECT * FROM TblUsers
-		
-END
-GO
-
-CREATE PROCEDURE getLanes
-    AS 
-	BEGIN
-		SELECT * FROM TblLane
 		
 END
 GO
@@ -141,22 +142,7 @@ CREATE PROCEDURE getParcipantsByLaneID(@laneID int)
 END
 GO
 
-CREATE PROCEDURE createScore(@hitScore VARCHAR(12), @score int, @new_id int output)
-    AS 
-	BEGIN
-		INSERT INTO TblScore
-		(
-			fldHitScore,
-			fldScore
-		)
-		VALUES
-		(
-			@hitScore,
-			@score
-		)
-		SET @new_id = SCOPE_IDENTITY()
-END
-GO
+---Update Procedures
 
 CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
     AS 
@@ -164,4 +150,16 @@ CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
 		UPDATE TblScore SET fldHitScore = @hitScore, fldScore = @score WHERE fldScoreID= @id;
 
 END
+GO
+
+--- Creating View's 
+
+CREATE VIEW getUsers
+    AS 
+		SELECT * FROM TblUsers
+GO
+
+CREATE VIEW getLanes
+    AS
+		SELECT * FROM TblLane
 GO

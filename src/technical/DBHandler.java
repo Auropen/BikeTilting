@@ -105,10 +105,10 @@ public class DBHandler {
 	 	Put various info inside the DB with stored Procedures
 	 */
 
-	public User addUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
+	public User createUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
 
 		try {		
-			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?)}");
+			CallableStatement cs = connection.prepareCall("{call createParticipant(?,?,?,?,?,?,?)}");
 
 			cs.setString(1,cpr);
 			cs.setString(2,fName);
@@ -128,11 +128,11 @@ public class DBHandler {
 		}
 	}
 
-	public Participant addParticipant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+	public Participant createParticipant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
 
 		try {	
 
-			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?,?)}");
+			CallableStatement cs = connection.prepareCall("{call createParticipant(?,?,?,?,?,?,?,?,?)}");
 
 
 			cs.setString(1,fName);
