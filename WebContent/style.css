@@ -19,3 +19,7 @@ body {
 .formFullLength {
 	width: 100%;
 }
+
+.bottomPadding {
+	margin-bottom: 7px;
+}

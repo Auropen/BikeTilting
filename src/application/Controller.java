@@ -70,10 +70,12 @@ public class Controller implements IController {
 	@Override
 	public void addHit(Participant p) {
 		bikeTilting.addScoreHit(p);
+		dbHandler.updateScore(p.getScore());
 	}
 
 	@Override
 	public void addMiss(Participant p) {
 		bikeTilting.addScoreMiss(p);
+		dbHandler.updateScore(p.getScore());
 	}
 }
