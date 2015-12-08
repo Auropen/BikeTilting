@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import application.Controller;
 import application.IController;
 import domain.Participant;
+import java.io.FileInputStream;
+import java.util.Scanner;
 import technical.DBHandler;
 
 /**
@@ -29,29 +31,38 @@ public class ServletPoint extends HttpServlet {
     public ServletPoint() {
         iCtr = Controller.getInstance();
     }
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
-		
-		if (request.getParameter("PointButton").equals("Hit")) {
-			int pID = (int) request.getAttribute("id");
-			Participant p = iCtr.getParticipantFromDB(pID);
-			iCtr.addHit(p);
-		}
-		else {
-			int pID = (int) request.getAttribute("id");
-			Participant p = iCtr.getParticipantFromDB(pID);
-			iCtr.addMiss(p);
-		}
-	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
+        System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+        Scanner s = new Scanner(new FileInputStream(new File(getServletContext().getRealPath("/ViewParticipants.html"))));
+        while (s.hasNext()) {
+            String line = s.nextLine();
+            System.out.println(line + "whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+        }
+        response.getWriter();
+        /*if (request.getParameter("PointButton").equals("Hit")) {
+         int pID = (int) request.getAttribute("id");
+         Participant p = iCtr.getParticipantFromDB(pID);
+         iCtr.addHit(p);
+         }
+         else {
+         int pID = (int) request.getAttribute("id");
+         Participant p = iCtr.getParticipantFromDB(pID);
+         iCtr.addMiss(p);
+         }*/
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
 }

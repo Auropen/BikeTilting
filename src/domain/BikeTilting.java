@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-
 import application.Controller;
 import application.IController;
 

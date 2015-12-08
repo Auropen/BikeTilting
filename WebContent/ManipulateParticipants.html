@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Test Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script type="text/javascript">
+            window.onload = function () {
+                var auto = setTimeout(function () {
+                    //submitform();
+                }, 100);
+                function submitform() {
+                    alert('test');
+                    document.forms["lanes"].submit();
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="viewPage">
+            <div class="bottomPadding">
+                <center>
+                    <h1>Score</h1>
+                </center>
+                <form action="ServletPoint" method="post" id="lanes">
+                    <select name="Lanes" class="formFullLength">
+                        <!--DATABASE.GET Lanes-->
+                    </select>
+                    <input type="submit" value="Get Participants"/>
+                </form>
+            </div>
+            <table border="1" style="width:100%">
+                <tr>
+                    <td>Shirt Number</td> 
+                    <td>Name</td> 
+                    <td>Points</td>
+                    <td>Control</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>0-0-0-0-0-0-0-0</td>
+                    <td><form action="ServletPoint" method="post">
+                            <input type="submit" value="Hit" name="PointButton" id="1">
+                            <input type="submit" value="Miss" name="PointButton" id="1">
+                            <input type="submit" value="Undo" name="PointButton" id="1">
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>0-0-0-0-0-0-0-0</td>
+                    <td><form action="ServletPoint" method="post">
+                            <input type="submit" value="Hit" name="PointButton" id="1">
+                            <input type="submit" value="Miss" name="PointButton" id="1">
+                            <input type="submit" value="Undo" name="PointButton" id="1">
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>0-0-0-0-0-0-0-0</td>
+                    <td><form action="ServletPoint" method="post">
+                            <input type="submit" value="Hit" name="PointButton" id="1">
+                            <input type="submit" value="Miss" name="PointButton" id="1">
+                            <input type="submit" value="Undo" name="PointButton" id="1">
+                        </form>
+                    </td>
+                </tr>
+                <!--DATABASE.GET Participant-->
+            </table>
+        </div>
+    </body>
+</html>

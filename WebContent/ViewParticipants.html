@@ -14,13 +14,22 @@ and open the template in the editor.
     <body>
         <div class="viewPage">
             <div class="bottomPadding">
+                <center>
                 <h1>Search</h1>
+                </center>
                 <form action="ServletPoint" method="post">
-                    <div class="searchSpace"> ID:</div>           <input type="text" name="ID"> 
-                    <div class="searchSpace"> Shirt number:</div> <input type="text" name="ShirtNumber"> <br/>
-                    <div class="searchSpace"> First Name:</div>   <input type="text" name="FirstName">
-                    <div class="searchSpace"> Shirt color:</div>  <input type="text" name="ShirtColor"> <br/>
+                    <div class="searchSpace"> First Name:</div>   <input type="text" name="FirstName"> 
                     <div class="searchSpace"> Last name:</div>    <input type="text" name="LastName"> <br/>
+                    <div class="searchSpace"> Shirt number:</div> <input type="text" name="ShirtNumber">  
+                    <div class="searchSpace"> Shirt color:</div>  <input type="text" name="ShirtColor"> <br/>
+                    <div class="bottomPadding">
+	        		<select name="AgeGroup" class="formFullLength">
+	        			<option value="none" selected>Vælg Alder</option>
+	        			<option value="ZeroToSix">0-6 år</option>
+	        			<option value="SevenToNine">7-9 år</option>
+	        			<option value="TenToFourteen">10-14 år</option>
+	        		</select><br/>
+	        	</div>
                     <input type="submit" value="Search">
                 </form>
             </div>
@@ -32,17 +41,13 @@ and open the template in the editor.
                     <td>Round points</td>
                 </tr>
                 <tr>
-                    <td>Loool</td>
-                    <td>Loool</td>
-                    <td>Loool</td>
-                    <td>Loool</td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td>0-0-0-0-0-0-0-0</td>
+                    <td>0-0-0-0-0-0-0-0</td>
                 </tr>
+                <!--DATABASE.GET-->
             </table>
-            <form action="ServletPoint" method="post">
-                Hit:
-                <input type="submit" value="Hit" name="PointButton" id="1">
-                <input type="submit" value="Miss" name="PointButton" id="1">
-            </form>
         </div>
     </body>
 </html>
