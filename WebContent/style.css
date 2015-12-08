@@ -36,3 +36,7 @@ body {
         width: 15%;
         display: inline-block;
 }
+
+.centered {
+        text-align: center;
+}

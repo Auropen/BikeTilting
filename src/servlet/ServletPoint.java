@@ -1,7 +1,9 @@
 package servlet;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import application.Controller;
 import application.IController;
-import domain.Participant;
-import java.io.FileInputStream;
-import java.util.Scanner;
 import technical.DBHandler;
 
 /**
@@ -42,7 +41,7 @@ public class ServletPoint extends HttpServlet {
         Scanner s = new Scanner(new FileInputStream(new File(getServletContext().getRealPath("/ViewParticipants.html"))));
         while (s.hasNext()) {
             String line = s.nextLine();
-            System.out.println(line + "whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+            System.out.println(line);
         }
         response.getWriter();
         /*if (request.getParameter("PointButton").equals("Hit")) {

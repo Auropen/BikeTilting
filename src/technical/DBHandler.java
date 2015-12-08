@@ -4,13 +4,11 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -22,13 +20,10 @@ import domain.Score;
 import domain.User;
 
 public class DBHandler {
-
-	private Statement statement;
-	private Connection connection;
 	private static DBHandler instance;
 	public static Properties p = null;
-	
-	
+
+
 	public static Properties getProperties(File propertyFile) {
 		Properties p = new Properties();
 		try {
@@ -37,33 +32,9 @@ public class DBHandler {
 			System.out.println("IO exception to service property file");
 		}
 		return p;
-
 	}
 
 	private DBHandler (){
-		try
-		{
-			//p = getProperties();
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
-					";user="+p.getProperty("user")
-					+";password="+p.getProperty("password")
-					+";databaseName="+p.getProperty("databaseName")+"";
-
-			//String connectionUrl = "jdbc:sqlserver://localhost:1433;user=Kristian;password=1234;databaseName=BikeTiltingDB";
-			
-			connection = DriverManager.getConnection(connectionUrl);
-			statement = connection.createStatement();
-
-		}
-		catch (SQLException e) {
-			System.err.println("SQL Server Exception: Client info error.\n");
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException cnfe) {
-			System.err.println("Class not found Exeption: JDBC drivers are not installed correctly");
-		}
 	}
 
 
@@ -73,22 +44,29 @@ public class DBHandler {
 		return instance;
 	}
 
-	public Statement getStatement() {
-		return statement;
-	}
+	private Connection getConnection() {
+		try
+		{
+			try {
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")
+			+";user="+p.getProperty("user")
+			+";password="+p.getProperty("password")
+			+";databaseName="+p.getProperty("databaseName")+"";
 
-	public void close() {
-		try {
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
+			//String connectionUrl = "jdbc:sqlserver://localhost:1433;user=Kristian;password=1234;databaseName=BikeTiltingDB";
+
+			return DriverManager.getConnection(connectionUrl);
+		}
+		catch (SQLException e) {
+			System.err.println("SQL Server Exception: Client info error.\n");
 			e.printStackTrace();
 		}
-
-	}
-
-	public Connection getConnection() {
-		return connection;
+		return null;
 	}
 
 	/*
@@ -98,7 +76,7 @@ public class DBHandler {
 	public User createUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
 
 		try {		
-			CallableStatement cs = connection.prepareCall("{call createParticipant(?,?,?,?,?,?,?)}");
+			CallableStatement cs = getConnection().prepareCall("{call createParticipant(?,?,?,?,?,?,?)}");
 
 			cs.setString(1,cpr);
 			cs.setString(2,fName);
@@ -122,7 +100,7 @@ public class DBHandler {
 
 		try {	
 
-			CallableStatement cs = connection.prepareCall("{call createParticipant(?,?,?,?,?,?,?,?,?)}");
+			CallableStatement cs = getConnection().prepareCall("{call createParticipant(?,?,?,?,?,?,?,?,?)}");
 
 
 			cs.setString(1,fName);
@@ -151,7 +129,7 @@ public class DBHandler {
 
 		try {	
 
-			CallableStatement cs = connection.prepareCall("{call addParticipant(?,?,?,?,?,?,?,?,?)}");
+			CallableStatement cs = getConnection().prepareCall("{call addParticipant(?,?,?,?,?,?,?,?,?)}");
 			cs.setString(1,fName);
 			cs.setString(2,lName);
 			cs.setString(3,ageRange);
@@ -159,7 +137,7 @@ public class DBHandler {
 
 			//Create Score
 
-			CallableStatement csScore = connection.prepareCall("{call  createScore(?,?,?)}");
+			CallableStatement csScore = getConnection().prepareCall("{call  createScore(?,?,?)}");
 
 
 			csScore.setString(1,"");
@@ -178,7 +156,7 @@ public class DBHandler {
 			cs.execute();
 
 			int participantID = cs.getInt(9);
-			
+
 			return new Participant(participantID, fName, lName, ageRange, email, score, null, null);
 
 		} catch (SQLException e) {
@@ -216,7 +194,7 @@ public class DBHandler {
 
 		try {
 
-			CallableStatement csUser = connection.prepareCall("{call getUser}");
+			CallableStatement csUser = getConnection().prepareCall("{call getUser}");
 			ResultSet rsUser = csUser.executeQuery();
 
 			while(rsUser.next()){
@@ -247,14 +225,14 @@ public class DBHandler {
 
 		try {
 
-			CallableStatement cs = connection.prepareCall("{call getParticipant}");
+			CallableStatement cs = getConnection().prepareCall("{call getParticipant}");
 
 			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
 
 				int scoreID = rs.getInt("fldScoreID");
-				CallableStatement csScore = connection.prepareCall("{call getScoreByID(?)");
+				CallableStatement csScore = getConnection().prepareCall("{call getScoreByID(?)");
 				cs.setInt(1, scoreID);
 				ResultSet rsScore = csScore.executeQuery();
 				Score score = new Score(scoreID, rsScore.getInt("fldScore"), rsScore.getString("fldHitScore"));
@@ -284,14 +262,14 @@ public class DBHandler {
 	public Participant getParticipant(int id) {
 		try {
 
-			CallableStatement cs = connection.prepareCall("{call getParticipant(?)}");
+			CallableStatement cs = getConnection().prepareCall("{call getParticipant(?)}");
 			cs.setInt(1, id);
 			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
 
 				int scoreID = rs.getInt("fldScoreID");
-				CallableStatement csScore = connection.prepareCall("{call getParticipant(?)}");
+				CallableStatement csScore = getConnection().prepareCall("{call getParticipant(?)}");
 				cs.setInt(1, scoreID);
 
 				ResultSet rsScore = csScore.executeQuery();
@@ -325,14 +303,14 @@ public class DBHandler {
 
 		try {
 
-			CallableStatement csLane = connection.prepareCall("{call getLane}");
+			CallableStatement csLane = getConnection().prepareCall("{call getLane}");
 
 			ResultSet rs = csLane.executeQuery();
 
 			while(rs.next()){
 
 				Lane l = new Lane( rs.getInt("fldLaneNr"));
-				CallableStatement csPart = connection.prepareCall("{call getParticipantsByLaneID(?)}");
+				CallableStatement csPart = getConnection().prepareCall("{call getParticipantsByLaneID(?)}");
 				csPart.setInt(1, rs.getInt("fldLaneID"));
 
 				ResultSet rsPart = csPart.executeQuery();
@@ -368,25 +346,25 @@ public class DBHandler {
 		int b = (int) (c.getBlue()*255);
 		return r+","+g+","+b;
 	}
-	
-	
+
+
 	/*
 	    Score Editor
 	 */
-	
+
 	public boolean updateScore(Score score){
 
 		try{
 
-			CallableStatement csUpdateScore = connection.prepareCall("{call updateScorePoints(?,?,?)}");
-			
-			
+			CallableStatement csUpdateScore = getConnection().prepareCall("{call updateScorePoints(?,?,?)}");
+
+
 			csUpdateScore.setInt(0,score.getScoreID());
 			csUpdateScore.setString(1,score.getHitScore());
 			csUpdateScore.setInt(2,score.getScore());
-			
+
 			csUpdateScore.execute();
-			
+
 			return true;
 
 		} catch (SQLException e) {
