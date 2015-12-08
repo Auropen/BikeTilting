@@ -21,13 +21,11 @@ public class BikeTilting {
 	private List<Participant> participants;
 	private List<Lane> lanes;
 	private static BikeTilting instance;
-	private IController iCtr;
 
 	private BikeTilting() {
 		this.users = new ArrayList<User>();
 		this.participants = new ArrayList<Participant>();
 		this.lanes = new ArrayList<Lane>();
-		iCtr = Controller.getInstance();
 	}
 
 	public static BikeTilting getInstance() {
@@ -58,7 +56,7 @@ public class BikeTilting {
 	}
 
 	public List<Participant> searchParticipants(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber) {
-		List<Participant> allParticipant = iCtr.getParticipantsFromDB();
+		List<Participant> allParticipant = Controller.getInstance().getParticipantsFromDB();
 		List<Participant> searchResult = new ArrayList<Participant>();
 		
 		searchResult.addAll(allParticipant);
