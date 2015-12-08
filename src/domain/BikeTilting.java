@@ -9,6 +9,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.java.swing.plaf.windows.TMSchema.Part;
+
+import application.Controller;
+import application.IController;
+
 /**
  *
  * @author Kornel
@@ -18,11 +23,13 @@ public class BikeTilting {
 	private List<Participant> participants;
 	private List<Lane> lanes;
 	private static BikeTilting instance;
+	private IController iCtr;
 
 	private BikeTilting() {
 		this.users = new ArrayList<User>();
 		this.participants = new ArrayList<Participant>();
 		this.lanes = new ArrayList<Lane>();
+		iCtr = Controller.getInstance();
 	}
 
 	public static BikeTilting getInstance() {
@@ -52,6 +59,38 @@ public class BikeTilting {
 		p.getScore().addMiss();
 	}
 
+	public List<Participant> searchParticipants(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber) {
+		List<Participant> allParticipant = iCtr.getParticipantsFromDB();
+		List<Participant> searchResult = new ArrayList<Participant>();
+		
+		searchResult.addAll(allParticipant);
+		
+		for (Participant p : allParticipant) {
+			if (!fName.isEmpty() || !p.getFName().equals(fName)) {
+				searchResult.remove(p);
+				continue;
+			}
+			if (!lName.isEmpty() || !p.getLName().equals(lName)) {
+				searchResult.remove(p);
+				continue;
+			}
+			if (!ageRange.isEmpty() || !p.getAgeRange().equals(ageRange)) {
+				searchResult.remove(p);
+				continue;
+			}
+			if (shirtColor != null || !p.getShirtColor().equals(shirtColor)) {
+				searchResult.remove(p);
+				continue;
+			}
+			if (shirtNumber != null || p.getShirtNumber() != shirtNumber) {
+				searchResult.remove(p);
+				continue;
+			}
+		}
+		
+		return searchResult;
+	}
+	
 	/**
 	 * @return the users
 	 */

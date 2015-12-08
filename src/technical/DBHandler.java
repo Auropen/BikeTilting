@@ -26,23 +26,13 @@ public class DBHandler {
 	private Statement statement;
 	private Connection connection;
 	private static DBHandler instance;
-	public static Properties pathProperties = null;
+	public static Properties p = null;
 	
 	
-	public static Properties getProperties() {
-
+	public static Properties getProperties(File propertyFile) {
 		Properties p = new Properties();
 		try {
-			File test = new File("technicalProperties.properties");
-			
-			System.out.println(test.getAbsolutePath());
-			File f = new File("C:\\Users\\Kristian\\Documents\\Eclipse\\BikeTilting\\BikeTilting\\technicalProperties.properties"); 
-			if (f.isDirectory())
-				System.out.println("Check if you file is directory: " + f.isDirectory() + " with " + f.listFiles().length + " files");
-			else
-				System.out.println("Check if you file exists: " + f.exists());
-			System.out.println("Directory path: " + f.getAbsolutePath());
-			p.load(new FileInputStream(f));
+			p.load(new FileInputStream(propertyFile));
 		} catch (IOException e) {
 			System.out.println("IO exception to service property file");
 		}
@@ -53,15 +43,15 @@ public class DBHandler {
 	private DBHandler (){
 		try
 		{
-			Properties p = getProperties();
+			//p = getProperties();
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-			/*String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
+			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")+
 					";user="+p.getProperty("user")
 					+";password="+p.getProperty("password")
-					+";databaseName="+p.getProperty("databaseName")+"";*/
+					+";databaseName="+p.getProperty("databaseName")+"";
 
-			String connectionUrl = "jdbc:sqlserver://localhost:1433;user=Kristian;password=1234;databaseName=BikeTiltingDB";
+			//String connectionUrl = "jdbc:sqlserver://localhost:1433;user=Kristian;password=1234;databaseName=BikeTiltingDB";
 			
 			connection = DriverManager.getConnection(connectionUrl);
 			statement = connection.createStatement();

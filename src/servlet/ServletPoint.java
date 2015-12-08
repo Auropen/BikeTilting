@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import application.Controller;
 import application.IController;
 import domain.Participant;
+import technical.DBHandler;
 
 /**
  * Servlet implementation class ServletPoint
@@ -32,11 +33,7 @@ public class ServletPoint extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	File test = new File(getServletContext().getContextPath() + "/technicalProperties.properties");
-    	
-    	System.out.println("Is there a file there: " + test.exists());
-    	System.out.println("THE PATH: " + test.getAbsolutePath());
-		System.out.println(getServletContext().getContextPath());
+    	DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
 		
 		if (request.getParameter("PointButton").equals("Hit")) {
 			int pID = (int) request.getAttribute("id");

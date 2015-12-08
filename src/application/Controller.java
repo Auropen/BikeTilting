@@ -63,6 +63,11 @@ public class Controller implements IController {
 	}
 
 	@Override
+	public List<Participant> searchParticipant(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber) {
+		return bikeTilting.searchParticipants(fName, lName, ageRange, shirtColor, shirtNumber);
+	}
+
+	@Override
 	public void addParticipant(Participant p) {
 		bikeTilting.getParticipants().add(p);
 	}
