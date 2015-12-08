@@ -1,4 +1,4 @@
-package servlet;
+package gui.servlet;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

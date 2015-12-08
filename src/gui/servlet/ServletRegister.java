@@ -1,4 +1,4 @@
-package servlet;
+package gui.servlet;
 
 
 import java.io.IOException;

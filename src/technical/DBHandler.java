@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -21,17 +22,17 @@ import domain.User;
 
 public class DBHandler {
 	private static DBHandler instance;
-	public static Properties p = null;
+	private String dbName;
+	private static Properties p = null;
 
 
-	public static Properties getProperties(File propertyFile) {
-		Properties p = new Properties();
+	public static void getProperties(File propertyFile) {
+		p = new Properties();
 		try {
 			p.load(new FileInputStream(propertyFile));
 		} catch (IOException e) {
 			System.out.println("IO exception to service property file");
 		}
-		return p;
 	}
 
 	private DBHandler (){
@@ -45,18 +46,18 @@ public class DBHandler {
 	}
 
 	private Connection getConnection() {
-		try
-		{
+		try {
 			try {
 				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			dbName = p.getProperty("databaseName");
 			
 			String connectionUrl = "jdbc:sqlserver://"+p.getProperty("host")+":"+p.getProperty("port")
 			+";user="+p.getProperty("user")
 			+";password="+p.getProperty("password")
-			+";databaseName="+p.getProperty("databaseName")+"";
+			+";databaseName="+dbName;
 
 			//String connectionUrl = "jdbc:sqlserver://localhost:1433;user=Kristian;password=1234;databaseName=BikeTiltingDB";
 
@@ -68,11 +69,18 @@ public class DBHandler {
 		}
 		return null;
 	}
-
-	/*
-	 	Put various info inside the DB with stored Procedures
+	
+	/**
+	 * Put various info inside the DB with stored Procedures
+	 * @param cpr
+	 * @param fName
+	 * @param lName
+	 * @param email
+	 * @param password
+	 * @param phoneNumber
+	 * @param accessLevel
+	 * @return
 	 */
-
 	public User createUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
 
 		try {		
@@ -97,11 +105,8 @@ public class DBHandler {
 	}
 
 	public Participant createParticipant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
-
-		try {	
-
+		try {
 			CallableStatement cs = getConnection().prepareCall("{call createParticipant(?,?,?,?,?,?,?,?,?)}");
-
 
 			cs.setString(1,fName);
 			cs.setString(2,lName);
@@ -113,9 +118,7 @@ public class DBHandler {
 			cs.registerOutParameter(8, java.sql.Types.INTEGER);
 			cs.execute();
 			int participantID = cs.getInt(8);
-
-
-
+			
 			return new Participant(participantID, fName, lName, ageRange, email, score, shirtColor, shirtNumber);
 
 		} catch (SQLException e) {
@@ -126,18 +129,15 @@ public class DBHandler {
 
 
 	public Participant createParticipant(String fName, String lName, String ageRange, String email) {
-
-		try {	
-
-			CallableStatement cs = getConnection().prepareCall("{call addParticipant(?,?,?,?,?,?,?,?,?)}");
+		try {
+			CallableStatement cs = getConnection().prepareCall("{call createParticipant(?,?,?,?,?,?,?,?,?)}");
 			cs.setString(1,fName);
 			cs.setString(2,lName);
 			cs.setString(3,ageRange);
 			cs.setString(4,email);
 
 			//Create Score
-
-			CallableStatement csScore = getConnection().prepareCall("{call  createScore(?,?,?)}");
+			CallableStatement csScore = getConnection().prepareCall("{call createScore(?,?,?)}");
 
 
 			csScore.setString(1,"");
@@ -163,25 +163,6 @@ public class DBHandler {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-
-	public String createSQLQuery(String table, Object... data) {
-		String sql = "INSERT INTO " + table + "(";
-
-		for (int i = 0; i < data.length; i += 2) 
-			sql += data[i] + ",";
-
-		sql = sql.substring(0, sql.length()-1) + ") VALUES (";
-
-		for (int i = 1; i < data.length; i += 2) 
-			sql += ((isNumber(data[i])) ? data[i] : "'"+data[i]+"'") + ",";
-
-		return sql.substring(0, sql.length()-1) + ")";
-	}
-
-	private boolean isNumber(Object o) {
-		return o instanceof Byte || o instanceof Short || o instanceof Integer || o instanceof Long || o instanceof Double || o instanceof Float;
 	}
 
 	/*
@@ -220,21 +201,18 @@ public class DBHandler {
 	}
 
 	public List<Participant> getAllParticipants() {
-
 		List<Participant> participants = new ArrayList<>();
-
 		try {
-
-			CallableStatement cs = getConnection().prepareCall("{call getParticipant}");
-
+			CallableStatement cs = getConnection().prepareCall("{call getParticipants}");
 			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
 
 				int scoreID = rs.getInt("fldScoreID");
-				CallableStatement csScore = getConnection().prepareCall("{call getScoreByID(?)");
-				cs.setInt(1, scoreID);
+				CallableStatement csScore = getConnection().prepareCall("{call getScoreByID(?)}");
+				csScore.setInt(1, scoreID);
 				ResultSet rsScore = csScore.executeQuery();
+				rsScore.next();
 				Score score = new Score(scoreID, rsScore.getInt("fldScore"), rsScore.getString("fldHitScore"));
 
 				Participant p = new Participant(rs.getInt("fldParticipantID"),
@@ -265,7 +243,7 @@ public class DBHandler {
 			CallableStatement cs = getConnection().prepareCall("{call getParticipant(?)}");
 			cs.setInt(1, id);
 			ResultSet rs = cs.executeQuery();
-
+			
 			while(rs.next()){
 
 				int scoreID = rs.getInt("fldScoreID");
@@ -298,14 +276,11 @@ public class DBHandler {
 	}
 
 	public List<Lane> getAllLanes() {
-
 		List<Lane> lanes = new ArrayList<>();
 
 		try {
-
-			CallableStatement csLane = getConnection().prepareCall("{call getLane}");
-
-			ResultSet rs = csLane.executeQuery();
+			CallableStatement cs = getConnection().prepareCall("{call getLanes}");
+			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
 
@@ -329,22 +304,6 @@ public class DBHandler {
 			return null;
 		}
 
-	}
-
-	/*
-	    converting colour to be stored in the DB 
-	 */
-
-	private Color getColor(String colorRepresentation) {
-		String[] sColor = colorRepresentation.split(",");
-		return new Color(Integer.parseInt(sColor[0])/255, Integer.parseInt(sColor[1])/255, Integer.parseInt(sColor[2])/255);
-	}
-
-	private String getColorString(Color c) {
-		int r = (int) (c.getRed()*255);
-		int g = (int) (c.getGreen()*255);
-		int b = (int) (c.getBlue()*255);
-		return r+","+g+","+b;
 	}
 
 
@@ -374,4 +333,19 @@ public class DBHandler {
 
 	}
 
+	/*
+	    converting colour to be stored in the DB 
+	 */
+
+	private Color getColor(String colorRepresentation) {
+		String[] sColor = colorRepresentation.split(",");
+		return new Color(Integer.parseInt(sColor[0])/255, Integer.parseInt(sColor[1])/255, Integer.parseInt(sColor[2])/255);
+	}
+
+	private String getColorString(Color c) {
+		int r = (int) (c.getRed()*255);
+		int g = (int) (c.getGreen()*255);
+		int b = (int) (c.getBlue()*255);
+		return r+","+g+","+b;
+	}
 }

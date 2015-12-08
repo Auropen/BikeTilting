@@ -15,7 +15,7 @@ CREATE TABLE TblScore		(fldScoreID int IDENTITY(1,1) PRIMARY KEY,
 							 fldHitScore VARCHAR (12) NOT NULL,
 							 fldScore int NOT NULL)
 
-CREATE TABLE TblLane		(fldLaneID int IDENTITY(1,1) PRIMARY KEY,
+CREATE TABLE TblLanes		(fldLaneID int IDENTITY(1,1) PRIMARY KEY,
 							 fldLaneNr int NOT NULL)
 
 CREATE TABLE TblUsers		(fldCPR VARCHAR(12) PRIMARY KEY,
@@ -35,7 +35,7 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 							 fldScoreID INT FOREIGN KEY REFERENCES TblScore (fldScoreID),
 							 fldShirtColour VARCHAR(12),
 							 fldShirtNumber int,  
-							 fldLaneID INT FOREIGN KEY REFERENCES TblLane (fldLaneID))
+							 fldLaneID INT FOREIGN KEY REFERENCES TblLaneS (fldLaneID))
 
 CREATE TABLE TblVolunteer	(fldCPR VARCHAR(12) FOREIGN KEY REFERENCES TblUsers (fldCPR),
 							 fldIsActive BINARY(1) NOT NULL)
@@ -134,10 +134,26 @@ CREATE PROCEDURE getScoreByID(@id int)
 END
 GO
 
-CREATE PROCEDURE getParcipantsByLaneID(@laneID int)
+CREATE PROCEDURE getParticipantsByLaneID(@laneID int)
     AS 
 	BEGIN
 		SELECT * FROM TblParticipants WHERE fldLaneID = @laneID;
+		
+END
+GO
+
+CREATE PROCEDURE getParticipants
+    AS 
+	BEGIN
+		SELECT * FROM TblParticipants;
+		
+END
+GO
+
+CREATE PROCEDURE getLanes
+    AS 
+	BEGIN
+		SELECT * FROM TblLanes;
 		
 END
 GO
@@ -150,21 +166,4 @@ CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
 		UPDATE TblScore SET fldHitScore = @hitScore, fldScore = @score WHERE fldScoreID= @id;
 
 END
-GO
-
---- Creating View's 
-
-CREATE VIEW getUsers
-    AS 
-		SELECT * FROM TblUsers
-GO
-
-CREATE VIEW getLanes
-    AS
-		SELECT * FROM TblLane
-GO
-
-CREATE VIEW getParticipants
-    AS
-		SELECT * FROM TblParticipants
 GO
