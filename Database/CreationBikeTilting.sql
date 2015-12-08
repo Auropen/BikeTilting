@@ -163,3 +163,8 @@ CREATE VIEW getLanes
     AS
 		SELECT * FROM TblLane
 GO
+
+CREATE VIEW getParticipants
+    AS
+		SELECT * FROM TblParticipants
+GO
