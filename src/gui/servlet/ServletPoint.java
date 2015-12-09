@@ -41,6 +41,7 @@ public class ServletPoint extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
         System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+        boolean insideScript = false;
         
         String htmlBuild = "";
         /*for (String s : request.getParameterMap().keySet()) {
@@ -53,12 +54,17 @@ public class ServletPoint extends HttpServlet {
         if (request.getParameter("Mani_Lanes").equals("GetParticipants")) {
             List<Participant> pList = iCtr.getParticipantsFromDB();
             List<Lane> lList = iCtr.getLanesFromDB();
-            System.out.println("Lanes size = " + lList + " & Parts size = " + pList);
+            System.out.println("Lanes size = " + lList.size() + " & Parts size = " + pList.size());
         	Scanner s = new Scanner(new FileInputStream(new File(getServletContext().getRealPath("/ManipulateParticipants.html"))));
             while (s.hasNext()) {
                 String line = s.nextLine().trim();
                 System.out.println(line);
-                if (line.startsWith("<!--DATABASE.GET ")) {
+                if (line.startsWith("<!--DELETE.SCRIPT") || insideScript) {
+                	insideScript = !line.contains("</script>");
+                	System.out.println(insideScript + " -> " + line);
+                	continue;
+                }
+                else if (line.startsWith("<!--DATABASE.GET ")) {
                 	switch (line.substring("<!--DATABASE.GET ".length(), line.length()-3)) {
 					case "Participant":
 						for (Participant p : pList) {

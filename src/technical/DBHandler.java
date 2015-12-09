@@ -222,10 +222,8 @@ public class DBHandler {
 						rs.getString("fldEmail"), 
 						score,
 						getColor(rs.getString("fldShirtColour")),
-						rs.getInt("fldShirtNumber"));	
-
+						rs.getInt("fldShirtNumber"));
 				participants.add(p);
-
 			}
 
 			return participants;
