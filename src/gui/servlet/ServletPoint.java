@@ -39,6 +39,7 @@ public class ServletPoint extends HttpServlet {
      * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.err.println(getServletContext().getRealPath("/technicalProperties.properties"));
         DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
         System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
         boolean insideScript = false;
