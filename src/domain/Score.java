@@ -17,11 +17,11 @@ public class Score {
 
 	public void addHit() {
 		score++;
-		hitScore += "1";
+		hitScore += ((hitScore.isEmpty()) ? "1" : "-1");
 	}
 
 	public void addMiss() {
-		hitScore += "0";
+		hitScore += ((hitScore.isEmpty()) ? "0" : "-0");;
 	}
 	
 	public int getScoreID() {
