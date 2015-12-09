@@ -35,20 +35,15 @@ public class ServletPoint extends HttpServlet {
 		iCtr = Controller.getInstance();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 * response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
-		System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
-		/*for (String s : request.getParameterMap().keySet()) {
-            System.out.println("Parameter: " + s + " -> ");
-            for (String s2 : request.getParameterValues(s)) {
-                System.out.println("    Value: " + s2);
-			}
-		}*/
-		//Checks if
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.err.println(getServletContext().getRealPath("/technicalProperties.properties"));
+        DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
+        System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+
 		if (request.getParameter("Mani_Lanes") != null && request.getParameter("Mani_Lanes").equals("GetParticipants")) {
 			
 		}

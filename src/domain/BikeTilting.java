@@ -12,10 +12,7 @@ import java.util.List;
 import application.Controller;
 import application.IController;
 
-/**
- *
- * @author Kornel
- */
+
 public class BikeTilting {
 	private List<User> users;
 	private List<Participant> participants;
@@ -90,6 +87,7 @@ public class BikeTilting {
 	/**
 	 * @return the users
 	 */
+	
 	public List<User> getUsers() {
 		return users;
 	}
@@ -118,6 +116,7 @@ public class BikeTilting {
 	/**
 	 * @return the lanes
 	 */
+	
 	public List<Lane> getLanes() {
 		return lanes;
 	}
@@ -125,7 +124,22 @@ public class BikeTilting {
 	/**
 	 * @param lanes the lanes to set
 	 */
+	
 	public void setLanes(List<Lane> lanes) {
 		this.lanes = lanes;
+	}
+	
+	public boolean storeDBToMemory(){
+		
+		participants = Controller.getInstance().getParticipantsFromDB();
+		
+		lanes = Controller.getInstance().getLanesFromDB();
+		
+
+		if(participants == null && lanes == null){
+			return false;
+		}
+		
+		return true;
 	}
 }

@@ -81,6 +81,7 @@ public class DBHandler {
 	 * @param accessLevel
 	 * @return
 	 */
+	
 	public User createUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
 
 		try {		
@@ -304,7 +305,6 @@ public class DBHandler {
 
 	}
 
-
 	/*
 	    Score Editor
 	 */
@@ -346,4 +346,6 @@ public class DBHandler {
 		int b = (int) (c.getBlue()*255);
 		return r+","+g+","+b;
 	}
+	
+	
 }
