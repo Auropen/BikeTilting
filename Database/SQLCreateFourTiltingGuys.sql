@@ -1,10 +1,10 @@
 Use BikeTiltingDB
 
 
-insert into TblScore (fldHitScore,fldScore) values('0',0)
-insert into TblScore (fldHitScore,fldScore) values('1',1)
-insert into TblScore (fldHitScore,fldScore) values('2',2)
-insert into TblScore (fldHitScore,fldScore) values('3',3)
+insert into TblScore (fldHitScore,fldScore) values('',0)
+insert into TblScore (fldHitScore,fldScore) values('',1)
+insert into TblScore (fldHitScore,fldScore) values('',2)
+insert into TblScore (fldHitScore,fldScore) values('',3)
 
 insert into TblLanes (fldLaneNr) values (1)
 insert into TblLanes (fldLaneNr) values (2)
