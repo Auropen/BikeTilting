@@ -59,23 +59,23 @@ public class BikeTilting {
 		searchResult.addAll(allParticipant);
 		
 		for (Participant p : allParticipant) {
-			if (!fName.isEmpty() || !p.getFName().equals(fName)) {
+			if (!fName.isEmpty() && !p.getFName().equals(fName)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (!lName.isEmpty() || !p.getLName().equals(lName)) {
+			if (!lName.isEmpty() && !p.getLName().equals(lName)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (!ageRange.isEmpty() || !p.getAgeRange().equals(ageRange)) {
+			if (!ageRange.isEmpty() && !p.getAgeRange().equals(ageRange)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (shirtColor != null || !p.getShirtColor().equals(shirtColor)) {
+			if (shirtColor != null && !p.getShirtColor().equals(shirtColor)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (shirtNumber != null || p.getShirtNumber() != shirtNumber) {
+			if (shirtNumber != null && p.getShirtNumber() != shirtNumber) {
 				searchResult.remove(p);
 				continue;
 			}
@@ -130,16 +130,10 @@ public class BikeTilting {
 	}
 	
 	public boolean storeDBToMemory(){
-		
 		participants = Controller.getInstance().getParticipantsFromDB();
-		
 		lanes = Controller.getInstance().getLanesFromDB();
-		
-
-		if(participants == null && lanes == null){
+		if(participants == null && lanes == null)
 			return false;
-		}
-		
 		return true;
 	}
 }
