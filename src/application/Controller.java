@@ -1,6 +1,5 @@
 package application;
 
-import java.awt.Color;
 import java.util.List;
 
 import domain.BikeTilting;
@@ -63,7 +62,7 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
 		return dbHandler.createParticipant(fName, lName, ageRange, email, score, shirtColor, shirtNumber);
 	}
 
@@ -78,7 +77,7 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public List<Participant> searchParticipant(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber) {
+	public List<Participant> searchParticipant(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber) {
 		return bikeTilting.searchParticipants(fName, lName, ageRange, shirtColor, shirtNumber);
 	}
 

@@ -15,11 +15,11 @@ public interface IController {
 	public List<Lane> getLanesFromDB();
 	public List<Lane> getLanes();
 	public Lane getLaneFromLaneNr(int laneNr);
-	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber);
+	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber);
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email);
 	public Participant getParticipantFromDB(int participantID);
 	public Participant getParticipant(int participantID);
-	public List<Participant> searchParticipant(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber);
+	public List<Participant> searchParticipant(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber);
 	public void addParticipant(Participant p);
 	public void addHit(Participant p);
 	public void addMiss(Participant p);

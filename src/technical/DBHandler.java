@@ -1,6 +1,5 @@
 package technical;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,7 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -105,7 +103,7 @@ public class DBHandler {
 		}
 	}
 
-	public Participant createParticipant(String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+	public Participant createParticipant(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
 		try {
 			CallableStatement cs = getConnection().prepareCall("{call createParticipant(?,?,?,?,?,?,?,?,?)}");
 
@@ -114,7 +112,7 @@ public class DBHandler {
 			cs.setString(3,ageRange);
 			cs.setString(4,email);
 			cs.setInt(5,score.getScoreID());
-			cs.setString(6,getColorString(shirtColor));
+			cs.setString(6,shirtColor);
 			cs.setInt(7,shirtNumber);
 			cs.registerOutParameter(8, java.sql.Types.INTEGER);
 			cs.execute();
@@ -222,7 +220,7 @@ public class DBHandler {
 						rs.getString("fldAgeRange"),
 						rs.getString("fldEmail"), 
 						score,
-						getColor(rs.getString("fldShirtColour")),
+						rs.getString("fldShirtColour"),
 						rs.getInt("fldShirtNumber"));
 				participants.add(p);
 			}
@@ -260,7 +258,7 @@ public class DBHandler {
 						rs.getString("fldAgeRange"),
 						rs.getString("fldEmail"), 
 						score,
-						getColor(rs.getString("fldShirtColour")),
+						rs.getString("fldShirtColour"),
 						rs.getInt("fldShirtNumber"));	
 			}
 
@@ -330,22 +328,4 @@ public class DBHandler {
 		}
 
 	}
-
-	/*
-	    converting colour to be stored in the DB 
-	 */
-
-	private Color getColor(String colorRepresentation) {
-		String[] sColor = colorRepresentation.split(",");
-		return new Color(Integer.parseInt(sColor[0])/255, Integer.parseInt(sColor[1])/255, Integer.parseInt(sColor[2])/255);
-	}
-
-	private String getColorString(Color c) {
-		int r = (int) (c.getRed()*255);
-		int g = (int) (c.getGreen()*255);
-		int b = (int) (c.getBlue()*255);
-		return r+","+g+","+b;
-	}
-	
-	
 }

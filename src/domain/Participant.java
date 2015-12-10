@@ -9,10 +9,10 @@ public class Participant {
 	private String email;
 	private String ageRange;
 	private Score score;
-	private Color shirtColor;
+	private String shirtColor;
 	private Integer shirtNumber;
 
-	public Participant(int id, String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+	public Participant(int id, String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
 		this.id = id;
 		this.setFName(fName);
 		this.setLName(lName);
@@ -63,11 +63,11 @@ public class Participant {
 		this.score = score;
 	}
 
-	public Color getShirtColor() {
+	public String getShirtColor() {
 		return shirtColor;
 	}
 
-	public void setShirtColor(Color shirtColor) {
+	public void setShirtColor(String shirtColor) {
 		this.shirtColor = shirtColor;
 	}
 

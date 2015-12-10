@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import application.Controller;
 import application.IController;
+import domain.BikeTilting;
 import domain.Lane;
 import domain.Participant;
 import technical.DBHandler;
@@ -34,7 +35,7 @@ public class ServletPoint extends HttpServlet {
 	 */
 	public ServletPoint() {
 		iCtr = Controller.getInstance();
-		lanePick = 0;
+		lanePick = 1;
 	}
 
     /**
@@ -44,14 +45,16 @@ public class ServletPoint extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.err.println(getServletContext().getRealPath("/technicalProperties.properties"));
         DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
-        System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+		BikeTilting.getInstance().storeDBToMemory();
 
 		if (request.getParameter("Mani_Lanes") != null && request.getParameter("Mani_Lanes").equals("GetParticipants")) {
 			String value = request.getParameter("Lanes");
-			lanePick = (value.isEmpty()) ? 1 : Integer.parseInt(value.replaceAll("!*[\\D]", ""));
-			iCtr.getLanes();
+			if (value != null) {
+				lanePick = Integer.parseInt(value.replaceAll("!*[\\D]", ""));
+				iCtr.getLanes();
+			}
 		}
-		else if (request.getParameter("Mani_Point") != null && request.getParameter("Mani_Lanes").equals("Få tilmeldte")) {
+		else if (request.getParameter("Mani_Point") != null && request.getParameter("Mani_Point").equals("GetScoreBtn")) {
 			if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Ramt")) {
 				int pID = (int) request.getAttribute("id");
 				Participant p = iCtr.getParticipantFromDB(pID);
@@ -94,12 +97,12 @@ public class ServletPoint extends HttpServlet {
 					for (Participant p : pList) {
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor().toString() : "red");
 						htmlBuild += String.format("<tr>\n"
-								+ "<td><font color=\"%s\">&#1421;</font> %d <font color=\"%s\">&#1421;</font></td>\n"
+								+ "<td><font color=\"%s\">&#9930;</font> %d <font color=\"%s\">&#9930;</font></td>\n"
 								+ "<td>%s</td>\n"
 								+ "<td>%s</td>\n"
 								+ "<td>\n"
 								+ "<form action=\"ServletPoint\" method=\"post\">\n"
-								+ "<input type=\"hidden\" value=\"GetParticipants\" name=\"Mani_Point\"/>"
+								+ "<input type=\"hidden\" value=\"GetScoreBtn\" name=\"Mani_Point\"/>"
 								+ "<input type=\"submit\" value=\"Ramt\" id=\"" + p.getId() + "\">\n"
 								+ "<input type=\"submit\" value=\"Forbier\" id=\"" + p.getId() + "\">\n"
 								+ "<input type=\"submit\" value=\"Fortryd\" id=\"" + p.getId() + "\">\n"

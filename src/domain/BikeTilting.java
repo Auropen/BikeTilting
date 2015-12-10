@@ -5,12 +5,10 @@
  */
 package domain;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import application.Controller;
-import application.IController;
 
 
 public class BikeTilting {
@@ -35,7 +33,7 @@ public class BikeTilting {
 		getUsers().add(new User(cpr, fName, lName, email, password, phoneNumber, accessLevel));
 	}
 
-	public void createParticipant(int id, String fName, String lName, String ageRange, String email, Score score, Color shirtColor, Integer shirtNumber) {
+	public void createParticipant(int id, String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
 		getParticipants().add(new Participant(id, fName, lName, ageRange, email, score, shirtColor, shirtNumber));
 	}
 
@@ -60,7 +58,7 @@ public class BikeTilting {
 		return null;
 	}
 
-	public List<Participant> searchParticipants(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber) {
+	public List<Participant> searchParticipants(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber) {
 		List<Participant> allParticipant = Controller.getInstance().getParticipantsFromDB();
 		List<Participant> searchResult = new ArrayList<Participant>();
 		
