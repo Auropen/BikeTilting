@@ -12,7 +12,7 @@ go
 
 --- Creating Tables
 CREATE TABLE TblScore		(fldScoreID int IDENTITY(1,1) PRIMARY KEY,
-							 fldHitScore VARCHAR (12) NOT NULL,
+							 fldHitScore VARCHAR (63) NOT NULL,
 							 fldScore int NOT NULL)
 
 CREATE TABLE TblLanes		(fldLaneID int IDENTITY(1,1) PRIMARY KEY,

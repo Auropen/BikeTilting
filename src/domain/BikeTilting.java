@@ -77,7 +77,7 @@ public class BikeTilting {
 				searchResult.remove(p);
 				continue;
 			}
-			if (shirtColor != null && !p.getShirtColor().equals(shirtColor)) {
+			if (shirtColor.isEmpty() && !p.getShirtColor().equals(shirtColor)) {
 				searchResult.remove(p);
 				continue;
 			}

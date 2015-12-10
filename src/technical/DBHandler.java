@@ -244,15 +244,15 @@ public class DBHandler {
 			while(rs.next()){
 
 				int scoreID = rs.getInt("fldScoreID");
-				CallableStatement csScore = getConnection().prepareCall("{call getParticipant(?)}");
-				cs.setInt(1, scoreID);
+				CallableStatement csScore = getConnection().prepareCall("{call getScoreByID(?)}");
+				csScore.setInt(1, scoreID);
 
 				ResultSet rsScore = csScore.executeQuery();
 				rsScore.next();
 
 				Score score = new Score(scoreID, rsScore.getInt("fldScore"), rsScore.getString("fldHitScore"));
 
-				return new Participant(rs.getInt("fldParticipentID"),
+				return new Participant(rs.getInt("fldParticipantID"),
 						rs.getString("fldFName"), 
 						rs.getString("fldLName"),
 						rs.getString("fldAgeRange"),
@@ -314,9 +314,9 @@ public class DBHandler {
 			CallableStatement csUpdateScore = getConnection().prepareCall("{call updateScorePoints(?,?,?)}");
 
 
-			csUpdateScore.setInt(0,score.getScoreID());
-			csUpdateScore.setString(1,score.getHitScore());
-			csUpdateScore.setInt(2,score.getScore());
+			csUpdateScore.setInt(1,score.getScoreID());
+			csUpdateScore.setString(2,score.getHitScore());
+			csUpdateScore.setInt(3,score.getScore());
 
 			csUpdateScore.execute();
 

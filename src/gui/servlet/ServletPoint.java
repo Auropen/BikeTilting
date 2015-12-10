@@ -43,7 +43,6 @@ public class ServletPoint extends HttpServlet {
      * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.err.println(getServletContext().getRealPath("/technicalProperties.properties"));
         DBHandler.getProperties(new File(getServletContext().getRealPath("/technicalProperties.properties")));
 		BikeTilting.getInstance().storeDBToMemory();
 
@@ -54,22 +53,20 @@ public class ServletPoint extends HttpServlet {
 				iCtr.getLanes();
 			}
 		}
-		else if (request.getParameter("Mani_Point") != null && request.getParameter("Mani_Point").equals("GetScoreBtn")) {
-			if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Ramt")) {
-				int pID = (int) request.getAttribute("id");
-				Participant p = iCtr.getParticipantFromDB(pID);
-				iCtr.addHit(p);
-			}
-			else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Forbier")) {
-				int pID = (int) request.getAttribute("id");
-				Participant p = iCtr.getParticipantFromDB(pID);
-				iCtr.addMiss(p);
-			}
-			else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Fortryd")) {
-				int pID = (int) request.getAttribute("id");
-				Participant p = iCtr.getParticipantFromDB(pID);
-				iCtr.addMiss(p);
-			}
+		else if (request.getParameter("Mani_PointButton") != null && request.getParameter("Mani_PointButton").equals("Ramt")) {
+			int pID = Integer.parseInt(request.getParameter("Mani_PointID"));
+			Participant p = iCtr.getParticipantFromDB(pID);
+			iCtr.addHit(p);
+		}
+		else if (request.getParameter("Mani_PointButton") != null && request.getParameter("Mani_PointButton").equals("Forbier")) {
+			int pID = Integer.parseInt(request.getParameter("Mani_PointID"));
+			Participant p = iCtr.getParticipantFromDB(pID);
+			iCtr.addMiss(p);
+		}
+		else if (request.getParameter("Mani_PointButton") != null && request.getParameter("Mani_PointButton").equals("Fortryd")) {
+			int pID = Integer.parseInt(request.getParameter("Mani_PointID"));
+			Participant p = iCtr.getParticipantFromDB(pID);
+			iCtr.addMiss(p);
 		}
 		String html = generateHTML(new File(getServletContext().getRealPath("/ParticipantScore.html")));
 		response.getWriter().append(html);
@@ -102,10 +99,11 @@ public class ServletPoint extends HttpServlet {
 								+ "<td>%s</td>\n"
 								+ "<td>\n"
 								+ "<form action=\"ServletPoint\" method=\"post\">\n"
-								+ "<input type=\"hidden\" value=\"GetScoreBtn\" name=\"Mani_Point\"/>"
-								+ "<input type=\"submit\" value=\"Ramt\" id=\"" + p.getId() + "\">\n"
-								+ "<input type=\"submit\" value=\"Forbier\" id=\"" + p.getId() + "\">\n"
-								+ "<input type=\"submit\" value=\"Fortryd\" id=\"" + p.getId() + "\">\n"
+								+ "<input type=\"hidden\" value=\"GetScoreBtn\" name=\"Mani_Point\"/>\n"
+								+ "<input type=\"hidden\" value=\"" + p.getId() + "\" name=\"Mani_PointID\"/>\n"
+								+ "<input type=\"submit\" name=\"Mani_PointButton\" value=\"Ramt\">\n"
+								+ "<input type=\"submit\" name=\"Mani_PointButton\" value=\"Forbier\">\n"
+								+ "<input type=\"submit\" name=\"Mani_PointButton\" value=\"Fortryd\">\n"
 								+ "</form>\n"
 								+ "</td>\n"
 								+ "</tr>\n", color, p.getShirtNumber(), color, p.getFName() + " " + p.getLName(), p.getScore().getHitScore());
