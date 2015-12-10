@@ -28,12 +28,31 @@ body {
 	width: 100%;
 }
 
+.formHalfLength {
+	width: 50%;
+}
+
 .bottomPadding {
 	margin-bottom: 7px;
 }
 
 .searchSpace {
         width: 15%;
+        display: inline-block;
+}
+
+.shirtSpace {
+        width: 20%;
+        display: inline-block;
+        margin-bottom: 10px;
+}
+
+.startSpace {
+        width: 34%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: 10px;
+        align-items: center;
         display: inline-block;
 }
 
