@@ -36,8 +36,23 @@ public class Controller implements IController {
 	}
 
 	@Override
+	public List<Participant> getParticipants() {
+		return bikeTilting.getParticipants();
+	}
+
+	@Override
 	public List<Lane> getLanesFromDB() {
 		return dbHandler.getAllLanes();
+	}
+
+	@Override
+	public List<Lane> getLanes() {
+		return bikeTilting.getLanes();
+	}
+
+	@Override
+	public Lane getLaneFromLaneNr(int laneNr) {
+		return bikeTilting.getLaneFromLaneNr(laneNr);
 	}
 
 	@Override

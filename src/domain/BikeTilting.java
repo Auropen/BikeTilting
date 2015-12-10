@@ -51,6 +51,14 @@ public class BikeTilting {
 	public void addScoreMiss(Participant p){
 		p.getScore().addMiss();
 	}
+	
+	public Lane getLaneFromLaneNr(int laneNr) {
+		for (Lane lane : lanes) {
+			if (lane.getLaneNr() == laneNr)
+				return lane;
+		}
+		return null;
+	}
 
 	public List<Participant> searchParticipants(String fName, String lName, String ageRange, Color shirtColor, Integer shirtNumber) {
 		List<Participant> allParticipant = Controller.getInstance().getParticipantsFromDB();

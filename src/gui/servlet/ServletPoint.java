@@ -26,6 +26,7 @@ import technical.DBHandler;
 public class ServletPoint extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController iCtr;
+	private int lanePick;
 
 
 	/**
@@ -33,6 +34,7 @@ public class ServletPoint extends HttpServlet {
 	 */
 	public ServletPoint() {
 		iCtr = Controller.getInstance();
+		lanePick = 0;
 	}
 
     /**
@@ -45,22 +47,26 @@ public class ServletPoint extends HttpServlet {
         System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
 
 		if (request.getParameter("Mani_Lanes") != null && request.getParameter("Mani_Lanes").equals("GetParticipants")) {
-			
+			String value = request.getParameter("Lanes");
+			lanePick = (value.isEmpty()) ? 1 : Integer.parseInt(value.replaceAll("!*[\\D]", ""));
+			iCtr.getLanes();
 		}
-		else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Hit")) {
-			int pID = (int) request.getAttribute("id");
-			Participant p = iCtr.getParticipantFromDB(pID);
-			iCtr.addHit(p);
-		}
-		else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Miss")) {
-			int pID = (int) request.getAttribute("id");
-			Participant p = iCtr.getParticipantFromDB(pID);
-			iCtr.addMiss(p);
-		}
-		else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Undo")) {
-			int pID = (int) request.getAttribute("id");
-			Participant p = iCtr.getParticipantFromDB(pID);
-			iCtr.addMiss(p);
+		else if (request.getParameter("Mani_Point") != null && request.getParameter("Mani_Lanes").equals("Få tilmeldte")) {
+			if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Ramt")) {
+				int pID = (int) request.getAttribute("id");
+				Participant p = iCtr.getParticipantFromDB(pID);
+				iCtr.addHit(p);
+			}
+			else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Forbier")) {
+				int pID = (int) request.getAttribute("id");
+				Participant p = iCtr.getParticipantFromDB(pID);
+				iCtr.addMiss(p);
+			}
+			else if (request.getParameter("PointButton") != null && request.getParameter("PointButton").equals("Fortryd")) {
+				int pID = (int) request.getAttribute("id");
+				Participant p = iCtr.getParticipantFromDB(pID);
+				iCtr.addMiss(p);
+			}
 		}
 		String html = generateHTML(new File(getServletContext().getRealPath("/ParticipantScore.html")));
 		response.getWriter().append(html);
@@ -72,11 +78,8 @@ public class ServletPoint extends HttpServlet {
 
 	private String generateHTML(File html) throws FileNotFoundException {
 		boolean insideScript = false;
-
 		String htmlBuild = "";
-		List<Participant> pList = iCtr.getParticipantsFromDB();
-		List<Lane> lList = iCtr.getLanesFromDB();
-		System.out.println("Lanes size = " + lList.size() + " & Parts size = " + pList.size());
+		
 		Scanner s = new Scanner(new FileInputStream(html));
 		while (s.hasNext()) {
 			String line = s.nextLine().trim();
@@ -87,6 +90,7 @@ public class ServletPoint extends HttpServlet {
 			else if (line.startsWith("<!--DATABASE.GET ")) {
 				switch (line.substring("<!--DATABASE.GET ".length(), line.length()-3)) {
 				case "Participant":
+					List<Participant> pList = iCtr.getLaneFromLaneNr(lanePick).getParticipants();
 					for (Participant p : pList) {
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor().toString() : "red");
 						htmlBuild += String.format("<tr>\n"
@@ -95,17 +99,22 @@ public class ServletPoint extends HttpServlet {
 								+ "<td>%s</td>\n"
 								+ "<td>\n"
 								+ "<form action=\"ServletPoint\" method=\"post\">\n"
-								+ "<input type=\"submit\" value=\"Hit\" name=\"Mani_PointButton\" id=\"" + p.getId() + "\">\n"
-								+ "<input type=\"submit\" value=\"Miss\" name=\"Mani_PointButton\" id=\"" + p.getId() + "\">\n"
-								+ "<input type=\"submit\" value=\"Undo\" name=\"Mani_PointButton\" id=\"" + p.getId() + "\">\n"
+								+ "<input type=\"hidden\" value=\"GetParticipants\" name=\"Mani_Point\"/>"
+								+ "<input type=\"submit\" value=\"Ramt\" id=\"" + p.getId() + "\">\n"
+								+ "<input type=\"submit\" value=\"Forbier\" id=\"" + p.getId() + "\">\n"
+								+ "<input type=\"submit\" value=\"Fortryd\" id=\"" + p.getId() + "\">\n"
 								+ "</form>\n"
 								+ "</td>\n"
-								+ "</tr>\n", color, color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), p.getScore().getHitScore());
+								+ "</tr>\n", color, p.getShirtNumber(), color, p.getFName() + " " + p.getLName(), p.getScore().getHitScore());
 					}
 					break;
 				case "Lanes":
+					List<Lane> lList = iCtr.getLanesFromDB();
 					for (Lane l : lList)
-						htmlBuild += String.format("<option value=\"lane %d\" selected>%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
+						if (l.getLaneNr() == lanePick)
+							htmlBuild += String.format("<option value=\"lane %d\" selected>%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
+						else
+							htmlBuild += String.format("<option value=\"lane %d\">%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
 					break;
 				default:
 					break;
