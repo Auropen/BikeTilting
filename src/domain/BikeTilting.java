@@ -65,19 +65,19 @@ public class BikeTilting {
 		searchResult.addAll(allParticipant);
 		
 		for (Participant p : allParticipant) {
-			if (!fName.isEmpty() && !p.getFName().equals(fName)) {
+			if (!fName.isEmpty() && !p.getFName().equalsIgnoreCase(fName)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (!lName.isEmpty() && !p.getLName().equals(lName)) {
+			if (!lName.isEmpty() && !p.getLName().equalsIgnoreCase(lName)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (!ageRange.isEmpty() && !p.getAgeRange().equals(ageRange)) {
+			if (!ageRange.isEmpty() && !p.getAgeRange().equalsIgnoreCase(ageRange)) {
 				searchResult.remove(p);
 				continue;
 			}
-			if (shirtColor.isEmpty() && !p.getShirtColor().equals(shirtColor)) {
+			if (!shirtColor.isEmpty() && !p.getShirtColor().equalsIgnoreCase(shirtColor)) {
 				searchResult.remove(p);
 				continue;
 			}
