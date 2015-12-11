@@ -5,7 +5,7 @@ body {
 }
 
 .centerPage {
-	background-color: #ffffff;
+    background-color: #ffffff;
     margin: auto;
     width: 500px;
     border:3px solid #73AD21;
@@ -13,7 +13,7 @@ body {
 }
 
 .viewPage {
-	background-color: #ffffff;
+    background-color: #ffffff;
     margin: auto;
     width: 700px;
     border:3px solid #73AD21;
@@ -21,22 +21,70 @@ body {
 }
 
 .formAlmostFullLength {
-	width: 99%;
+    width: 99%;
 }
 
 .formFullLength {
-	width: 100%;
+    width: 100%;
+}
+
+.formHalfLength {
+    width: 50%;
+}
+
+.form25Length {
+    width: 25%;
+}
+
+.form85Length {
+    width: 85%;
+    display: flex;
 }
 
 .bottomPadding {
-	margin-bottom: 7px;
+    margin-bottom: 7px;
+}
+
+.bottomPaddingAndMore {
+    margin-bottom: 7px;
+    float:left;
 }
 
 .searchSpace {
-        width: 15%;
-        display: inline-block;
+    width: 15%;
+    display: inline;
 }
 
-.centered {
-        text-align: center;
+.shirtSpace {
+    width: 70%;
+    height: 55%;
+    display: flex;
+    background-color: hotpink;
+    margin: auto;
+}
+
+.startSpace {
+    display: inline-block;
+    width: 54%;
+    height: 55%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.alignment{
+    display: inline-block;
+}
+
+h1 {
+    text-align: center;
+}
+
+.mixt {
+    display: inline-block;
+    width: 100%;
+    height: 55%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }

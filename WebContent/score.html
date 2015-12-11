@@ -24,12 +24,13 @@
                 <div class="centered">
                     <h1>Score</h1>
                 </div>
-                <form action="ServletPoint" method="post" id="lanes">
+                <form action="ServletHandler" method="post" id="lanes">
                     <select name="Lanes" class="formFullLength">
                         <!--DATABASE.GET Lanes-->
                     </select>
-                    <input type="hidden" value="GetParticipants" name="Mani_Lanes"/>
+                    <input type="hidden" value="GetParticipants" name="Score_Lanes"/>
                     <input type="submit" value="Get Participants"/>
+					<input type="hidden" value="score" name="file">
                 </form>
             </div>
             
@@ -40,7 +41,7 @@
                     <td width="24%">Points</td>
                     <td width="31%">Control</td>
                 </tr>
-                <!--DATABASE.GET Participant-->
+                <!--DATABASE.GET ScoreView-->
             </table>
         </div>
     </body>

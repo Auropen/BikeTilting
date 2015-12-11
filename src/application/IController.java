@@ -1,6 +1,5 @@
 package application;
 
-import java.awt.Color;
 import java.util.List;
 
 import domain.Lane;
@@ -14,6 +13,7 @@ public interface IController {
 	public List<Participant> getParticipants();
 	public List<Lane> getLanesFromDB();
 	public List<Lane> getLanes();
+	public void storeDBToMemory();
 	public Lane getLaneFromLaneNr(int laneNr);
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber);
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email);

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+<title>Test Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="viewPage">
+		<div class="bottomPadding">
+			<div class="centerPage">
+				<h1>Søg</h1>
+			</div>
+			<form action="ServletHandler" method="post">
+				<div class="searchSpace">Fornavn:</div>
+				<input type="text" name="FirstName">
+				<div class="searchSpace">Efternavn:</div>
+				<input type="text" name="LastName"> <br />
+				<div class="searchSpace">T-shirt nummer:</div>
+				<input type="text" name="ShirtNumber">
+				<div class="searchSpace">T-shirt farve:</div>
+				<select name="Colors" class="formHalfLength">
+					<option value="none" selected>Vælg T-shirt farvel</option>
+					<option value="Red">Rød</option>
+					<option value="Blue">Blå</option>
+					<option value="Green">Grøn</option>
+					<option value="Black">Sort</option>
+					<option value="Yellow">Gul</option>
+					<option value="Brown">Brun</option>
+					<option value="White">Hvid</option>
+					<option value="Orange">Orange</option>
+				</select><br />
+				<div class="bottomPadding">
+					<select name="AgeGroup" class="formFullLength">
+						<option value="none" selected>Vælg Alder</option>
+						<option value="ZeroToSix">0-6 år</option>
+						<option value="SevenToNine">7-9 år</option>
+						<option value="TenToFourteen">10-14 år</option>
+					</select><br />
+				</div>
+				<input type="submit" value="Search">
+				<input type="hidden" value="view" name="file">
+			</form>
+		</div>
+		<table border="1" style="width: 100%">
+			<tr>
+				<td>Nummer</td>
+				<td>Navn</td>
+				<td>Point</td>
+				<td>Runde point</td>
+			</tr>
+			<!--DATABASE.GET SearchView-->
+		</table>
+	</div>
+</body>
+</html>
