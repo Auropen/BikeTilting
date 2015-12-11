@@ -40,6 +40,9 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 CREATE TABLE TblVolunteer	(fldCPR VARCHAR(12) FOREIGN KEY REFERENCES TblUsers (fldCPR),
 							 fldIsActive BINARY(1) NOT NULL)
 
+CREATE TABLE TblShirts		(fldColor VARCHAR(10) NOT NULL,
+							 fldAmount int NOT NULL)
+
 GO
 
 --- Stored Procedures
