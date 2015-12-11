@@ -29,5 +29,15 @@ public class HelloWorld {
 			
 		}
 		
+		DBHandler.getInstance().createShirt("Orange", 10, true);
+		
+		
+		for (String string : DBHandler.getInstance().getAllShirts()) {
+			
+			System.out.println(string);
+			
+		}
+		
+		
 	}
 }

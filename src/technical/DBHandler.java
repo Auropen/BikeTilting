@@ -163,6 +163,21 @@ public class DBHandler {
 			return null;
 		}
 	}
+	
+	public boolean createShirt(String color, int amount , boolean usedColor ) {
+		try {
+			CallableStatement cs = getConnection().prepareCall("{call createColor(?,?,?)}");
+			cs.setString(1,color);
+			cs.setInt(2, amount);
+			cs.setBoolean(3, usedColor);
+
+			cs.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 
 	/*
 	 	Get various Info from the DB with stored Procedures
@@ -302,6 +317,28 @@ public class DBHandler {
 		}
 
 	}
+	
+	public List<String> getAllShirts(){
+
+		List<String> shirts = new ArrayList<>();
+		
+		try {
+			CallableStatement cs = getConnection().prepareCall("{call getAllShirts}");
+			ResultSet rs = cs.executeQuery();
+
+			while(rs.next()){
+
+				String s = rs.getString("fldColor")+","+rs.getString("fldAmount")+","+rs.getBoolean("fldUsedColor");
+				shirts.add(s);	
+
+			}
+			return shirts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	/*
 	    Score Editor

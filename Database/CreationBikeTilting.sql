@@ -40,8 +40,9 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 CREATE TABLE TblVolunteer	(fldCPR VARCHAR(12) FOREIGN KEY REFERENCES TblUsers (fldCPR),
 							 fldIsActive BINARY(1) NOT NULL)
 
-CREATE TABLE TblShirts		(fldColor VARCHAR(10) NOT NULL,
-							 fldAmount int NOT NULL)
+CREATE TABLE TblShirts		(fldColor VARCHAR(32) NOT NULL,
+							 fldAmount int NOT NULL,
+							 fldUsedColor BIT NOT NULL)
 
 GO
 
@@ -120,6 +121,25 @@ CREATE PROCEDURE createScore(@hitScore VARCHAR(12), @score int, @new_id int outp
 END
 GO
 
+CREATE PROCEDURE createColor(@color VARCHAR(32), @amount INT, @used BIT)
+    AS 
+	BEGIN
+		INSERT INTO TblShirts
+		(
+			fldColor,
+			fldAmount,
+			fldUsedColor
+		)
+		VALUES
+		(
+			@color,
+			@amount,
+			@used
+		)
+
+END
+GO
+
 --- Get procedures
 CREATE PROCEDURE getParticipant(@id int)
     AS 
@@ -161,6 +181,14 @@ CREATE PROCEDURE getLanes
 END
 GO
 
+CREATE PROCEDURE getAllShirts
+    AS 
+	BEGIN
+		SELECT * FROM TblShirts;
+		
+END
+GO
+
 ---Update Procedures
 
 CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
@@ -170,3 +198,4 @@ CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
 
 END
 GO
+
