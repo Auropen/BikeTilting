@@ -97,4 +97,9 @@ public class Controller implements IController {
 		bikeTilting.addScoreMiss(p);
 		dbHandler.updateScore(p.getScore());
 	}
+	
+	@Override
+	public void storeDBToMemory() {
+		bikeTilting.storeDBToMemory();
+	}
 }
