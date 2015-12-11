@@ -107,9 +107,18 @@ public class ServletHandler extends HttpServlet {
 						htmlBuild += String.format("<tr>\n"
 								+ "<td><font color=\"%1$s\">&#9930;</font> %2$d <font color=\"%1$s\">&#9930;</font></td>\n"
 								+ "<td>%3$s</td>\n"
-								+ "<td>%4$d</td>\n"
-								+ "<td>%5$s</td>\n"
-								+ "</tr>\n", color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), p.getScore().getScore(), p.getScore().getHitScore());
+								+ "<td>%4$s</td>\n"
+								+ "<td>\n"
+								+ "<form action=\"ServletHandler\" method=\"post\">\n"
+								+ "<input type=\"hidden\" value=\"GetScoreBtn\" name=\"Mani_Point\"/>\n"
+								+ "<input type=\"hidden\" value=\"" + p.getId() + "\" name=\"Point_PointID\"/>\n"
+								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Ramt\">\n"
+								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Forbier\">\n"
+								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Fortryd\">\n"
+								+ "<input type=\"hidden\" value=\"score\" name=\"file\">\n"
+								+ "</form>\n"
+								+ "</td>\n"
+								+ "</tr>\n", color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), p.getScore().getHitScore());
 					}
 					break;
 				case "Lanes":
@@ -121,30 +130,21 @@ public class ServletHandler extends HttpServlet {
 							htmlBuild += String.format("<option value=\"lane %d\">%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
 					break;
 				case "SearchView":
-					String fName = request.getParameter("FirstName");
-					String lName = request.getParameter("LastName");
-					String ageRange = request.getParameter("AgeGroup");
-					String shirtColor = request.getParameter("Colors");
-					Integer shirtNumber = Integer.parseInt(request.getParameter("ShirtNumber"));
+					String fName = (request.getParameter("FirstName") == null) ? "" : request.getParameter("FirstName");
+					String lName = (request.getParameter("LastName") == null) ? "" : request.getParameter("LastName");
+					String ageRange = (request.getParameter("AgeGroup").equals("none")) ? "" : request.getParameter("AgeGroup");
+					String shirtColor = (request.getParameter("Colors").equals("none")) ? "" : request.getParameter("Colors");
+					Integer shirtNumber = stringToInteger(request.getParameter("ShirtNumber"));
 					List<Participant> search = iCtr.searchParticipant(fName, lName, ageRange, shirtColor, shirtNumber);
-					
+					System.out.println("Searching with criteria: " + fName +", "+lName+", "+ageRange+", "+shirtColor+", "+shirtNumber + " Found: " + search.size());
 					for (Participant p : search) {
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor() : "red");
 						htmlBuild += String.format("<tr>\n"
-								+ "<td><font color=\"%s\">&#9930;</font> %d <font color=\"%s\">&#9930;</font></td>\n"
-								+ "<td>%s</td>\n"
-								+ "<td>%s</td>\n"
-								+ "<td>\n"
-								+ "<form action=\"ServletHandler\" method=\"post\">\n"
-								+ "<input type=\"hidden\" value=\"GetScoreBtn\" name=\"Mani_Point\"/>\n"
-								+ "<input type=\"hidden\" value=\"" + p.getId() + "\" name=\"Point_PointID\"/>\n"
-								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Ramt\">\n"
-								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Forbier\">\n"
-								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Fortryd\">\n"
-								+ "<input type=\"hidden\" value=\"score\" name=\"file\">\n"
-								+ "</form>\n"
-								+ "</td>\n"
-								+ "</tr>\n", color, p.getShirtNumber(), color, p.getFName() + " " + p.getLName(), p.getScore().getHitScore());
+								+ "<td><font color=\"%1$s\">&#9930;</font> %2$d <font color=\"%1$s\">&#9930;</font></td>\n"
+								+ "<td>%3$s</td>\n"
+								+ "<td>%4$d</td>\n"
+								+ "<td>%5$s</td>\n"
+								+ "</tr>\n", color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), p.getScore().getScore(), p.getScore().getHitScore());
 					}
 					break;
 				}
@@ -154,5 +154,13 @@ public class ServletHandler extends HttpServlet {
 		}
 		s.close();
 		return htmlBuild;
+	}
+	
+	private Integer stringToInteger(String s) {
+		try {
+			return Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 }

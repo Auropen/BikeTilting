@@ -23,7 +23,7 @@ public class HelloWorld {
 		
 		System.out.println(bike.getLanes().size());
 		
-		for (Participant participant : ictr.searchParticipant("Asger", "Jessen", "", null, null)) {
+		for (Participant participant : ictr.searchParticipant("Cornel", "", "", "", null)) {
 			
 			System.out.println(participant.getFName() + " > " + participant.getLName());
 			

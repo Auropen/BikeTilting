@@ -14,9 +14,7 @@ and open the template in the editor.
 <body>
 	<div class="viewPage">
 		<div class="bottomPadding">
-			<div class="centerPage">
-				<h1>Søg</h1>
-			</div>
+			<h1>Søg</h1>
 			<form action="ServletHandler" method="post">
 				<div class="searchSpace">Fornavn:</div>
 				<input type="text" name="FirstName">
@@ -25,27 +23,40 @@ and open the template in the editor.
 				<div class="searchSpace">T-shirt nummer:</div>
 				<input type="text" name="ShirtNumber">
 				<div class="searchSpace">T-shirt farve:</div>
-				<select name="Colors" class="formHalfLength">
+				<select name="Colors" class="formFullLength">
 					<option value="none" selected>Vælg T-shirt farvel</option>
 					<option value="Red">Rød</option>
 					<option value="Blue">Blå</option>
 					<option value="Green">Grøn</option>
-					<option value="Black">Sort</option>
 					<option value="Yellow">Gul</option>
 					<option value="Brown">Brun</option>
-					<option value="White">Hvid</option>
 					<option value="Orange">Orange</option>
+					<option value="White">Hvid</option>
+					<option value="Grey">Grå</option>
+					<option value="Black">Sort</option>
+					<option value="DarkRed">Mørkerød</option>
+					<option value="DarkBlue">Mørkeblå</option>
+					<option value="DarkGreen">Mørkegrøn</option>
+					<option value="DarkYellow">Mørkegul</option>
+					<option value="DarkBrown">Mørkebrun</option>
+					<option value="LightRed">Lyserød</option>
+					<option value="LightBlue">Lyseblå</option>
+					<option value="LightGreen">Lysegrøn</option>
+					<option value="LightYellow">Lysegul</option>
+					<option value="LightBrown">Lysebrun</option>
+					<option value="Turquoise">Turkis</option>
+					<option value="Pink">Pink</option>
 				</select><br />
 				<div class="bottomPadding">
 					<select name="AgeGroup" class="formFullLength">
 						<option value="none" selected>Vælg Alder</option>
-						<option value="ZeroToSix">0-6 år</option>
-						<option value="SevenToNine">7-9 år</option>
-						<option value="TenToFourteen">10-14 år</option>
+						<option value="0-6">0-6 år</option>
+						<option value="7-9">7-9 år</option>
+						<option value="10-14">10-14 år</option>
 					</select><br />
 				</div>
-				<input type="submit" value="Search">
 				<input type="hidden" value="view" name="file">
+				<input type="submit" value="Search">
 			</form>
 		</div>
 		<table border="1" style="width: 100%">
