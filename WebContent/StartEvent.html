@@ -13,28 +13,33 @@ and open the template in the editor.
     </head>
     <body>
         <div class="viewPage">
-            <div class="bottomPadding">
-                <center>
-                    <h1>Start Event</h1>
-                </center>
+                    <h1>Lav Baner</h1>
                 <form action="ServletPoint" method="post">
-                    <div class="shirtSpace"> Antal af Baner:</div>   <input type="text" name="NumberOfLanes"> <br/>
-                    <div class="shirtSpace"> Antal af T-shirts:</div>   <input type="text" name="NumberOfShirts"> 
+                    <div>
                     <div class="bottomPadding">
-	        		<select name="Colors" class="formFullLength">
-	        			<option value="none" selected>Vælg T-shirt farvel</option>
-	        			<option value="Red">Rød</option>
-	        			<option value="Blue">Blå</option>
-	        			<option value="Green">Grøn</option>
-                                        <option value="Black">Sort</option>
-                                        <option value="Yellow">Gul</option>
-                                        <option value="Brown">Brun</option>
-                                        <option value="White">Hvid</option>
-                                        <option value="Orange">Orange</option>
-	        		</select><br/>
-	        	</div>
+                        <select name="Colors" class="form25Length">
+                            <option value="none" selected>Vælg T-shirt farvel</option>
+                            <option value="Red">Rød</option>
+                            <option value="Blue">Blå</option>
+                            <option value="Green">Grøn</option>
+                            <option value="Black">Sort</option>
+                            <option value="Yellow">Gul</option>
+                            <option value="Brown">Brun</option>
+                            <option value="White">Hvid</option>
+                            <option value="Orange">Orange</option>
+                        </select><br/>
+                        <div class="shirtSpace"> Antal af T-shirts: </div>   <input type="text" name="NumberOfShirts"> 
+                    </div> </div>
+                    <select name="AgeGroup" class="formFullLength">
+                        <option value="none" selected disabled>Vælg Alder</option>
+                        <option value="ZeroToSix">0-6 år</option>
+                        <option value="SevenToNine">7-9 år</option>
+                        <option value="TenToFourteen">10-14 år</option>
+                    </select><br/>
+                    <div class="shirtSpace"> Antal af Baner:    </div>   <input type="text" name="NumberOfLanes" > <br/>
                     <input type="submit" value="Tilføj">
                 </form>
+                <input class="startSpace" type="submit" value="Generere"> 
             </div >
             <table border="1" style="width:100%">
                 <tr>
@@ -47,9 +52,5 @@ and open the template in the editor.
                 </tr>
                 <!--DATABASE.GET-->
             </table>
-             <center>
-            <input class="startSpace" type="submit" value="Start">
-            </center>
-        </div>
     </body>
 </html>
