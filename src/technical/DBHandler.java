@@ -339,6 +339,21 @@ public class DBHandler {
 		}
 	}
 	
+	public Score getScoreByID(int id){
+		
+		try {
+			CallableStatement cs = getConnection().prepareCall("{call getScoreByID(?)}");
+			cs.setInt(1, id);
+			ResultSet rs = cs.executeQuery();
+
+			rs.next();
+			return new Score(id, rs.getInt("fldScore"), rs.getString("fldHitScore"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	/*
 	    Score Editor

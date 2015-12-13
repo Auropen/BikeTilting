@@ -7,64 +7,80 @@ and open the template in the editor.
 <html>
 <head>
 <title>Test Page</title>
-<meta charset="UTF-8">
+<meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript">
+	window.onload = function() {
+		<!--DELETE.LINE-->
+		submitform();
+		var auto = setTimeout(function(){ autoRefresh(); }, 100);
+		
+		function submitform() {
+			document.forms["search"].submit();
+		}
+
+        function autoRefresh(){
+           clearTimeout(auto);
+           auto = setTimeout(function(){ submitform(); autoRefresh(); }, 10000);
+        }
+	}
+</script>
 </head>
 <body>
-	<div class="viewPage">
+	<div class="mainPage">
 		<div class="bottomPadding">
-			<h1>SÃ¸g</h1>
-			<form action="ServletHandler" method="post">
+			<h1>Søg</h1>
+			<form action="ServletHandler" method="post" id="search">
 				<div class="searchSpace">Fornavn:</div>
-				<input type="text" name="FirstName">
+				<input type="text" name="Search_FirstName">
 				<div class="searchSpace">Efternavn:</div>
-				<input type="text" name="LastName"> <br />
+				<input type="text" name="Search_LastName"> <br />
 				<div class="searchSpace">T-shirt nummer:</div>
-				<input type="text" name="ShirtNumber">
+				<input type="text" name="Search_ShirtNumber">
 				<div class="searchSpace">T-shirt farve:</div>
-				<select name="Colors" class="formFullLength">
-					<option value="none" selected>VÃ¦lg T-shirt farvel</option>
-					<option value="Red">RÃ¸d</option>
-					<option value="Blue">BlÃ¥</option>
-					<option value="Green">GrÃ¸n</option>
+				<select name="Search_Colors" class="formFullLength">
+					<option value="none">Vælg T-shirt farvel</option>
+					<option value="Red">Rød</option>
+					<option value="Blue">Blå</option>
+					<option value="Green">Grøn</option>
 					<option value="Yellow">Gul</option>
 					<option value="Brown">Brun</option>
 					<option value="Orange">Orange</option>
 					<option value="White">Hvid</option>
-					<option value="Grey">GrÃ¥</option>
+					<option value="Grey">Grå</option>
 					<option value="Black">Sort</option>
-					<option value="DarkRed">MÃ¸rkerÃ¸d</option>
-					<option value="DarkBlue">MÃ¸rkeblÃ¥</option>
-					<option value="DarkGreen">MÃ¸rkegrÃ¸n</option>
-					<option value="DarkYellow">MÃ¸rkegul</option>
-					<option value="DarkBrown">MÃ¸rkebrun</option>
-					<option value="LightRed">LyserÃ¸d</option>
-					<option value="LightBlue">LyseblÃ¥</option>
-					<option value="LightGreen">LysegrÃ¸n</option>
+					<option value="DarkRed">Mørkerød</option>
+					<option value="DarkBlue">Mørkeblå</option>
+					<option value="DarkGreen">Mørkegrøn</option>
+					<option value="DarkYellow">Mørkegul</option>
+					<option value="DarkBrown">Mørkebrun</option>
+					<option value="LightRed">Lyserød</option>
+					<option value="LightBlue">Lyseblå</option>
+					<option value="LightGreen">Lysegrøn</option>
 					<option value="LightYellow">Lysegul</option>
 					<option value="LightBrown">Lysebrun</option>
 					<option value="Turquoise">Turkis</option>
 					<option value="Pink">Pink</option>
 				</select><br />
 				<div class="bottomPadding">
-					<select name="AgeGroup" class="formFullLength">
-						<option value="none" selected>VÃ¦lg Alder</option>
-						<option value="0-6">0-6 Ã¥r</option>
-						<option value="7-9">7-9 Ã¥r</option>
-						<option value="10-14">10-14 Ã¥r</option>
+					<select name="Search_AgeGroup" class="formFullLength">
+						<option value="none">Vælg Alder</option>
+						<option value="0-6">0-6 år</option>
+						<option value="7-9">7-9 år</option>
+						<option value="10-14">10-14 år</option>
 					</select><br />
 				</div>
-				<input type="hidden" value="view" name="file">
-				<input type="submit" value="Search">
+				<input type="hidden" value="view" name="file"> <input
+					type="submit" value="Søg">
 			</form>
 		</div>
 		<table border="1" style="width: 100%">
 			<tr>
-				<td>Nummer</td>
-				<td>Navn</td>
-				<td>Point</td>
-				<td>Runde point</td>
+				<td width="8%">Nummer</td>
+				<td width="42%">Navn</td>
+				<td width="8%">Point</td>
+				<td width="42%">Runde point</td>
 			</tr>
 			<!--DATABASE.GET SearchView-->
 		</table>

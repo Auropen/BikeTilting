@@ -1,53 +1,23 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>Test Page</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <div>This index motherfucking works!</div>
-        <div class="centerPage">
-	        <form action="ServletPoint" method="post">
-	        	Hit:
-	        	<input type="submit" value="Hit" name="PointButton" id="1">
-	        	<input type="submit" value="Miss" name="PointButton" id="1">
-	        </form>
-        </div>
-        <div class="centerPage">
-        	<form action="ServletRegister" method="POST">
-        		<div class="bottomPadding">
-	        		E-mail: <font color="red">*</font><br/><input type="email" name="Email" placeholder="f.eks en@mail.dk" class="formAlmostFullLength" required/><br/>
-	        		<input type="checkbox" name="confirm" required translate="yes"/>Jeg bekræfter, at jeg er ejer af overstående e-mail eller har tilladelse til at bruge den.
-	        		(<a href="www.google.com">Fortrolighedspolitik</a>)<br/>
-        		</div>
-        		<div class="bottomPadding">
-        			Fornavn: <font color="red">*</font><br/><input type="text" name="FirstName" placeholder="f.eks Jens" class="formAlmostFullLength" required/><br/>
-        		</div>
-        		<div class="bottomPadding">
-        			Efternavn: <font color="red">*</font><br/><input type="text" name="LastName" placeholder="f.eks Jensen" class="formAlmostFullLength" required/><br/>
-        		</div>
-        		<div class="bottomPadding">
-        			Barnets alder: <font color="red">*</font><br/>
-        		</div>
-        		<div class="bottomPadding">
-	        		<select name="AgeGroup" class="formFullLength">
-	        			<option value="none" selected disabled>Vælg Alder</option>
-	        			<option value="ZeroToSix">0-6 år</option>
-	        			<option value="SevenToNine">7-9 år</option>
-	        			<option value="TenToFourteen">10-14 år</option>
-	        		</select><br/>
-	        	</div>
-	        	<div class="bottomPadding">
-        			<input type="submit" name="Create Participant">
-	        	</div>
-        	</form>
-        </div>
-    </body>
+	<head>
+		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>CykelRingridning S�nderborg</title>
+	</head>
+	<body>
+		<div class="mainPage">
+			<div class="centerLogo">
+				<img alt="Ringridning"
+					src="http://clubportalne.blob.core.windows.net/sitesite2520372409170915245/thomas-kristiansen/News/Medium/Image_oro.png">
+			</div>
+			<h1>Velkommen til</h1><br/><h1>Cykel-Ringridning S�nderborg</h1><br/>
+			<ul>
+				<li><a href="view.html">Se tilmeldte</a></li>
+				<li><a href="score.html">Tilf�j point</a></li>
+				<li><a href="register.html">Tilmeld barnet</a></li>
+			</ul>
+		</div>
+	</body>
 </html>

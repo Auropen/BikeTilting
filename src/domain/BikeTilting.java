@@ -49,6 +49,10 @@ public class BikeTilting {
 	public void addScoreMiss(Participant p){
 		p.getScore().addMiss();
 	}
+
+	public void undoScore(Participant p){
+		p.getScore().undo();
+	}
 	
 	public Lane getLaneFromLaneNr(int laneNr) {
 		for (Lane lane : lanes) {

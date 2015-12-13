@@ -27,6 +27,7 @@ public class ServletHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController iCtr;
 	private int lanePick;
+	private String currentPoint;
 
 
 	/**
@@ -35,6 +36,7 @@ public class ServletHandler extends HttpServlet {
 	public ServletHandler() {
 		iCtr = Controller.getInstance();
 		lanePick = 1;
+		currentPoint = "";
 	}
 
     /**
@@ -51,25 +53,28 @@ public class ServletHandler extends HttpServlet {
 			html = generateHTML(new File(getServletContext().getRealPath("/view.html")), request);
 			break;
 		case "score":
-			if (request.getParameter("Point_Lanes") != null && request.getParameter("Point_Lanes").equals("GetParticipants")) {
+			if (request.getParameter("Score_Lanes") != null && request.getParameter("Score_Lanes").equals("GetParticipants")) {
 				String value = request.getParameter("Lanes");
 				if (value != null) 
 					lanePick = Integer.parseInt(value.replaceAll("!*[\\D]", ""));
 			}
-			else if (request.getParameter("Point_PointButton") != null && request.getParameter("Point_PointButton").equals("Ramt")) {
-				int pID = Integer.parseInt(request.getParameter("Point_PointID"));
+			else if (request.getParameter("Score_PointButton") != null && request.getParameter("Score_PointButton").equals("Ramt")) {
+				int pID = Integer.parseInt(request.getParameter("Score_PointID"));
 				Participant p = iCtr.getParticipantFromDB(pID);
 				iCtr.addHit(p);
+				currentPoint = pID + "h";
 			}
-			else if (request.getParameter("Point_PointButton") != null && request.getParameter("Point_PointButton").equals("Forbier")) {
-				int pID = Integer.parseInt(request.getParameter("Point_PointID"));
+			else if (request.getParameter("Score_PointButton") != null && request.getParameter("Score_PointButton").equals("Forbier")) {
+				int pID = Integer.parseInt(request.getParameter("Score_PointID"));
 				Participant p = iCtr.getParticipantFromDB(pID);
 				iCtr.addMiss(p);
+				currentPoint = pID + "m";
 			}
-			else if (request.getParameter("Point_PointButton") != null && request.getParameter("Point_PointButton").equals("Fortryd")) {
-				int pID = Integer.parseInt(request.getParameter("Point_PointID"));
+			else if (request.getParameter("Score_PointButton") != null && request.getParameter("Score_PointButton").equals("Fortryd")) {
+				int pID = Integer.parseInt(request.getParameter("Score_PointID"));
 				Participant p = iCtr.getParticipantFromDB(pID);
-				//iCtr.addMiss(p);
+				iCtr.undoScore(p);
+				currentPoint = pID + "u";
 			}
 			html = generateHTML(new File(getServletContext().getRealPath("/score.html")), request);
 			break;
@@ -98,27 +103,31 @@ public class ServletHandler extends HttpServlet {
 				insideScript = !line.contains("</script>");
 				continue;
 			}
+			else if (line.startsWith("<!--DELETE.LINE")) {
+				s.nextLine();
+				continue;
+			}
 			else if (line.startsWith("<!--DATABASE.GET ")) {
 				switch (line.substring("<!--DATABASE.GET ".length(), line.length()-3)) {
 				case "ScoreView":
 					List<Participant> pList = iCtr.getLaneFromLaneNr(lanePick).getParticipants();
 					for (Participant p : pList) {
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor() : "red");
+						String hitScore = iCtr.getScoreFromDB(p.getScore().getScoreID()).getHitScore();
 						htmlBuild += String.format("<tr>\n"
 								+ "<td><font color=\"%1$s\">&#9930;</font> %2$d <font color=\"%1$s\">&#9930;</font></td>\n"
 								+ "<td>%3$s</td>\n"
 								+ "<td>%4$s</td>\n"
 								+ "<td>\n"
 								+ "<form action=\"ServletHandler\" method=\"post\">\n"
-								+ "<input type=\"hidden\" value=\"GetScoreBtn\" name=\"Mani_Point\"/>\n"
-								+ "<input type=\"hidden\" value=\"" + p.getId() + "\" name=\"Point_PointID\"/>\n"
-								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Ramt\">\n"
-								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Forbier\">\n"
-								+ "<input type=\"submit\" name=\"Point_PointButton\" value=\"Fortryd\">\n"
+								+ "<input type=\"hidden\" value=\"" + p.getId() + "\" name=\"Score_PointID\"/>\n"
+								+ "<input type=\"submit\" name=\"Score_PointButton\" value=\"Ramt\">\n"
+								+ "<input type=\"submit\" name=\"Score_PointButton\" value=\"Forbier\">\n"
+								+ "<input type=\"submit\" name=\"Score_PointButton\" value=\"Fortryd\">\n"
 								+ "<input type=\"hidden\" value=\"score\" name=\"file\">\n"
 								+ "</form>\n"
 								+ "</td>\n"
-								+ "</tr>\n", color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), p.getScore().getHitScore());
+								+ "</tr>\n", color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), hitScore);
 					}
 					break;
 				case "Lanes":
@@ -130,11 +139,11 @@ public class ServletHandler extends HttpServlet {
 							htmlBuild += String.format("<option value=\"lane %d\">%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
 					break;
 				case "SearchView":
-					String fName = (request.getParameter("FirstName") == null) ? "" : request.getParameter("FirstName");
-					String lName = (request.getParameter("LastName") == null) ? "" : request.getParameter("LastName");
-					String ageRange = (request.getParameter("AgeGroup").equals("none")) ? "" : request.getParameter("AgeGroup");
-					String shirtColor = (request.getParameter("Colors").equals("none")) ? "" : request.getParameter("Colors");
-					Integer shirtNumber = stringToInteger(request.getParameter("ShirtNumber"));
+					String fName = (request.getParameter("Search_FirstName") == null) ? "" : request.getParameter("Search_FirstName");
+					String lName = (request.getParameter("Search_LastName") == null) ? "" : request.getParameter("Search_LastName");
+					String ageRange = (request.getParameter("Search_AgeGroup").equals("none")) ? "" : request.getParameter("Search_AgeGroup");
+					String shirtColor = (request.getParameter("Search_Colors").equals("none")) ? "" : request.getParameter("Search_Colors");
+					Integer shirtNumber = stringToInteger(request.getParameter("Search_ShirtNumber"));
 					List<Participant> search = iCtr.searchParticipant(fName, lName, ageRange, shirtColor, shirtNumber);
 					System.out.println("Searching with criteria: " + fName +", "+lName+", "+ageRange+", "+shirtColor+", "+shirtNumber + " Found: " + search.size());
 					for (Participant p : search) {
@@ -146,6 +155,14 @@ public class ServletHandler extends HttpServlet {
 								+ "<td>%5$s</td>\n"
 								+ "</tr>\n", color, p.getShirtNumber(), p.getFName() + " " + p.getLName(), p.getScore().getScore(), p.getScore().getHitScore());
 					}
+					
+					//Keeping search values.
+					htmlBuild = htmlBuild.replaceAll("name=\"Search_FirstName\"", "name=\"Search_FirstName\" value=\"" + fName + "\"");
+					htmlBuild = htmlBuild.replaceAll("name=\"Search_LastName\"", "name=\"Search_LastName\" value=\"" + lName + "\"");
+					htmlBuild = htmlBuild.replaceAll("name=\"Search_ShirtNumber\"", "name=\"Search_ShirtNumber\" value=\"" + ((shirtNumber == null) ? "" : shirtNumber) + "\"");
+					htmlBuild = htmlBuild.replaceAll("value=\"" + shirtColor + "\"", "value=\"" + shirtColor + "\" selected");
+					htmlBuild = htmlBuild.replaceAll("value=\"" + ageRange + "\"", "value=\"" + ageRange + "\" selected");
+					
 					break;
 				}
 			}

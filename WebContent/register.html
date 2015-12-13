@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Test Page</title>
+        <meta charset="ISO-8859-1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div class="registerMainPage">
+        	<form action="ServletRegister" method="POST">
+        		<div class="bottomPadding">
+	        		E-mail: <font color="red">*</font><br/><input type="email" name="Email" placeholder="f.eks en@mail.dk" class="formAlmostFullLength" required/><br/>
+	        		<input type="checkbox" name="confirm" required translate="yes"/>Jeg bekræfter, at jeg er ejer af overstående e-mail eller har tilladelse til at bruge den.
+	        		(<a href="www.google.com">Fortrolighedspolitik</a>)<br/>
+        		</div>
+        		<div class="bottomPadding">
+        			Fornavn: <font color="red">*</font><br/><input type="text" name="FirstName" placeholder="f.eks Jens" class="formAlmostFullLength" required/><br/>
+        		</div>
+        		<div class="bottomPadding">
+        			Efternavn: <font color="red">*</font><br/><input type="text" name="LastName" placeholder="f.eks Jensen" class="formAlmostFullLength" required/><br/>
+        		</div>
+        		<div class="bottomPadding">
+        			Barnets alder: <font color="red">*</font><br/>
+        		</div>
+        		<div class="bottomPadding">
+	        		<select name="AgeGroup" class="formFullLength">
+	        			<option value="none" selected disabled>Vælg Alder</option>
+	        			<option value="0-6">0-6 år</option>
+	        			<option value="7-9">7-9 år</option>
+	        			<option value="10-14">10-14 år</option>
+	        		</select><br/>
+	        	</div>
+	        	<div class="bottomPadding">
+        			<input type="submit" value="Tilmeld">
+	        	</div>
+        	</form>
+        </div>
+    </body>
+</html>

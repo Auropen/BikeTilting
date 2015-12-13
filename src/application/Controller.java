@@ -77,6 +77,11 @@ public class Controller implements IController {
 	}
 
 	@Override
+	public Score getScoreFromDB(int scoreID) {
+		return dbHandler.getScoreByID(scoreID);
+	}
+
+	@Override
 	public List<Participant> searchParticipant(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber) {
 		return bikeTilting.searchParticipants(fName, lName, ageRange, shirtColor, shirtNumber);
 	}
@@ -95,6 +100,12 @@ public class Controller implements IController {
 	@Override
 	public void addMiss(Participant p) {
 		bikeTilting.addScoreMiss(p);
+		dbHandler.updateScore(p.getScore());
+	}
+
+	@Override
+	public void undoScore(Participant p) {
+		bikeTilting.undoScore(p);
 		dbHandler.updateScore(p.getScore());
 	}
 	

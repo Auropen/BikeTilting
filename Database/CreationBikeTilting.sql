@@ -12,7 +12,7 @@ go
 
 --- Creating Tables
 CREATE TABLE TblScore		(fldScoreID int IDENTITY(1,1) PRIMARY KEY,
-							 fldHitScore VARCHAR (63) NOT NULL,
+							 fldHitScore VARCHAR (255) NOT NULL,
 							 fldScore int NOT NULL)
 
 CREATE TABLE TblLanes		(fldLaneID int IDENTITY(1,1) PRIMARY KEY,
@@ -104,7 +104,7 @@ CREATE PROCEDURE createParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageR
 END
 GO
 
-CREATE PROCEDURE createScore(@hitScore VARCHAR(12), @score int, @new_id int output)
+CREATE PROCEDURE createScore(@hitScore VARCHAR(255), @score int, @new_id int output)
     AS 
 	BEGIN
 		INSERT INTO TblScore
@@ -191,7 +191,7 @@ GO
 
 ---Update Procedures
 
-CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(12), @score int)
+CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(255), @score int)
     AS 
 	BEGIN
 		UPDATE TblScore SET fldHitScore = @hitScore, fldScore = @score WHERE fldScoreID= @id;

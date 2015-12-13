@@ -4,7 +4,7 @@ body {
     background-color: #b0b0b0;
 }
 
-.centerPage {
+.registerMainPage {
     background-color: #ffffff;
     margin: auto;
     width: 500px;
@@ -12,12 +12,16 @@ body {
     padding: 10px;
 }
 
-.viewPage {
+.mainPage {
     background-color: #ffffff;
     margin: auto;
     width: 700px;
     border:3px solid #73AD21;
     padding: 10px;
+}
+
+.centerLogo {
+    margin: auto;
 }
 
 .formAlmostFullLength {
@@ -77,6 +81,10 @@ body {
 }
 
 h1 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;
     text-align: center;
 }
 

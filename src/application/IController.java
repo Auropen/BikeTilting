@@ -19,8 +19,10 @@ public interface IController {
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email);
 	public Participant getParticipantFromDB(int participantID);
 	public Participant getParticipant(int participantID);
+	public Score getScoreFromDB(int scoreID);
 	public List<Participant> searchParticipant(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber);
 	public void addParticipant(Participant p);
 	public void addHit(Participant p);
 	public void addMiss(Participant p);
+	public void undoScore(Participant p);
 }

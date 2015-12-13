@@ -24,6 +24,16 @@ public class Score {
 		hitScore += ((hitScore.isEmpty()) ? "0" : "-0");;
 	}
 	
+	public void undo() {
+		if (!hitScore.isEmpty()) {
+			score--;
+			if (hitScore.length() > 1)
+				hitScore = hitScore.substring(0, hitScore.length() - 2);
+			else
+				hitScore = hitScore.substring(0, hitScore.length() - 1);
+		}
+	}
+	
 	public int getScoreID() {
 		return scoreID;
 	}
