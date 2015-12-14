@@ -56,6 +56,10 @@ public class BikeTilting {
 		return null;
 	}
 
+	public void generateLanes(int laneAmount) {
+		lanes.addAll(LaneGeneration.generate(laneAmount));
+	}
+	
 	public List<Participant> searchParticipants(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber) {
 		List<Participant> allParticipant = Controller.getInstance().getParticipantsFromDB();
 		List<Participant> searchResult = new ArrayList<Participant>();

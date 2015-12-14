@@ -128,12 +128,12 @@ public class DBHandler {
 		}
 	}
 	
-	public boolean createShirt(String color, int amount , boolean usedColor ) {
+	public boolean createShirt(String color, int amount , int used) {
 		try {
 			CallableStatement cs = getConnection().prepareCall("{call createColor(?,?,?)}");
 			cs.setString(1,color);
 			cs.setInt(2, amount);
-			cs.setBoolean(3, usedColor);
+			cs.setInt(3, used);
 
 			cs.execute();
 		} catch (SQLException e) {
@@ -145,7 +145,7 @@ public class DBHandler {
 	
 	public Lane createLane(int laneNr, String ageGroup) {
 		try {
-			CallableStatement cs = getConnection().prepareCall("{call createColor(?,?)}");
+			CallableStatement cs = getConnection().prepareCall("{call createLane(?,?)}");
 			cs.setInt(1, laneNr);
 			cs.setString(2, ageGroup);
 
@@ -273,7 +273,7 @@ public class DBHandler {
 			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
-				String s = rs.getString("fldColor")+","+rs.getString("fldAmount")+","+rs.getBoolean("fldUsedColor");
+				String s = rs.getString("fldColor")+","+rs.getString("fldAmount")+","+rs.getInt("fldUsedAmount");
 				shirts.add(s);
 			}
 			return shirts;
@@ -298,7 +298,6 @@ public class DBHandler {
 		}
 	}
 	
-
 	/*
 	    Update score
 	 */
@@ -319,12 +318,12 @@ public class DBHandler {
 		}
 	}
 	
-	public boolean updateShirts(String color, int amount, boolean used){
+	public boolean updateShirts(String color, int amount, int used){
 		try{
 			CallableStatement cs = getConnection().prepareCall("{call updateShirt(?,?,?)}");
 			cs.setString(1,color);
 			cs.setInt(2,amount);
-			cs.setBoolean(3,used);
+			cs.setInt(3,used);
 
 			cs.execute();
 

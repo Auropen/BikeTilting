@@ -14,14 +14,16 @@ public interface IController {
 	public void addHit(Participant p);
 	public void addMiss(Participant p);
 	public void undoScore(Participant p);
+	public void laneGeneration(int laneAmount);
 	
 	//Create methods
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber);
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email);
 	public Lane createLaneToDB(int laneNr, String ageGroup);
+	public boolean createShirtToDB(String color, int amount , int usedColor);
 	
 	//Update methods
-	public boolean updateShirt(String color, int amount, boolean used);
+	public boolean updateShirt(String color, int amount, int used);
 	
 	//Get methods
 	public List<Participant> getParticipantsFromDB();

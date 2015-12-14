@@ -26,12 +26,12 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 							 fldEmail VARCHAR(64)   NOT NULL,
 							 fldScoreID INT FOREIGN KEY REFERENCES TblScore (fldScoreID),
 							 fldShirtColour VARCHAR(12),
-							 fldShirtNumber int,  
+							 fldShirtNumber INT,  
 							 fldLaneID INT FOREIGN KEY REFERENCES TblLaneS (fldLaneID))
 
-CREATE TABLE TblShirts		(fldColor VARCHAR(32) NOT NULL,
-							 fldAmount int NOT NULL,
-							 fldUsedColor BIT NOT NULL)
+CREATE TABLE TblShirts		(fldColor VARCHAR(32) UNIQUE NOT NULL,
+							 fldAmount INT NOT NULL,
+							 fldUsedAmount INT NOT NULL)
 
 GO
 
@@ -66,7 +66,7 @@ CREATE PROCEDURE createParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageR
 END
 GO
 
-CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6), @new_id INT OUTPUT)
+CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6))
     AS 
 	BEGIN
 		INSERT INTO TblLanes
@@ -79,7 +79,6 @@ CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6), @new_id INT OUTPU
 			@laneNr,
 			@ageGroup
 		)
-		SET @new_id = SCOPE_IDENTITY()
 END
 GO
 
@@ -100,14 +99,14 @@ CREATE PROCEDURE createScore(@hitScore VARCHAR(255), @score int, @new_id int out
 END
 GO
 
-CREATE PROCEDURE createColor(@color VARCHAR(32), @amount INT, @used BIT)
+CREATE PROCEDURE createColor(@color VARCHAR(32), @amount INT, @used INT)
     AS 
 	BEGIN
 		INSERT INTO TblShirts
 		(
 			fldColor,
 			fldAmount,
-			fldUsedColor
+			fldUsedAmount
 		)
 		VALUES
 		(
@@ -177,10 +176,10 @@ CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(255), @score int)
 END
 GO
 
-CREATE PROCEDURE updateShirt(@color VARCHAR(32), @amount INT, @used BIT)
+CREATE PROCEDURE updateShirt(@color VARCHAR(32), @amount INT, @used INT)
     AS 
 	BEGIN
-		UPDATE TblShirts SET fldAmount = @amount, fldUsedColor = @used WHERE fldColor= @color;
+		UPDATE TblShirts SET fldAmount = @amount, fldUsedAmount = @used WHERE fldColor= @color;
 END
 GO
 

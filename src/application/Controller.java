@@ -56,6 +56,10 @@ public class Controller implements IController {
 	public void storeDBToMemory() {
 		bikeTilting.storeDBToMemory();
 	}
+
+	public void laneGeneration(int laneAmount) {
+		bikeTilting.generateLanes(laneAmount);
+	}
 	
 	//Create methods
 	@Override
@@ -72,10 +76,14 @@ public class Controller implements IController {
 	public Lane createLaneToDB(int laneNr, String ageGroup) {
 		return dbHandler.createLane(laneNr, ageGroup);
 	}
+
+	public boolean createShirtToDB(String color, int amount , int used) {
+		return dbHandler.createShirt(color, amount, used);
+	}
 	
 	//Update methods
 	@Override
-	public boolean updateShirt(String color, int amount, boolean used) {
+	public boolean updateShirt(String color, int amount, int used) {
 		return dbHandler.updateShirts(color, amount, used);
 	}
 	

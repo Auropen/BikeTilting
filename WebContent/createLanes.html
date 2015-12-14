@@ -10,16 +10,26 @@ and open the template in the editor.
 		<meta charset="ISO-8859-1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="style.css">
+        <!--DELETE.SCRIPT-->
+        <script type="text/javascript">
+            window.onload = function () {
+                submitform();
+                function submitform() {
+                    document.forms["colors"].submit();
+                }
+            }
+        </script>
     </head>
     <body>
         <div class="mainPage">
                 <h1>Lav Baner</h1>
-                <form action="ServletHandler" method="post">
+                <form action="ServletHandler" method="post" id="colors">
                 	<div class="shirtSpace">T-shirts farve: </div>
 	                    <div class="form25Length">
 	                        <select name="Colors" class="formFullLength">
 	                            <option value="none">Vælg T-shirt farvel</option>
-								<option value="Red">Rød</option>
+	                            <!--DATABASE.GET Colors-->
+								<!-- <option value="Red">Rød</option>
 								<option value="Blue">Blå</option>
 								<option value="Green">Grøn</option>
 								<option value="Yellow">Gul</option>
@@ -39,21 +49,27 @@ and open the template in the editor.
 								<option value="LightYellow">Lysegul</option>
 								<option value="LightBrown">Lysebrun</option>
 								<option value="Turquoise">Turkis</option>
-								<option value="Pink">Pink</option>
+								<option value="Pink">Pink</option> -->
 	                        </select>
 	                    </div><br/>
-	                <div class="shirtSpace">Antal af T-shirts:</div><input type="text" name="NumberOfShirts"><br/>
+	                <div class="shirtSpace">Antal af T-shirts:</div>
+	                <input type="number" name="NumberOfShirts"><br/>
+	                <input type="hidden" value="addColor" name="Lanes_Color"/>
+					<input type="hidden" value="createlanes" name="file">
                     <input type="submit" value="Tilføj">
                 </form>
 	            <table border="1">
 	                <tr>
-	                    <td width="50%">Nummer</td>
-	                    <td width="50%">Farve</td> 
+	                    <td width="50%">Farve</td>
+	                    <td width="50%">Mængde</td> 
 	                </tr>
-	                <!--DATABASE.GET Colors-->
+	                <!--DATABASE.GET ColorChoices-->
 	            </table>
 	            <form action="ServletHandler" method="post">
-	                <div class="shirtSpace">Antal af Baner: </div>   <input type="text" name="NumberOfLanes" > <br/>
+	                <div class="shirtSpace">Antal af Baner: </div>
+	                <input type="number" name="NumberOfLanes" > <br/>
+	                <input type="hidden" value="generate" name="Lanes_Color"/>
+					<input type="hidden" value="createlanes" name="file">
 	                <input class="startSpace" type="submit" value="Generere"> 
 	            </form>
             </div >

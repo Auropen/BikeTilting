@@ -32,40 +32,56 @@ public class LaneGeneration {
 			//Fills the lanes
 			for (int i = 0; i < laneAmounts; i++) {
 				Lane l = iCtr.createLaneToDB(i+1,ageGroup);
-				String color = getFirstUnusedColor();
+				String color = getFirstUsableColor(size + ((sizeRemain > 0) ? 1 : 0));
+				System.out.println("Using color: " + color + " with size usage: " + (size + ((sizeRemain > 0) ? 1 : 0)));	
 				colors.add(color);
+				String[] colorData = color.split(",");
 				Integer shirtNumber = 0;
-				for (int pI = size * i; pI < size * (i+1);pI++) {
+				for (int pI = size * i; pI < size * (i+1) + ((sizeRemain > 0) ? 1 : 0);pI++) {
 					Participant p = partPList.get(pI);
-					p.setShirtColor(color);
+					p.setShirtColor(colorData[0]);
 					p.setShirtNumber(shirtNumber++);
 					l.addParticipant(p);
 				}
-				
+
+				iCtr.updateShirt(colorData[0], Integer.parseInt(colorData[1]), Integer.parseInt(colorData[2]) + size);
 				lanes.add(l);
+				
+				//Decrement remainder
+				sizeRemain--;
 			}
 			
-			//Filling in the remains after division
-			for (int lI = 0; lI < sizeRemain; lI++) {
-				int pI = size * laneAmounts + lI;
-				Participant p = partPList.get(pI);
-				p.setShirtColor(colors.get(lI));
-				p.setShirtNumber(lanes.get(lI).getParticipants().size() + 1);
-				lanes.get(lI).addParticipant(partPList.get(pI));
+			//Makes sure the used color isn't reused, by other age groups.
+			//@@@@@ NEED BETTER SOLUTION!!! @@@@
+			for (String c : colors) {
+				String[] colorData = c.split(",");
+				iCtr.updateShirt(colorData[0], Integer.parseInt(colorData[1]), Integer.parseInt(colorData[1]));
 			}
 		}
 		
 		return lanes;
 	}
 	
+	public static String getFirstUsableColor(int needed) {
+		List<String> colors = iCtr.getShirtsFromDB();
+		for (String s : colors) {
+			String[] colorData = s.split(",");
+			int amount = Integer.parseInt(colorData[1]);
+			int used = Integer.parseInt(colorData[2]);
+			System.out.println(colors + " -> " + amount + "," + used);
+			if (amount - used > needed)
+				return s;
+		}
+		return null;
+	}
+	
 	public static String getFirstUnusedColor() {
 		List<String> colors = iCtr.getShirtsFromDB();
 		for (String s : colors) {
 			String[] colorData = s.split(",");
-			if (colorData[2].equals("false")) {
-				iCtr.updateShirt(colorData[0],Integer.parseInt(colorData[1]),Boolean.getBoolean(colorData[2]));
-				return colorData[0] + "," + colorData[1];
-			}
+			int used = Integer.parseInt(colorData[2]);
+			if (used == 0)
+				return s;
 		}
 		return null;
 	}

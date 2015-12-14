@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import application.Controller;
 import application.IController;
+import domain.EColor;
 import domain.Lane;
 import domain.Participant;
 import technical.DBHandler;
@@ -77,6 +78,19 @@ public class ServletHandler extends HttpServlet {
 			iCtr.addParticipant(p);
 			html = generateHTML(new File(getServletContext().getRealPath("/register.html")), request);
 			break;
+		case "createlanes":
+			if (request.getParameter("Lanes_Color") != null && request.getParameter("Lanes_Color").equals("addColor")) {
+				Integer shirtAmount = stringToInteger(request.getParameter("NumberOfShirts"));
+				if (shirtAmount != null)
+					iCtr.createShirtToDB(request.getParameter("Colors"), shirtAmount, 0);
+			}
+			else if (request.getParameter("Lanes_Color") != null && request.getParameter("Lanes_Color").equals("generate")) {
+				Integer laneAmount = stringToInteger(request.getParameter("NumberOfLanes"));
+				if (laneAmount != null)
+					iCtr.laneGeneration(laneAmount);
+			}
+			html = generateHTML(new File(getServletContext().getRealPath("/createLanes.html")), request);
+			break;
 		default:
 			
 		}
@@ -106,7 +120,13 @@ public class ServletHandler extends HttpServlet {
 			else if (line.startsWith("<!--DATABASE.GET ")) {
 				switch (line.substring("<!--DATABASE.GET ".length(), line.length()-3)) {
 				case "ScoreView":
-					List<Participant> pList = iCtr.getLaneFromLaneNr(lanePick).getParticipants();
+					Lane lane = iCtr.getLaneFromLaneNr(lanePick);
+					List<Participant> pList;
+					if (lane != null)
+						pList = lane.getParticipants();
+					else 
+						pList = iCtr.getParticipants();
+					
 					for (Participant p : pList) {
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor() : "red");
 						String hitScore = iCtr.getScoreFromDB(p.getScore().getScoreID()).getHitScore();
@@ -160,6 +180,21 @@ public class ServletHandler extends HttpServlet {
 					htmlBuild = htmlBuild.replaceFirst("value=\"" + ageRange + "\"", "value=\"" + ageRange + "\" selected");
 					
 					break;
+				case "Colors":
+					for (EColor eC : EColor.values()) {
+						htmlBuild += String.format("<option value=\"%s\">%s</option>",eC.name(),setCapitalLetter(eC.danishValue()));
+					}
+					break;
+				case "ColorChoices":
+					List<String> colors = iCtr.getShirtsFromDB();
+					for (String color : colors) {
+						String[] colorData = color.split(",");
+						htmlBuild += String.format("<tr>\n"
+								+ "<td>%s</td>\n"
+								+ "<td>%s</td>\n"
+								+ "</tr>\n", setCapitalLetter(EColor.getDanishValue(colorData[0])), colorData[1]);
+					}
+					break;
 				}
 			}
 			else
@@ -175,5 +210,9 @@ public class ServletHandler extends HttpServlet {
 		} catch (NumberFormatException e) {
 			return null;
 		}
+	}
+	
+	private String setCapitalLetter(String s) {
+		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
 }
