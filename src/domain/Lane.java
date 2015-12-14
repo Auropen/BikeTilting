@@ -6,10 +6,12 @@ import java.util.List;
 public class Lane {
     private int laneNr;
     private List<Participant> participants;
+    private String ageGroup;
 
-	public Lane(int laneNr) {
-        this.setLaneNr(laneNr);
+	public Lane(int laneNr, String ageGroup) {
+        this.laneNr = laneNr;
         this.participants = new ArrayList<Participant>();
+        this.ageGroup = ageGroup;
     }
     
     public void addParticipant(Participant p) {
@@ -30,5 +32,13 @@ public class Lane {
 
 	public void setParticipants(List<Participant> participants) {
 		this.participants = participants;
+	}
+
+	public String getAgeGroup() {
+		return ageGroup;
+	}
+
+	public void setAgeGroup(String ageGroup) {
+		this.ageGroup = ageGroup;
 	}
 }

@@ -34,6 +34,7 @@ body {
 
 .formHalfLength {
     width: 50%;
+    display: inline-block;
 }
 
 .form25Length {
@@ -42,7 +43,12 @@ body {
 }
 
 input {
+	width: 25%;
     display: inline-block;
+}
+
+table {
+	width: 100%;
 }
 
 .bottomPadding {

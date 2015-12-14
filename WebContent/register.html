@@ -13,11 +13,11 @@ and open the template in the editor.
     </head>
     <body>
         <div class="registerMainPage">
-        	<form action="ServletRegister" method="POST">
+        	<form action="ServletHandler" method="POST">
         		<div class="bottomPadding">
 	        		E-mail: <font color="red">*</font><br/><input type="email" name="Email" placeholder="f.eks en@mail.dk" class="formAlmostFullLength" required/><br/>
 	        		<input type="checkbox" name="confirm" required translate="yes"/>Jeg bekræfter, at jeg er ejer af overstående e-mail eller har tilladelse til at bruge den.
-	        		(<a href="www.google.com">Fortrolighedspolitik</a>)<br/>
+	        		(<a href="http://www.google.com">Fortrolighedspolitik</a>)<br/>
         		</div>
         		<div class="bottomPadding">
         			Fornavn: <font color="red">*</font><br/><input type="text" name="FirstName" placeholder="f.eks Jens" class="formAlmostFullLength" required/><br/>
@@ -36,6 +36,7 @@ and open the template in the editor.
 	        			<option value="10-14">10-14 år</option>
 	        		</select><br/>
 	        	</div>
+	        	<input type="hidden" value="register" name="file">
 	        	<div class="bottomPadding">
         			<input type="submit" value="Tilmeld">
 	        	</div>

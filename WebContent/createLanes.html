@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Lav baner</title>
+		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div class="mainPage">
+                <h1>Lav Baner</h1>
+                <form action="ServletHandler" method="post">
+                	<div class="shirtSpace">T-shirts farve: </div>
+	                    <div class="form25Length">
+	                        <select name="Colors" class="formFullLength">
+	                            <option value="none">Vælg T-shirt farvel</option>
+								<option value="Red">Rød</option>
+								<option value="Blue">Blå</option>
+								<option value="Green">Grøn</option>
+								<option value="Yellow">Gul</option>
+								<option value="Brown">Brun</option>
+								<option value="Orange">Orange</option>
+								<option value="White">Hvid</option>
+								<option value="Grey">Grå</option>
+								<option value="Black">Sort</option>
+								<option value="DarkRed">Mørkerød</option>
+								<option value="DarkBlue">Mørkeblå</option>
+								<option value="DarkGreen">Mørkegrøn</option>
+								<option value="DarkYellow">Mørkegul</option>
+								<option value="DarkBrown">Mørkebrun</option>
+								<option value="LightRed">Lyserød</option>
+								<option value="LightBlue">Lyseblå</option>
+								<option value="LightGreen">Lysegrøn</option>
+								<option value="LightYellow">Lysegul</option>
+								<option value="LightBrown">Lysebrun</option>
+								<option value="Turquoise">Turkis</option>
+								<option value="Pink">Pink</option>
+	                        </select>
+	                    </div><br/>
+	                <div class="shirtSpace">Antal af T-shirts:</div><input type="text" name="NumberOfShirts"><br/>
+                    <input type="submit" value="Tilføj">
+                </form>
+	            <table border="1">
+	                <tr>
+	                    <td width="50%">Nummer</td>
+	                    <td width="50%">Farve</td> 
+	                </tr>
+	                <!--DATABASE.GET Colors-->
+	            </table>
+	            <form action="ServletHandler" method="post">
+	                <div class="shirtSpace">Antal af Baner: </div>   <input type="text" name="NumberOfLanes" > <br/>
+	                <input class="startSpace" type="submit" value="Generere"> 
+	            </form>
+            </div >
+    </body>
+</html>

@@ -16,7 +16,6 @@ import application.Controller;
 import domain.Lane;
 import domain.Participant;
 import domain.Score;
-import domain.User;
 
 public class DBHandler {
 	private static DBHandler instance;
@@ -66,41 +65,6 @@ public class DBHandler {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	/**
-	 * Put various info inside the DB with stored Procedures
-	 * @param cpr
-	 * @param fName
-	 * @param lName
-	 * @param email
-	 * @param password
-	 * @param phoneNumber
-	 * @param accessLevel
-	 * @return
-	 */
-	
-	public User createUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
-
-		try {		
-			CallableStatement cs = getConnection().prepareCall("{call createParticipant(?,?,?,?,?,?,?)}");
-
-			cs.setString(1,cpr);
-			cs.setString(2,fName);
-			cs.setString(3,lName);
-			cs.setString(4,email);
-			cs.setString(5,password);
-			cs.setString(6,phoneNumber);
-			cs.setInt(7,accessLevel);
-
-			cs.execute();
-
-			return new User(cpr, fName, lName, email, password, phoneNumber, accessLevel);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	public Participant createParticipant(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
@@ -178,41 +142,23 @@ public class DBHandler {
 		}
 		return true;
 	}
-
-	/*
-	 	Get various Info from the DB with stored Procedures
-	 */
-
-	public List<User> getAllUsers() {
-
-		List<User> users = new ArrayList<>();
-
+	
+	public Lane createLane(int laneNr, String ageGroup) {
 		try {
+			CallableStatement cs = getConnection().prepareCall("{call createColor(?,?)}");
+			cs.setInt(1, laneNr);
+			cs.setString(2, ageGroup);
 
-			CallableStatement csUser = getConnection().prepareCall("{call getUser}");
-			ResultSet rsUser = csUser.executeQuery();
+			cs.execute();
 
-			while(rsUser.next()){
-
-				User u = new User(rsUser.getString("fldCPR"), 
-						rsUser.getString("fldPassword"), 
-						rsUser.getString("fldFName"), 
-						rsUser.getString("fldLName"), 
-						rsUser.getString("fldEmail"), 
-						rsUser.getString("fldPhoneNumber"), 
-						rsUser.getInt("fldAccessLevel"));	
-				users.add(u);
-
-			}
-
-			return users;
-
+			return new Lane(laneNr, ageGroup);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
+
+	//Get various Info from the DB with stored Procedures
 
 	public List<Participant> getAllParticipants() {
 		List<Participant> participants = new ArrayList<>();
@@ -296,7 +242,7 @@ public class DBHandler {
 
 			while(rs.next()){
 
-				Lane l = new Lane( rs.getInt("fldLaneNr"));
+				Lane l = new Lane(rs.getInt("fldLaneNr"), rs.getString("fldAgeGroup"));
 				CallableStatement csPart = getConnection().prepareCall("{call getParticipantsByLaneID(?)}");
 				csPart.setInt(1, rs.getInt("fldLaneID"));
 
@@ -327,10 +273,8 @@ public class DBHandler {
 			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
-
 				String s = rs.getString("fldColor")+","+rs.getString("fldAmount")+","+rs.getBoolean("fldUsedColor");
-				shirts.add(s);	
-
+				shirts.add(s);
 			}
 			return shirts;
 		} catch (SQLException e) {
@@ -356,16 +300,12 @@ public class DBHandler {
 	
 
 	/*
-	    Score Editor
+	    Update score
 	 */
 
 	public boolean updateScore(Score score){
-
 		try{
-
 			CallableStatement csUpdateScore = getConnection().prepareCall("{call updateScorePoints(?,?,?)}");
-
-
 			csUpdateScore.setInt(1,score.getScoreID());
 			csUpdateScore.setString(2,score.getHitScore());
 			csUpdateScore.setInt(3,score.getScore());
@@ -373,11 +313,25 @@ public class DBHandler {
 			csUpdateScore.execute();
 
 			return true;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public boolean updateShirts(String color, int amount, boolean used){
+		try{
+			CallableStatement cs = getConnection().prepareCall("{call updateShirt(?,?,?)}");
+			cs.setString(1,color);
+			cs.setInt(2,amount);
+			cs.setBoolean(3,used);
 
+			cs.execute();
+
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
