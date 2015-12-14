@@ -27,8 +27,6 @@ public class ServletHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController iCtr;
 	private int lanePick;
-	private String currentPoint;
-
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -36,7 +34,6 @@ public class ServletHandler extends HttpServlet {
 	public ServletHandler() {
 		iCtr = Controller.getInstance();
 		lanePick = 1;
-		currentPoint = "";
 	}
 
     /**
@@ -62,23 +59,22 @@ public class ServletHandler extends HttpServlet {
 				int pID = Integer.parseInt(request.getParameter("Score_PointID"));
 				Participant p = iCtr.getParticipantFromDB(pID);
 				iCtr.addHit(p);
-				currentPoint = pID + "h";
 			}
 			else if (request.getParameter("Score_PointButton") != null && request.getParameter("Score_PointButton").equals("Forbier")) {
 				int pID = Integer.parseInt(request.getParameter("Score_PointID"));
 				Participant p = iCtr.getParticipantFromDB(pID);
 				iCtr.addMiss(p);
-				currentPoint = pID + "m";
 			}
 			else if (request.getParameter("Score_PointButton") != null && request.getParameter("Score_PointButton").equals("Fortryd")) {
 				int pID = Integer.parseInt(request.getParameter("Score_PointID"));
 				Participant p = iCtr.getParticipantFromDB(pID);
 				iCtr.undoScore(p);
-				currentPoint = pID + "u";
 			}
 			html = generateHTML(new File(getServletContext().getRealPath("/score.html")), request);
 			break;
 		case "register":
+			Participant p = iCtr.createParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("AgeGroup"), request.getParameter("Email"));
+			iCtr.addParticipant(p);
 			html = generateHTML(new File(getServletContext().getRealPath("/register.html")), request);
 			break;
 		default:
@@ -157,11 +153,11 @@ public class ServletHandler extends HttpServlet {
 					}
 					
 					//Keeping search values.
-					htmlBuild = htmlBuild.replaceAll("name=\"Search_FirstName\"", "name=\"Search_FirstName\" value=\"" + fName + "\"");
-					htmlBuild = htmlBuild.replaceAll("name=\"Search_LastName\"", "name=\"Search_LastName\" value=\"" + lName + "\"");
-					htmlBuild = htmlBuild.replaceAll("name=\"Search_ShirtNumber\"", "name=\"Search_ShirtNumber\" value=\"" + ((shirtNumber == null) ? "" : shirtNumber) + "\"");
-					htmlBuild = htmlBuild.replaceAll("value=\"" + shirtColor + "\"", "value=\"" + shirtColor + "\" selected");
-					htmlBuild = htmlBuild.replaceAll("value=\"" + ageRange + "\"", "value=\"" + ageRange + "\" selected");
+					htmlBuild = htmlBuild.replaceFirst("name=\"Search_FirstName\"", "name=\"Search_FirstName\" value=\"" + fName + "\"");
+					htmlBuild = htmlBuild.replaceFirst("name=\"Search_LastName\"", "name=\"Search_LastName\" value=\"" + lName + "\"");
+					htmlBuild = htmlBuild.replaceFirst("name=\"Search_ShirtNumber\"", "name=\"Search_ShirtNumber\" value=\"" + ((shirtNumber == null) ? "" : shirtNumber) + "\"");
+					htmlBuild = htmlBuild.replaceFirst("value=\"" + shirtColor + "\"", "value=\"" + shirtColor + "\" selected");
+					htmlBuild = htmlBuild.replaceFirst("value=\"" + ageRange + "\"", "value=\"" + ageRange + "\" selected");
 					
 					break;
 				}

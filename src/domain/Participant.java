@@ -1,7 +1,5 @@
 package domain;
 
-import java.awt.Color;
-
 public class Participant {
 	private final int id;
 	private String fName;

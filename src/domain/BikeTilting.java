@@ -12,13 +12,11 @@ import application.Controller;
 
 
 public class BikeTilting {
-	private List<User> users;
 	private List<Participant> participants;
 	private List<Lane> lanes;
 	private static BikeTilting instance;
 
 	private BikeTilting() {
-		this.users = new ArrayList<User>();
 		this.participants = new ArrayList<Participant>();
 		this.lanes = new ArrayList<Lane>();
 	}
@@ -29,16 +27,12 @@ public class BikeTilting {
 		return instance;
 	}
 
-	public void createUser(String cpr, String fName, String lName, String email, String password, String phoneNumber, int accessLevel) {
-		getUsers().add(new User(cpr, fName, lName, email, password, phoneNumber, accessLevel));
-	}
-
 	public void createParticipant(int id, String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
 		getParticipants().add(new Participant(id, fName, lName, ageRange, email, score, shirtColor, shirtNumber));
 	}
 
-	public boolean createLane(int laneNr) {
-		getLanes().add(new Lane(laneNr));
+	public boolean createLane(int laneNr, String ageGroup) {
+		getLanes().add(new Lane(laneNr, ageGroup));
 		return true;
 	}
 
@@ -92,21 +86,6 @@ public class BikeTilting {
 		}
 		
 		return searchResult;
-	}
-	
-	/**
-	 * @return the users
-	 */
-	
-	public List<User> getUsers() {
-		return users;
-	}
-
-	/**
-	 * @param users the users to set
-	 */
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 
 	/**

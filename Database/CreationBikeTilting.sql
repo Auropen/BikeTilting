@@ -16,16 +16,8 @@ CREATE TABLE TblScore		(fldScoreID int IDENTITY(1,1) PRIMARY KEY,
 							 fldScore int NOT NULL)
 
 CREATE TABLE TblLanes		(fldLaneID int IDENTITY(1,1) PRIMARY KEY,
-							 fldLaneNr int NOT NULL)
-
-CREATE TABLE TblUsers		(fldCPR VARCHAR(12) PRIMARY KEY,
-							 fldPassword VARCHAR (255)   NOT NULL,
-							 fldFName VARCHAR(32)       NOT NULL,
-							 fldLName VARCHAR(32)       NOT NULL,
-							 fldEmail VARCHAR(255)       NOT NULL,
-							 fldPhoneNumber VARCHAR(16),
-							 fldAccessLevel INT         NOT NULL)
-
+							 fldLaneNr int NOT NULL,
+							 fldAgeGroup VARCHAR(6) NOT NULL)
 
 CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 							 fldFName VARCHAR(20)   NOT NULL,
@@ -37,9 +29,6 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 							 fldShirtNumber int,  
 							 fldLaneID INT FOREIGN KEY REFERENCES TblLaneS (fldLaneID))
 
-CREATE TABLE TblVolunteer	(fldCPR VARCHAR(12) FOREIGN KEY REFERENCES TblUsers (fldCPR),
-							 fldIsActive BINARY(1) NOT NULL)
-
 CREATE TABLE TblShirts		(fldColor VARCHAR(32) NOT NULL,
 							 fldAmount int NOT NULL,
 							 fldUsedColor BIT NOT NULL)
@@ -47,33 +36,6 @@ CREATE TABLE TblShirts		(fldColor VARCHAR(32) NOT NULL,
 GO
 
 --- Stored Procedures
-
-CREATE PROCEDURE createUser(@cpr VARCHAR(12), @password VARCHAR(255), @fName VARCHAR(32), @lName VARCHAR(32), @email VARCHAR(255), @phoneNumber VARCHAR(16), @accessLevel INT)
-    AS 
-	BEGIN
-		INSERT INTO TblUsers
-		(
-			fldCPR,
-			fldPassword,
-			fldFName,
-			fldLName,
-			fldEmail,
-		    fldPhoneNumber,
-		    fldAccessLevel
-		)
-		VALUES
-		(
-			@Cpr,
-			@password,
-			@fName,
-			@lName,
-			@email,
-			@phoneNumber,
-			@accessLevel
-		)
-END
-
-GO
 
 CREATE PROCEDURE createParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageRange VARCHAR(6), @email VARCHAR(255), @scoreID INT, @shirtColour VARCHAR(12), @shirtNumber INT, @laneID INT, @new_id INT OUTPUT)
     AS 
@@ -99,6 +61,23 @@ CREATE PROCEDURE createParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageR
 			@shirtColour,
 			@shirtNumber,
 			@laneID
+		)
+		SET @new_id = SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6), @new_id INT OUTPUT)
+    AS 
+	BEGIN
+		INSERT INTO TblLanes
+		(
+			fldLaneNr,
+			fldAgeGroup
+		)
+		VALUES
+		(
+			@laneNr,
+			@ageGroup
 		)
 		SET @new_id = SCOPE_IDENTITY()
 END
@@ -190,12 +169,18 @@ END
 GO
 
 ---Update Procedures
-
 CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(255), @score int)
     AS 
 	BEGIN
 		UPDATE TblScore SET fldHitScore = @hitScore, fldScore = @score WHERE fldScoreID= @id;
 
+END
+GO
+
+CREATE PROCEDURE updateShirt(@color VARCHAR(32), @amount INT, @used BIT)
+    AS 
+	BEGIN
+		UPDATE TblShirts SET fldAmount = @amount, fldUsedColor = @used WHERE fldColor= @color;
 END
 GO
 
