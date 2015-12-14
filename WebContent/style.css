@@ -38,11 +38,11 @@ body {
 
 .form25Length {
     width: 25%;
+    display: inline-block;
 }
 
-.form85Length {
-    width: 85%;
-    display: flex;
+input {
+    display: inline-block;
 }
 
 .bottomPadding {
@@ -60,11 +60,10 @@ body {
 }
 
 .shirtSpace {
-    width: 70%;
-    height: 55%;
-    display: flex;
-    background-color: hotpink;
+    width: 17%;
     margin: auto;
+    
+    display: inline-block;
 }
 
 .startSpace {
