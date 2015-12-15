@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.sun.istack.internal.Nullable;
+
 import application.Controller;
+import application.IController;
 import domain.Lane;
 import domain.Participant;
 import domain.Score;
@@ -128,7 +131,7 @@ public class DBHandler {
 		}
 	}
 	
-	public boolean createShirt(String color, int amount , int used) {
+	public boolean createColor(String color, int amount , int used) {
 		try {
 			CallableStatement cs = getConnection().prepareCall("{call createColor(?,?,?)}");
 			cs.setString(1,color);
@@ -145,13 +148,14 @@ public class DBHandler {
 	
 	public Lane createLane(int laneNr, String ageGroup) {
 		try {
-			CallableStatement cs = getConnection().prepareCall("{call createLane(?,?)}");
+			CallableStatement cs = getConnection().prepareCall("{call createLane(?,?,?)}");
 			cs.setInt(1, laneNr);
 			cs.setString(2, ageGroup);
+			cs.registerOutParameter(3, java.sql.Types.INTEGER);
 
 			cs.execute();
 
-			return new Lane(laneNr, ageGroup);
+			return new Lane(cs.getInt(3), laneNr, ageGroup);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -242,7 +246,7 @@ public class DBHandler {
 
 			while(rs.next()){
 
-				Lane l = new Lane(rs.getInt("fldLaneNr"), rs.getString("fldAgeGroup"));
+				Lane l = new Lane(rs.getInt("fldLaneID"), rs.getInt("fldLaneNr"), rs.getString("fldAgeGroup"));
 				CallableStatement csPart = getConnection().prepareCall("{call getParticipantsByLaneID(?)}");
 				csPart.setInt(1, rs.getInt("fldLaneID"));
 
@@ -264,12 +268,12 @@ public class DBHandler {
 
 	}
 	
-	public List<String> getAllShirts(){
+	public List<String> getAllColors(){
 
 		List<String> shirts = new ArrayList<>();
 		
 		try {
-			CallableStatement cs = getConnection().prepareCall("{call getAllShirts}");
+			CallableStatement cs = getConnection().prepareCall("{call getAllColors}");
 			ResultSet rs = cs.executeQuery();
 
 			while(rs.next()){
@@ -318,12 +322,34 @@ public class DBHandler {
 		}
 	}
 	
-	public boolean updateShirts(String color, int amount, int used){
+	public boolean updateColor(String color, int amount, int used){
 		try{
 			CallableStatement cs = getConnection().prepareCall("{call updateShirt(?,?,?)}");
 			cs.setString(1,color);
 			cs.setInt(2,amount);
 			cs.setInt(3,used);
+
+			cs.execute();
+
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean updateParticipant(Participant p, @Nullable Integer laneID){
+		try{
+			IController iCtr = Controller.getInstance();
+			CallableStatement cs = getConnection().prepareCall("{call updateParticipant(?,?,?,?,?,?,?,?)}");
+			cs.setInt(1,p.getId());
+			cs.setString(2,p.getFName());
+			cs.setString(3,p.getLName());
+			cs.setString(4,p.getAgeRange());
+			cs.setString(5,p.getEmail());
+			cs.setString(6,p.getShirtColor());
+			cs.setInt(7,p.getShirtNumber());
+			cs.setInt(8,laneID);
 
 			cs.execute();
 

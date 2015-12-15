@@ -23,21 +23,10 @@ public class HelloWorld {
 		
 		System.out.println(bike.getLanes().size());
 		
-		for (Participant participant : ictr.searchParticipant("Cornel", "", "", "", null)) {
-			
+		for (Participant participant : ictr.searchParticipant("Cornel", "", "", "", null))
 			System.out.println(participant.getFName() + " > " + participant.getLName());
-			
-		}
 		
-		DBHandler.getInstance().createShirt("Orange", 10, true);
-		
-		
-		for (String string : DBHandler.getInstance().getAllShirts()) {
-			
+		for (String string : DBHandler.getInstance().getAllColors())
 			System.out.println(string);
-			
-		}
-		
-		System.out.println("רזררזוזוזזוזוזווזורזו");
 	}
 }

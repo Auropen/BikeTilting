@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lane {
+    private final int laneID;
     private int laneNr;
     private List<Participant> participants;
     private String ageGroup;
 
-	public Lane(int laneNr, String ageGroup) {
+	public Lane(int laneID, int laneNr, String ageGroup) {
+		this.laneID = laneID;
         this.laneNr = laneNr;
         this.participants = new ArrayList<Participant>();
         this.ageGroup = ageGroup;
@@ -40,5 +42,9 @@ public class Lane {
 
 	public void setAgeGroup(String ageGroup) {
 		this.ageGroup = ageGroup;
+	}
+
+	public int getLaneID() {
+		return laneID;
 	}
 }

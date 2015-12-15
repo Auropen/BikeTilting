@@ -1,4 +1,4 @@
-package domain;
+package gui.servlet;
 
 public enum EColor {
 	RED("RØD"),BLUE("BLÅ"),GREEN("GRØN"),YELLOW("GUL"),BROWN("BRUN"),

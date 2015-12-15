@@ -77,14 +77,19 @@ public class Controller implements IController {
 		return dbHandler.createLane(laneNr, ageGroup);
 	}
 
-	public boolean createShirtToDB(String color, int amount , int used) {
-		return dbHandler.createShirt(color, amount, used);
+	public boolean createColorToDB(String color, int amount , int used) {
+		return dbHandler.createColor(color, amount, used);
 	}
 	
 	//Update methods
 	@Override
-	public boolean updateShirt(String color, int amount, int used) {
-		return dbHandler.updateShirts(color, amount, used);
+	public boolean updateColor(String color, int amount, int used) {
+		return dbHandler.updateColor(color, amount, used);
+	}
+
+	@Override
+	public boolean updateParticipant(Participant p, Integer laneID) {
+		return dbHandler.updateParticipant(p, laneID);
 	}
 	
 	//Get methods
@@ -109,13 +114,13 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public List<String> getShirtsFromDB() {
-		return dbHandler.getAllShirts();
+	public List<String> getColorsFromDB() {
+		return dbHandler.getAllColors();
 	}
 	
 	@Override
-	public Lane getLaneFromLaneNr(int laneNr) {
-		return bikeTilting.getLaneFromLaneNr(laneNr);
+	public Lane getLaneFromID(int laneID) {
+		return bikeTilting.getLaneFromID(laneID);
 	}
 
 	@Override
@@ -133,5 +138,10 @@ public class Controller implements IController {
 	@Override
 	public Score getScoreFromDB(int scoreID) {
 		return dbHandler.getScoreByID(scoreID);
+	}
+	
+	@Override
+	public Lane getParticipantLane(Participant p) {
+		return bikeTilting.getParticipantLane(p);
 	}
 }

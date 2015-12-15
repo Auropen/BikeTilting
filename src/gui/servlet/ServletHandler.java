@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import application.Controller;
 import application.IController;
-import domain.EColor;
 import domain.Lane;
 import domain.Participant;
 import technical.DBHandler;
@@ -74,7 +73,7 @@ public class ServletHandler extends HttpServlet {
 			html = generateHTML(new File(getServletContext().getRealPath("/score.html")), request);
 			break;
 		case "register":
-			Participant p = iCtr.createParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("AgeGroup"), request.getParameter("Email"));
+			Participant p = iCtr.createParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter(""), request.getParameter("Email"));
 			iCtr.addParticipant(p);
 			html = generateHTML(new File(getServletContext().getRealPath("/register.html")), request);
 			break;
@@ -82,7 +81,7 @@ public class ServletHandler extends HttpServlet {
 			if (request.getParameter("Lanes_Color") != null && request.getParameter("Lanes_Color").equals("addColor")) {
 				Integer shirtAmount = stringToInteger(request.getParameter("NumberOfShirts"));
 				if (shirtAmount != null)
-					iCtr.createShirtToDB(request.getParameter("Colors"), shirtAmount, 0);
+					iCtr.createColorToDB(request.getParameter("Colors"), shirtAmount, 0);
 			}
 			else if (request.getParameter("Lanes_Color") != null && request.getParameter("Lanes_Color").equals("generate")) {
 				Integer laneAmount = stringToInteger(request.getParameter("NumberOfLanes"));
@@ -120,7 +119,7 @@ public class ServletHandler extends HttpServlet {
 			else if (line.startsWith("<!--DATABASE.GET ")) {
 				switch (line.substring("<!--DATABASE.GET ".length(), line.length()-3)) {
 				case "ScoreView":
-					Lane lane = iCtr.getLaneFromLaneNr(lanePick);
+					Lane lane = iCtr.getLaneFromID(lanePick);
 					List<Participant> pList;
 					if (lane != null)
 						pList = lane.getParticipants();
@@ -128,6 +127,8 @@ public class ServletHandler extends HttpServlet {
 						pList = iCtr.getParticipants();
 					
 					for (Participant p : pList) {
+						if (!p.getAgeRange().equals(lane.getAgeGroup()))
+							continue;
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor() : "red");
 						String hitScore = iCtr.getScoreFromDB(p.getScore().getScoreID()).getHitScore();
 						htmlBuild += String.format("<tr>\n"
@@ -149,15 +150,15 @@ public class ServletHandler extends HttpServlet {
 				case "Lanes":
 					List<Lane> lList = iCtr.getLanesFromDB();
 					for (Lane l : lList)
-						if (l.getLaneNr() == lanePick)
-							htmlBuild += String.format("<option value=\"lane %d\" selected>%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
+						if (l.getLaneID() == lanePick)
+							htmlBuild += String.format("<option value=\"lane %d\" selected>%s for %s år</option>", l.getLaneID(), "Bane " + l.getLaneNr(), l.getAgeGroup());
 						else
-							htmlBuild += String.format("<option value=\"lane %d\">%s</option>", l.getLaneNr(), "Bane " + l.getLaneNr()) + "\n";
+							htmlBuild += String.format("<option value=\"lane %d\">%s for %s år</option>", l.getLaneID(), "Bane " + l.getLaneNr(), l.getAgeGroup());
 					break;
 				case "SearchView":
 					String fName = (request.getParameter("Search_FirstName") == null) ? "" : request.getParameter("Search_FirstName");
 					String lName = (request.getParameter("Search_LastName") == null) ? "" : request.getParameter("Search_LastName");
-					String ageRange = (request.getParameter("Search_AgeGroup").equals("none")) ? "" : request.getParameter("Search_AgeGroup");
+					String ageRange = (request.getParameter("Search_").equals("none")) ? "" : request.getParameter("Search_");
 					String shirtColor = (request.getParameter("Search_Colors").equals("none")) ? "" : request.getParameter("Search_Colors");
 					Integer shirtNumber = stringToInteger(request.getParameter("Search_ShirtNumber"));
 					List<Participant> search = iCtr.searchParticipant(fName, lName, ageRange, shirtColor, shirtNumber);
@@ -186,7 +187,7 @@ public class ServletHandler extends HttpServlet {
 					}
 					break;
 				case "ColorChoices":
-					List<String> colors = iCtr.getShirtsFromDB();
+					List<String> colors = iCtr.getColorsFromDB();
 					for (String color : colors) {
 						String[] colorData = color.split(",");
 						htmlBuild += String.format("<tr>\n"

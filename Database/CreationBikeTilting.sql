@@ -66,7 +66,7 @@ CREATE PROCEDURE createParticipant(@fName VARCHAR(32), @lName VARCHAR(32), @ageR
 END
 GO
 
-CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6))
+CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6), @new_id INT OUTPUT)
     AS 
 	BEGIN
 		INSERT INTO TblLanes
@@ -79,10 +79,11 @@ CREATE PROCEDURE createLane(@laneNr INT, @ageGroup VARCHAR(6))
 			@laneNr,
 			@ageGroup
 		)
+		SET @new_id = SCOPE_IDENTITY()
 END
 GO
 
-CREATE PROCEDURE createScore(@hitScore VARCHAR(255), @score int, @new_id int output)
+CREATE PROCEDURE createScore(@hitScore VARCHAR(255), @score INT, @new_id INT OUTPUT)
     AS 
 	BEGIN
 		INSERT INTO TblScore
@@ -179,7 +180,23 @@ GO
 CREATE PROCEDURE updateShirt(@color VARCHAR(32), @amount INT, @used INT)
     AS 
 	BEGIN
-		UPDATE TblShirts SET fldAmount = @amount, fldUsedAmount = @used WHERE fldColor= @color;
+		UPDATE TblShirts SET fldAmount = @amount, fldUsedAmount = @used WHERE UPPER(fldColor) = UPPER(@color);
+END
+GO
+
+CREATE PROCEDURE updateParticipant(@id INT, @fName VARCHAR(32), @lName VARCHAR(32), @ageRange VARCHAR(6), @email VARCHAR(255), @shirtColour VARCHAR(12), @shirtNumber INT, @laneID INT)
+    AS 
+	BEGIN
+		UPDATE TblParticipants 
+		SET 
+			fldFName = @fName,
+			fldLName = @lName,
+			fldAgeRange = @ageRange,
+			fldEmail = @email,
+			fldShirtColour = @shirtColour,
+			fldShirtNumber = @shirtNumber,
+			fldLaneID = @laneID
+		WHERE fldParticipantID = @id;
 END
 GO
 

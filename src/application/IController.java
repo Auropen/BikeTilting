@@ -20,19 +20,21 @@ public interface IController {
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber);
 	public Participant createParticipantToDB(String fName, String lName, String ageRange, String email);
 	public Lane createLaneToDB(int laneNr, String ageGroup);
-	public boolean createShirtToDB(String color, int amount , int usedColor);
+	public boolean createColorToDB(String color, int amount , int usedColor);
 	
 	//Update methods
-	public boolean updateShirt(String color, int amount, int used);
+	public boolean updateColor(String color, int amount, int used);
+	public boolean updateParticipant(Participant p, Integer laneID);
 	
 	//Get methods
 	public List<Participant> getParticipantsFromDB();
 	public List<Participant> getParticipants();
 	public List<Lane> getLanesFromDB();
 	public List<Lane> getLanes();
-	public List<String> getShirtsFromDB();
-	public Lane getLaneFromLaneNr(int laneNr);
+	public List<String> getColorsFromDB();
+	public Lane getLaneFromID(int laneID);
 	public Participant getParticipantFromDB(int participantID);
 	public Participant getParticipant(int participantID);
 	public Score getScoreFromDB(int scoreID);
+	public Lane getParticipantLane(Participant p);
 }

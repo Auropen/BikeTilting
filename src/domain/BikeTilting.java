@@ -27,15 +27,6 @@ public class BikeTilting {
 		return instance;
 	}
 
-	public void createParticipant(int id, String fName, String lName, String ageRange, String email, Score score, String shirtColor, Integer shirtNumber) {
-		getParticipants().add(new Participant(id, fName, lName, ageRange, email, score, shirtColor, shirtNumber));
-	}
-
-	public boolean createLane(int laneNr, String ageGroup) {
-		getLanes().add(new Lane(laneNr, ageGroup));
-		return true;
-	}
-
 	public void addScoreHit(Participant p){
 		p.getScore().addHit();
 	}
@@ -47,10 +38,10 @@ public class BikeTilting {
 	public void undoScore(Participant p){
 		p.getScore().undo();
 	}
-	
-	public Lane getLaneFromLaneNr(int laneNr) {
+
+	public Lane getLaneFromID(int laneID) {
 		for (Lane lane : lanes) {
-			if (lane.getLaneNr() == laneNr)
+			if (lane.getLaneID() == laneID)
 				return lane;
 		}
 		return null;
@@ -59,13 +50,13 @@ public class BikeTilting {
 	public void generateLanes(int laneAmount) {
 		lanes.addAll(LaneGeneration.generate(laneAmount));
 	}
-	
+
 	public List<Participant> searchParticipants(String fName, String lName, String ageRange, String shirtColor, Integer shirtNumber) {
 		List<Participant> allParticipant = Controller.getInstance().getParticipantsFromDB();
 		List<Participant> searchResult = new ArrayList<Participant>();
-		
+
 		searchResult.addAll(allParticipant);
-		
+
 		for (Participant p : allParticipant) {
 			if (!fName.isEmpty() && !p.getFName().equalsIgnoreCase(fName)) {
 				searchResult.remove(p);
@@ -88,8 +79,24 @@ public class BikeTilting {
 				continue;
 			}
 		}
-		
+
 		return searchResult;
+	}
+
+	public boolean storeDBToMemory(){
+		participants = Controller.getInstance().getParticipantsFromDB();
+		lanes = Controller.getInstance().getLanesFromDB();
+		if(participants == null && lanes == null)
+			return false;
+		return true;
+	}
+
+	public Lane getParticipantLane(Participant p) {
+		for (Lane lane : lanes) {
+			if (lane.getParticipants().contains(p))
+				return lane;
+		}
+		return null;
 	}
 
 	/**
@@ -109,7 +116,7 @@ public class BikeTilting {
 	/**
 	 * @return the lanes
 	 */
-	
+
 	public List<Lane> getLanes() {
 		return lanes;
 	}
@@ -117,16 +124,8 @@ public class BikeTilting {
 	/**
 	 * @param lanes the lanes to set
 	 */
-	
+
 	public void setLanes(List<Lane> lanes) {
 		this.lanes = lanes;
-	}
-	
-	public boolean storeDBToMemory(){
-		participants = Controller.getInstance().getParticipantsFromDB();
-		lanes = Controller.getInstance().getLanesFromDB();
-		if(participants == null && lanes == null)
-			return false;
-		return true;
 	}
 }
