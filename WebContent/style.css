@@ -20,6 +20,15 @@ body {
     padding: 10px;
 }
 
+.backLink {
+    border: 2px solid #808080;
+    background-color: #efefef;
+    width: 56px;
+    text-align: right;
+    margin-left: auto;
+    padding-right: 4px;
+}
+
 .centerLogo {
     margin: auto;
 }
@@ -47,6 +56,7 @@ input {
 }
 
 table {
+    background-color: #efefef;
 	width: 100%;
 }
 

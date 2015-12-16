@@ -73,7 +73,7 @@ public class ServletHandler extends HttpServlet {
 			html = generateHTML(new File(getServletContext().getRealPath("/score.html")), request);
 			break;
 		case "register":
-			Participant p = iCtr.createParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter(""), request.getParameter("Email"));
+			Participant p = iCtr.createParticipantToDB(request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("AgeGroup"), request.getParameter("Email"));
 			iCtr.addParticipant(p);
 			html = generateHTML(new File(getServletContext().getRealPath("/register.html")), request);
 			break;
@@ -127,7 +127,7 @@ public class ServletHandler extends HttpServlet {
 						pList = iCtr.getParticipants();
 					
 					for (Participant p : pList) {
-						if (!p.getAgeRange().equals(lane.getAgeGroup()))
+						if (lane != null && !p.getAgeRange().equals(lane.getAgeGroup()))
 							continue;
 						String color = ((p.getShirtColor() != null) ? p.getShirtColor() : "red");
 						String hitScore = iCtr.getScoreFromDB(p.getScore().getScoreID()).getHitScore();
@@ -158,7 +158,7 @@ public class ServletHandler extends HttpServlet {
 				case "SearchView":
 					String fName = (request.getParameter("Search_FirstName") == null) ? "" : request.getParameter("Search_FirstName");
 					String lName = (request.getParameter("Search_LastName") == null) ? "" : request.getParameter("Search_LastName");
-					String ageRange = (request.getParameter("Search_").equals("none")) ? "" : request.getParameter("Search_");
+					String ageRange = (request.getParameter("Search_AgeGroup").equals("none")) ? "" : request.getParameter("Search_AgeGroup");
 					String shirtColor = (request.getParameter("Search_Colors").equals("none")) ? "" : request.getParameter("Search_Colors");
 					Integer shirtNumber = stringToInteger(request.getParameter("Search_ShirtNumber"));
 					List<Participant> search = iCtr.searchParticipant(fName, lName, ageRange, shirtColor, shirtNumber);

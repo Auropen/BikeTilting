@@ -27,9 +27,9 @@ CREATE TABLE TblParticipants(fldParticipantID int IDENTITY(1,1) PRIMARY KEY,
 							 fldScoreID INT FOREIGN KEY REFERENCES TblScore (fldScoreID),
 							 fldShirtColour VARCHAR(12),
 							 fldShirtNumber INT,  
-							 fldLaneID INT FOREIGN KEY REFERENCES TblLaneS (fldLaneID))
+							 fldLaneID INT FOREIGN KEY REFERENCES TblLanes (fldLaneID))
 
-CREATE TABLE TblShirts		(fldColor VARCHAR(32) UNIQUE NOT NULL,
+CREATE TABLE TblColors		(fldColor VARCHAR(32) UNIQUE NOT NULL,
 							 fldAmount INT NOT NULL,
 							 fldUsedAmount INT NOT NULL)
 
@@ -103,7 +103,7 @@ GO
 CREATE PROCEDURE createColor(@color VARCHAR(32), @amount INT, @used INT)
     AS 
 	BEGIN
-		INSERT INTO TblShirts
+		INSERT INTO TblColors
 		(
 			fldColor,
 			fldAmount,
@@ -160,10 +160,10 @@ CREATE PROCEDURE getLanes
 END
 GO
 
-CREATE PROCEDURE getAllShirts
+CREATE PROCEDURE getAllColors
     AS 
 	BEGIN
-		SELECT * FROM TblShirts;
+		SELECT * FROM TblColors;
 		
 END
 GO
@@ -177,10 +177,10 @@ CREATE PROCEDURE updateScorePoints(@id int,@hitScore VARCHAR(255), @score int)
 END
 GO
 
-CREATE PROCEDURE updateShirt(@color VARCHAR(32), @amount INT, @used INT)
+CREATE PROCEDURE updateColor(@color VARCHAR(32), @amount INT, @used INT)
     AS 
 	BEGIN
-		UPDATE TblShirts SET fldAmount = @amount, fldUsedAmount = @used WHERE UPPER(fldColor) = UPPER(@color);
+		UPDATE TblColors SET fldAmount = @amount, fldUsedAmount = @used WHERE UPPER(fldColor) = UPPER(@color);
 END
 GO
 

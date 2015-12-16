@@ -114,9 +114,9 @@ public class DBHandler {
 			Score score = new Score(scoreID);
 
 			cs.setInt(5, scoreID);
-			cs.setString(6,null);
-			cs.setInt(7,-1);
-			cs.setInt(8,1);
+			cs.setNull(6,java.sql.Types.VARCHAR);
+			cs.setNull(7,java.sql.Types.INTEGER);
+			cs.setNull(8,java.sql.Types.INTEGER);
 			cs.registerOutParameter(9, java.sql.Types.INTEGER);
 
 			cs.execute();
@@ -324,7 +324,7 @@ public class DBHandler {
 	
 	public boolean updateColor(String color, int amount, int used){
 		try{
-			CallableStatement cs = getConnection().prepareCall("{call updateShirt(?,?,?)}");
+			CallableStatement cs = getConnection().prepareCall("{call updateColor(?,?,?)}");
 			cs.setString(1,color);
 			cs.setInt(2,amount);
 			cs.setInt(3,used);
