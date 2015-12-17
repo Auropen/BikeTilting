@@ -151,9 +151,9 @@ public class ServletHandler extends HttpServlet {
 					List<Lane> lList = iCtr.getLanesFromDB();
 					for (Lane l : lList)
 						if (l.getLaneID() == lanePick)
-							htmlBuild += String.format("<option value=\"lane %d\" selected>%s for %s år</option>", l.getLaneID(), "Bane " + l.getLaneNr(), l.getAgeGroup());
+							htmlBuild += String.format("<option value=\"lane %d\" selected>%s for %s Ã¥r</option>", l.getLaneID(), "Bane " + l.getLaneNr(), l.getAgeGroup());
 						else
-							htmlBuild += String.format("<option value=\"lane %d\">%s for %s år</option>", l.getLaneID(), "Bane " + l.getLaneNr(), l.getAgeGroup());
+							htmlBuild += String.format("<option value=\"lane %d\">%s for %s Ã¥r</option>", l.getLaneID(), "Bane " + l.getLaneNr(), l.getAgeGroup());
 					break;
 				case "SearchView":
 					String fName = (request.getParameter("Search_FirstName") == null) ? "" : request.getParameter("Search_FirstName");
