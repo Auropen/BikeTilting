@@ -70,7 +70,7 @@ public class BikeTilting {
 				searchResult.remove(p);
 				continue;
 			}
-			if (!shirtColor.isEmpty() && !p.getShirtColor().equalsIgnoreCase(shirtColor)) {
+			if (p.getShirtColor() != null && !shirtColor.isEmpty() && !p.getShirtColor().equalsIgnoreCase(shirtColor)) {
 				searchResult.remove(p);
 				continue;
 			}

@@ -26,7 +26,8 @@ public class Score {
 	
 	public void undo() {
 		if (!hitScore.isEmpty()) {
-			score--;
+			if ((hitScore.charAt(hitScore.length()-1)+"").equals("1"))
+				score--;
 			if (hitScore.length() > 1)
 				hitScore = hitScore.substring(0, hitScore.length() - 2);
 			else
